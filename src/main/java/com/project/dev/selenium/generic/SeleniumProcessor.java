@@ -9,7 +9,7 @@
  * @history v1.0 --- La implementacion de {SeleniumProcessor} fue realizada el 14/08/2022.
  * @dev - La primera version de {SeleniumProcessor} fue escrita por Dyson A. Parra T.
  */
-package com.project.dev.generic.processor;
+package com.project.dev.selenium.generic;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

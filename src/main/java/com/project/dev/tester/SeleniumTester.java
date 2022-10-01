@@ -12,10 +12,10 @@
 package com.project.dev.tester;
 
 import com.google.common.collect.ImmutableMap;
+import com.project.dev.file.generic.FileProcessor;
 import com.project.dev.flag.processor.Flag;
 import com.project.dev.flag.processor.FlagMap;
-import com.project.dev.generic.processor.FileProcessor;
-import com.project.dev.generic.processor.SeleniumProcessor;
+import com.project.dev.selenium.generic.SeleniumProcessor;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
