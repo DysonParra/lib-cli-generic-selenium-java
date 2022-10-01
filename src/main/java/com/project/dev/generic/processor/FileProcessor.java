@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -155,4 +156,22 @@ public class FileProcessor {
         return true;
     }
 
+    /**
+     * TODO: Definición de {@code getFiles}.
+     *
+     * @param path
+     * @param extensions
+     * @param output
+     */
+    public static void getFiles(@NonNull File path, @NonNull String[] extensions, @NonNull List<File> output) {
+        if (path.isDirectory()) {
+            File[] files = path.listFiles();
+            for (File fp : files)
+                getFiles(fp, extensions, output);
+        } else {
+            String strPath = path.toString();
+            if (Arrays.stream(extensions).anyMatch(entry -> strPath.endsWith(entry)))
+                output.add(path);
+        }
+    }
 }
