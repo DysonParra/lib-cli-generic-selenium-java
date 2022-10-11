@@ -29,21 +29,8 @@ public class Application {
      * @param args argumentos de la linea de comandos.
      */
     public static void main(String[] args) {
-        String argsAux[] = {
-            "-chromeDriverPath",
-            "res\\chromedriver.exe",
-            "-urlsFilePath",
-            "res\\urls.xml",
-            "-outputPath",
-            "res\\output",
-            "-chromeProfileDir",
-            "Profile 1",
-            "-maxLoadPageTries",
-            "5",
-            "--notUseIncognito",
-        };
-
         System.out.println("\n...START...");
+
         String requiredFlags[][] = {
             {"-chromeDriverPath"},
             {"-urlsFilePath"},
@@ -60,9 +47,30 @@ public class Application {
             {"-chromeUserDataDir"}
         };
 
-        //for (String arg : args)
-        //    System.out.println(arg);
-        Flag[] flags = FlagProcessor.validateFlags(argsAux, requiredFlags, optionalFlags, false);
+        String defaultArgs[] = {
+            "-chromeDriverPath",
+            "res\\chromedriver.exe",
+            "-urlsFilePath",
+            "res\\urls.xml",
+            "-outputPath",
+            "res\\output",
+            "-chromeProfileDir",
+            "Profile 1",
+            "-maxLoadPageTries",
+            "5",
+            "--notUseIncognito"
+        };
+
+        // for (String arg : args)
+        //     System.out.println(arg);
+        Flag[] flags;
+        if (args.length != 0) {
+            System.out.println("Validating specified flags...");
+            flags = FlagProcessor.validateFlags(args, requiredFlags, optionalFlags, false);
+        } else {
+            System.out.println("No flags specified, validating default flags...");
+            flags = FlagProcessor.validateFlags(defaultArgs, requiredFlags, optionalFlags, false);
+        }
         if (flags == null) {
             System.out.println("...ERROR IN FLAGS...");
             return;
