@@ -26,7 +26,7 @@ import org.openqa.selenium.devtools.Command;
 import org.openqa.selenium.devtools.DevTools;
 
 /**
- * TODO: Definición de {@code CrunchyProcessor}.
+ * TODO: Definición de {@code SeleniumTester}.
  *
  * @author Dyson Parra
  * @since 1.8
