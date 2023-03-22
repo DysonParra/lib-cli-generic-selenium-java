@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {SeleniumScreenshot} se encarga de realizar tareas específicas.
+ * @fileoverview    {SeleniumScreenshot}
  *
  * @version         2.0
  *

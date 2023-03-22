@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {SeleniumTester} se encarga de realizar tareas específicas.
+ * @fileoverview    {SeleniumTester}
  *
  * @version         2.0
  *

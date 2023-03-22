@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {SeleniumProcessor} se encarga de realizar tareas específicas.
+ * @fileoverview    {SeleniumProcessor}
  *
  * @version         2.0
  *
