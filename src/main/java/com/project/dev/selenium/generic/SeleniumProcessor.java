@@ -86,6 +86,7 @@ public class SeleniumProcessor {
                     }
                     if (tries > maxLoadPageTries) {
                         System.out.println("Could not open page '" + driver.getCurrentUrl() + "'.");
+                        result = false;
                     } else {
                         if (pageFunction == null)
                             result = pageBiFunction.apply(driver, sharedObject);
