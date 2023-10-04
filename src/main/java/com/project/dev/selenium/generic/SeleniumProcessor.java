@@ -35,19 +35,28 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class SeleniumProcessor {
 
     /**
-     * TODO: Definición de {@code processUrls}.
+     * Navega por un lista de páginas y ejecuta una {@code Function} o una {@code BiFunction} cada
+     * vez que termina de cargar cada una de las páginas. Ejecuta la {@code Function} o
+     * {@code BiFunction} que sea diferente a {@code null} (una debe tener el valor de {@code null}
+     * y la otra uno diferente a {@code null}).
      *
-     * @param <T>
-     * @param driver
-     * @param urlList
-     * @param maxLoadPageTries
-     * @param delayTimeBeforeRetry
-     * @param loadPageTimeOut
-     *
-     * @param pageFunction
-     * @param pageBiFunction
-     * @param sharedObject
-     * @return
+     * @param <T>                  es el tipo de dato de {@code sharedObject}.
+     * @param driver               es el driver del navegador.
+     * @param urlList              es la lista de páginas.
+     * @param maxLoadPageTries     es la máxima cantidad de veces que intentará cargar la página.
+     * @param delayTimeBeforeRetry es la cantidad de tiempo que espera antes de reintentar cargar la
+     *                             página.
+     * @param loadPageTimeOut      es el máximo tiempo que espera a que la página cargue antes de
+     *                             reintenar.
+     * @param pageFunction         es la {@code Function} que se ejecuta para cada una de las
+     *                             páginas si {@code pageBiFunction} es {@code null}.
+     * @param pageBiFunction       es la {@code BiFunction} que se ejecuta para cada una de las
+     *                             páginas si {@code pageFunction} es {@code null}.
+     * @param sharedObject         es una variable compartida que se pasará como parémetro a
+     *                             {@code pageBiFunction} cada vez que se navegue a una nueva página
+     *                             (si {@code pageBiFunction} no es igual a {@code null}).
+     * @return {@code true} si {@code lineFunction} o {@code lineBiFunction} devuelve {@code true}
+     *         en todas las ejecuciones, caso contario {@code false}.
      */
     private static <T> boolean processUrls(WebDriver driver,
             List<String> urlList,
@@ -105,15 +114,20 @@ public class SeleniumProcessor {
     }
 
     /**
-     * TODO: Definición de {@code forEachPage}.
+     * Navega por un lista de páginas y ejecuta una {@code Function} cada vez que termina de cargar
+     * cada una de las páginas.
      *
-     * @param driver
-     * @param urlList
-     * @param maxLoadPageTries
-     * @param delayTimeBeforeRetry
-     * @param loadPageTimeOut
-     * @param pageFunction
-     * @return
+     * @param driver               es el driver del navegador.
+     * @param urlList              es la lista de páginas.
+     * @param maxLoadPageTries     es la máxima cantidad de veces que intentará cargar la página.
+     * @param delayTimeBeforeRetry es la cantidad de tiempo que espera antes de reintentar cargar la
+     *                             página.
+     * @param loadPageTimeOut      es el máximo tiempo que espera a que la página cargue antes de
+     *                             reintenar.
+     * @param pageFunction         es la {@code Function} que se ejecuta para cada una de las
+     *                             páginas.
+     * @return {@code true} si {@code pageFunction} devuelve {@code true} en todas las ejecuciones,
+     *         caso contario {@code false}.
      */
     public static boolean forEachPage(@NonNull WebDriver driver,
             @NonNull List<String> urlList,
@@ -127,17 +141,24 @@ public class SeleniumProcessor {
     }
 
     /**
-     * TODO: Definición de {@code forEachPage}.
+     * Navega por un lista de páginas y ejecuta una {@code BiFunction} cada vez que termina de
+     * cargar cada una de las páginas.
      *
-     * @param <T>
-     * @param driver
-     * @param urlList
-     * @param maxLoadPageTries
-     * @param delayTimeBeforeRetry
-     * @param loadPageTimeOut
-     * @param pageBiFunction
-     * @param sharedObject
-     * @return
+     * @param <T>                  es el tipo de dato de {@code sharedObject}.
+     * @param driver               es el driver del navegador.
+     * @param urlList              es la lista de páginas.
+     * @param maxLoadPageTries     es la máxima cantidad de veces que intentará cargar la página.
+     * @param delayTimeBeforeRetry es la cantidad de tiempo que espera antes de reintentar cargar la
+     *                             página.
+     * @param loadPageTimeOut      es el máximo tiempo que espera a que la página cargue antes de
+     *                             reintenar.
+     * @param pageBiFunction       es la {@code BiFunction} que se ejecuta para cada una de las
+     *                             páginas.
+     * @param sharedObject         es una variable compartida que se pasará como parémetro a
+     *                             {@code pageBiFunction} cada vez que se navegue a una nueva
+     *                             página.
+     * @return {@code true} si {@code pageBiFunction} devuelve {@code true} en todas las
+     *         ejecuciones, caso contario {@code false}.
      */
     public static <T> boolean forEachPage(@NonNull WebDriver driver,
             @NonNull List<String> urlList,
@@ -152,15 +173,17 @@ public class SeleniumProcessor {
     }
 
     /**
-     * TODO: Definición de {@code getPageSource}.
+     * Guarda el código fuente de la página actual donde está {@code driver} y es un ejemplo de
+     * {@code BiFunction} que puede ser usada como parámetro de {@code forEachPage} para almacenar
+     * guardar el código fuente de cada una de las páginas de la lista.
      *
-     * @param driver
-     * @param outputPath
-     * @return
+     * @param driver     es el driver del navegador.
+     * @param outputPath es el directorio donde se va a guardar el código fuente de la página.
+     * @return {@code true}.
      */
     public static boolean getPageSource(@NonNull WebDriver driver, @NonNull String outputPath) {
         try {
-            try ( BufferedWriter pageWriter = new BufferedWriter(
+            try (BufferedWriter pageWriter = new BufferedWriter(
                     new FileWriter(
                             new StringBuilder()
                                     .append(outputPath)

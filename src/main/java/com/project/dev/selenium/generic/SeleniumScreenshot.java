@@ -37,13 +37,15 @@ import org.openqa.selenium.WebElement;
 public class SeleniumScreenshot {
 
     /**
-     * TODO: Definición de {@code mergeImages}.
+     * Une todas las imágenes que tengan en su nombre lo indicado por {@code imageName} seguido de
+     * '-i-j.png' donde 'i' y 'j' son números que representan la posición donde quedará la imágen
+     * (el indice de una matriz) y guarda la imagen resultante como '{@code imageName}.png'.
      *
-     * @param size
-     * @param outputPath
-     * @param imageName
-     * @param rows
-     * @param columns
+     * @param size       son las dimensiones que tendrá la unión de las imágenese.
+     * @param outputPath ese la ruta donde se va a guardar la imagen resultante.
+     * @param imageName  es el prefijo en el nombre de cada imágen.
+     * @param rows       es la cantidad de imágenes de ancho.
+     * @param columns    es la cantidad de imágenes de alto.
      */
     public static void mergeImages(Dimension size, String outputPath, String imageName, int rows, int columns) {
         try {
@@ -77,12 +79,13 @@ public class SeleniumScreenshot {
     }
 
     /**
-     * TODO: Definición de {@code getFullNodeScreenshot}.
+     * Toma una captura de un nodo en el la página we actual de {@code WebDriver} y guarda la imagen
+     * resultante.
      *
-     * @param driver
-     * @param node
-     * @param outputPath
-     * @param imgBaseName
+     * @param driver      es el driver del navegador.
+     * @param node        es el nodo al que s ele va a tomar una captura.
+     * @param outputPath  es la ruta donde se va a guardar la imagen.
+     * @param imgBaseName es el prefijo que va a tener cada imagen en su nombre.
      */
     public static void getFullNodeScreenshot(@NonNull WebDriver driver, @NonNull WebElement node, String outputPath, String imgBaseName) {
         try {
