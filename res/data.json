@@ -1,0 +1,4 @@
+{
+    "OUTPUT_URL_FILE": "payment_url.log",
+    "OUTPUT_PAGE": "current_page.html",
+}

@@ -1,0 +1,28 @@
+{
+    "config": {
+        "delay-time-before-end" : 3000,
+        "max-action-page-tries": 10
+    },
+    "pages": [
+        {
+            "url": "https://www.google.com/search?q=pasaporte+antioquia",
+            "delay-before-next": 100,
+            "elements": [
+                {
+                    "id": null,
+                    "name": null,
+                    "placeholder": null,
+                    "xpath": "//body",
+                    "type": "body",
+                    "actions": [
+                        {
+                            "type": "save-current-page",
+                            "value": "<OUTPUT_PAGE>",
+                            "delay-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
