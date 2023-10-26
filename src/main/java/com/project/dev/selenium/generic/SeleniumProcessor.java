@@ -17,6 +17,7 @@ package com.project.dev.selenium.generic;
 import com.project.dev.flag.processor.Flag;
 import com.project.dev.flag.processor.FlagProcessor;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
@@ -193,6 +194,27 @@ public class SeleniumProcessor {
                                     .append(driver.getTitle().replaceAll("\\\\|:|/|\\*|\\?|\"|<|>|\\|", ""))
                                     .append(".html")
                                     .toString()))) {
+                pageWriter.write(driver.getPageSource());
+            }
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Guarda el código fuente de la página actual donde está {@code driver} en la ruta del archivo
+     * indicada por {@code outputFile}.
+     *
+     * @param driver     es el driver del navegador.
+     * @param outputFile es el archivo donde se va a guardar el código fuente de la página.
+     * @return {@code true}.
+     */
+    public static boolean getPageSource(@NonNull WebDriver driver, @NonNull File outputFile) {
+        try {
+            try (BufferedWriter pageWriter = new BufferedWriter(
+                    new FileWriter(
+                            outputFile))) {
                 pageWriter.write(driver.getPageSource());
             }
             return true;
