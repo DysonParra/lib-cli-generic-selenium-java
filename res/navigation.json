@@ -12,12 +12,12 @@
                     "id": null,
                     "name": null,
                     "placeholder": null,
-                    "xpath": "//div[@class='k1zIA rSk4se']",
-                    "type": "div",
+                    "xpath": "//textarea",
+                    "type": "textarea",
                     "actions": [
                         {
-                            "type": "node-screenshot",
-                            "value": "<SCREENSHOT_BASE_NAME>",
+                            "type": "set-text",
+                            "value": "<TEXT_TO_SET>",
                             "delay-before-next": 100
                         }
                     ]

@@ -48,7 +48,7 @@ public class Script extends Action {
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element) throws Exception {
         //System.out.println("Script");
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0]." + value, element);
+        js.executeScript(value, element);
         return true;
     }
 

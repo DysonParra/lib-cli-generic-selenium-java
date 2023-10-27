@@ -1,5 +1,6 @@
 {
-    "OUTPUT_URL_FILE": "payment_url.log",
+    "OUTPUT_URL_FILE": "test_url.log",
     "OUTPUT_PAGE": "current_page.html",
-    "SCREENSHOT_BASE_NAME" : "Screenshot"
+    "SCREENSHOT_BASE_NAME" : "Screenshot",
+    "TEXT_TO_SET" : "Testing"
 }
