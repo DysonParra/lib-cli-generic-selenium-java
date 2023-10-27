@@ -1,0 +1,62 @@
+{
+    "config": {
+        "delay-time-before-end" : 3000,
+        "max-action-page-tries": 10
+    },
+    "pages": [
+        {
+            "url": "https://www.facebook.com/?locale=es_LA",
+            "delay-before-next": 100,
+            "elements": [
+                {
+                    "id": null,
+                    "name": null,
+                    "xpath": "//a[@data-testid='open-registration-form-button']",
+                    "actions": [
+                        {
+                            "type": "clic",
+                            "value": null,
+                            "delay-before-next": 500
+                        }
+                    ]
+                },
+                {
+                    "id": "day",
+                    "name": null,
+                    "xpath": null,
+                    "actions": [
+                        {
+                            "type": "select-option",
+                            "value": "0",
+                            "delay-before-next": 100
+                        }
+                    ]
+                },
+                {
+                    "id": "month",
+                    "name": null,
+                    "xpath": null,
+                    "actions": [
+                        {
+                            "type": "select-option",
+                            "value": "11",
+                            "delay-before-next": 100
+                        }
+                    ]
+                },
+                {
+                    "id": "year",
+                    "name": null,
+                    "xpath": null,
+                    "actions": [
+                        {
+                            "type": "select-option",
+                            "value": "23",
+                            "delay-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

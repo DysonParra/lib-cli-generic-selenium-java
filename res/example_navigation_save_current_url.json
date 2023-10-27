@@ -1,0 +1,26 @@
+{
+    "config": {
+        "delay-time-before-end" : 3000,
+        "max-action-page-tries": 10
+    },
+    "pages": [
+        {
+            "url": "https://www.google.com",
+            "delay-before-next": 100,
+            "elements": [
+                {
+                    "id": null,
+                    "name": null,
+                    "xpath": "//body",
+                    "actions": [
+                        {
+                            "type": "save-current-url",
+                            "value": "<OUTPUT_URL_FILE>",
+                            "delay-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

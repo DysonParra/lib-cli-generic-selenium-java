@@ -1,0 +1,26 @@
+{
+    "config": {
+        "delay-time-before-end" : 3000,
+        "max-action-page-tries": 10
+    },
+    "pages": [
+        {
+            "url": "https://www.google.com.co/search?q=gmail",
+            "delay-before-next": 100,
+            "elements": [
+                {
+                    "id": null,
+                    "name": null,
+                    "xpath": "//textarea",
+                    "actions": [
+                        {
+                            "type": "script",
+                            "value": "var tag = document.getElementsByTagName('h3')[0]; arguments[0].value = '<TEXT_TO_SET>: ' + tag.innerText",
+                            "delay-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
