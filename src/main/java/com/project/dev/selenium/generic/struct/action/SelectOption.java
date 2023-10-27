@@ -36,6 +36,14 @@ import org.openqa.selenium.support.ui.Select;
 @ToString(callSuper = true)
 public class SelectOption extends Action {
 
+    /**
+     * Ejecuta una acción en el elemento de la página actual.
+     *
+     * @param driver  es el driver del navegador.
+     * @param element es el {@code WebElement} que se le va a ejecutar dicha acción.
+     * @return {@code true} si se ejecuta la acción correctamente.
+     * @throws Exception si ocurre algún error ejecutando la acción indicada.
+     */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element) throws Exception {
         //System.out.println("SelectOption");

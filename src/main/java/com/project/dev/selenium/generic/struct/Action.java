@@ -38,6 +38,14 @@ public abstract class Action {
     protected long delay;
     protected JSONObject properties;
 
+    /**
+     * Ejecuta una acción en el elemento de la página actual.
+     *
+     * @param driver  es el driver del navegador.
+     * @param element es el {@code WebElement} que se le va a ejecutar dicha acción.
+     * @return {@code true} si se ejecuta la acción correctamente.
+     * @throws Exception si ocurre algún error ejecutando la acción indicada.
+     */
     public abstract boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element) throws Exception;
 
 }
