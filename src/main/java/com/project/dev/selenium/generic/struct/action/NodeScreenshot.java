@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {SeleniumScreenshot}
+ * @fileoverview    {NodeScreenshot}
  *
  * @version         2.0
  *
@@ -12,9 +12,10 @@
  * @version 1.0     Implementation done.
  * @version 2.0     Documentation added.
  */
-package com.project.dev.selenium.generic;
+package com.project.dev.selenium.generic.struct.action;
 
 import com.google.common.io.Files;
+import com.project.dev.selenium.generic.struct.Action;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,12 +30,26 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * TODO: Definición de {@code SeleniumScreenshot}.
+ * TODO: Definición de {@code NodeScreenshot}.
  *
  * @author Dyson Parra
  * @since 1.8
  */
-public class SeleniumScreenshot {
+public class NodeScreenshot extends Action {
+
+    @Override
+    public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element) throws Exception {
+        //System.out.println("NodeScreenshot");
+        String outputPath = (String) properties.get("-outputPath");
+        NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath,
+                        value + "-" + String.format("%03d", 1));
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Action{" + "type=" + type + ", value=" + value + ", delay=" + delay + ", properties=" + properties + '}';
+    }
 
     /**
      * Une todas las imágenes que tengan en su nombre lo indicado por {@code imageName} seguido de
@@ -47,7 +62,7 @@ public class SeleniumScreenshot {
      * @param rows       es la cantidad de imágenes de ancho.
      * @param columns    es la cantidad de imágenes de alto.
      */
-    public static void mergeImages(Dimension size, String outputPath, String imageName, int rows, int columns) {
+    private static void mergeImages(Dimension size, String outputPath, String imageName, int rows, int columns) {
         try {
             //System.out.println("Size" + size);
             BufferedImage outBuff = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);

@@ -5,19 +5,19 @@
     },
     "pages": [
         {
-            "url": "https://www.google.com/search?q=pasaporte+antioquia",
+            "url": "https://www.google.com",
             "delay-before-next": 100,
             "elements": [
                 {
                     "id": null,
                     "name": null,
                     "placeholder": null,
-                    "xpath": "//body",
-                    "type": "body",
+                    "xpath": "//div[@class='k1zIA rSk4se']",
+                    "type": "div",
                     "actions": [
                         {
-                            "type": "save-current-page",
-                            "value": "<OUTPUT_PAGE>",
+                            "type": "node-screenshot",
+                            "value": "<SCREENSHOT_BASE_NAME>",
                             "delay-before-next": 100
                         }
                     ]
