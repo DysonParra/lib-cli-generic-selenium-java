@@ -20,7 +20,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NonNull;
+import lombok.ToString;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
@@ -35,6 +39,10 @@ import org.openqa.selenium.WebElement;
  * @author Dyson Parra
  * @since 1.8
  */
+@AllArgsConstructor
+@Builder
+@Data
+@ToString(callSuper = true)
 public class NodeScreenshot extends Action {
 
     @Override
@@ -44,11 +52,6 @@ public class NodeScreenshot extends Action {
         NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath,
                         value + "-" + String.format("%03d", 1));
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Action{" + "type=" + type + ", value=" + value + ", delay=" + delay + ", properties=" + properties + '}';
     }
 
     /**

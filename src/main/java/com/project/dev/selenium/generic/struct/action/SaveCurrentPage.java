@@ -27,6 +27,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.ToString;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -39,6 +40,7 @@ import org.openqa.selenium.WebElement;
 @AllArgsConstructor
 @Builder
 @Data
+@ToString(callSuper = true)
 public class SaveCurrentPage extends Action {
 
     @Override
@@ -50,11 +52,6 @@ public class SaveCurrentPage extends Action {
         else
             SeleniumProcessor.getPageSource(driver, new File(outputPath, value));
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Action{" + "type=" + type + ", value=" + value + ", delay=" + delay + ", properties=" + properties + '}';
     }
 
 }

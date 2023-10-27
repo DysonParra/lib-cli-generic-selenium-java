@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.ToString;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -32,6 +33,7 @@ import org.openqa.selenium.support.ui.Select;
 @AllArgsConstructor
 @Builder
 @Data
+@ToString(callSuper = true)
 public class SelectOption extends Action {
 
     @Override
@@ -40,11 +42,6 @@ public class SelectOption extends Action {
         Select select = new Select(element);
         select.selectByIndex((int) (long) (Long.valueOf(String.valueOf(value))));
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Action{" + "type=" + type + ", value=" + value + ", delay=" + delay + ", properties=" + properties + '}';
     }
 
 }

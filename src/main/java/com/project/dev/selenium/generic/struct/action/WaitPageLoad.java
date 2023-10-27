@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.ToString;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -34,6 +35,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 @AllArgsConstructor
 @Builder
 @Data
+@ToString(callSuper = true)
 public class WaitPageLoad extends Action {
 
     @Override
@@ -45,11 +47,6 @@ public class WaitPageLoad extends Action {
                                     .equals("complete"));
         //System.out.println("Page loaded.");
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Action{" + "type=" + type + ", value=" + value + ", delay=" + delay + ", properties=" + properties + '}';
     }
 
 }

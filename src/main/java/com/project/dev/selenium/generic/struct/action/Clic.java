@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.ToString;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -31,6 +32,7 @@ import org.openqa.selenium.WebElement;
 @AllArgsConstructor
 @Builder
 @Data
+@ToString(callSuper = true)
 public class Clic extends Action {
 
     @Override
@@ -38,11 +40,6 @@ public class Clic extends Action {
         //System.out.println("Clic");
         element.click();
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Action{" + "type=" + type + ", value=" + value + ", delay=" + delay + ", properties=" + properties + '}';
     }
 
 }
