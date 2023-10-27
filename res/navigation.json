@@ -11,9 +11,7 @@
                 {
                     "id": null,
                     "name": null,
-                    "placeholder": null,
                     "xpath": "//textarea",
-                    "type": "textarea",
                     "actions": [
                         {
                             "type": "set-text",
