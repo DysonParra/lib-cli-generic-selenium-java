@@ -45,7 +45,7 @@ import org.openqa.selenium.devtools.Command;
 import org.openqa.selenium.devtools.DevTools;
 
 /**
- * TODO: Definición de {@code ActionProcessor}.
+ * TODO: Description of {@code ActionProcessor}.
  *
  * @author Dyson Parra
  * @since 11
@@ -60,7 +60,7 @@ public class ActionProcessor {
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
 
     /**
-     * TODO: Definición de {@code replaceData}.
+     * TODO: Description of {@code replaceData}.
      *
      * @param jsonData
      * @param field
@@ -77,7 +77,7 @@ public class ActionProcessor {
     }
 
     /**
-     * TODO: Definición de {@code setConfigValues}.
+     * TODO: Description of {@code setConfigValues}.
      *
      * @param jsonConfig
      * @param configMap
@@ -102,7 +102,7 @@ public class ActionProcessor {
     }
 
     /**
-     * TODO: Definición de {@code runPageActions}.
+     * TODO: Description of {@code runPageActions}.
      *
      * @param driver
      * @param pages
@@ -149,7 +149,7 @@ public class ActionProcessor {
     }
 
     /**
-     * TODO: Definición de {@code processFlags}.
+     * TODO: Description of {@code processFlags}.
      *
      * @param flags
      * @return

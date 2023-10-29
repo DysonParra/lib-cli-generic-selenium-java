@@ -27,7 +27,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * TODO: Definición de {@code SetText}.
+ * TODO: Description of {@code SetText}.
  *
  * @author Dyson Parra
  * @since 11

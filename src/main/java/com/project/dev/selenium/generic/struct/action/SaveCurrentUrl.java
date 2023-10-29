@@ -31,7 +31,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * TODO: Definición de {@code SaveCurrentUrl}.
+ * TODO: Description of {@code SaveCurrentUrl}.
  *
  * @author Dyson Parra
  * @since 11

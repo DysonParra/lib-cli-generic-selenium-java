@@ -37,7 +37,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * TODO: Definición de {@code NodeScreenshot}.
+ * TODO: Description of {@code NodeScreenshot}.
  *
  * @author Dyson Parra
  * @since 11

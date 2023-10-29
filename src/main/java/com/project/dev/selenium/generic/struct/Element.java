@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * TODO: Definición de {@code Element}.
+ * TODO: Description of {@code Element}.
  *
  * @author Dyson Parra
  * @since 11

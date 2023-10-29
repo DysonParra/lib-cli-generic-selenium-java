@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * TODO: Definición de {@code Page}.
+ * TODO: Description of {@code Page}.
  *
  * @author Dyson Parra
  * @since 11

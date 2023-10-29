@@ -28,7 +28,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 /**
- * TODO: Definición de {@code SelectOption}.
+ * TODO: Description of {@code SelectOption}.
  *
  * @author Dyson Parra
  * @since 11

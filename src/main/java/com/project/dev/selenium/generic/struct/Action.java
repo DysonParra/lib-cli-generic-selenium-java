@@ -25,7 +25,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * TODO: Definición de {@code Action}.
+ * TODO: Description of {@code Action}.
  *
  * @author Dyson Parra
  * @since 11

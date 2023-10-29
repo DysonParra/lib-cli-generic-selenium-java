@@ -30,7 +30,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
- * TODO: Definición de {@code WaitPageLoad}.
+ * TODO: Description of {@code WaitPageLoad}.
  *
  * @author Dyson Parra
  * @since 11

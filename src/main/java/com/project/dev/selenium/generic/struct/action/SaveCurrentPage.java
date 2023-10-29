@@ -29,7 +29,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * TODO: Definición de {@code SaveCurrentPage}.
+ * TODO: Description of {@code SaveCurrentPage}.
  *
  * @author Dyson Parra
  * @since 11

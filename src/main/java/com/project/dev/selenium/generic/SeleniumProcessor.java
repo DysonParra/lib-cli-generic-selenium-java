@@ -30,7 +30,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
- * TODO: Definición de {@code SeleniumProcessor}.
+ * TODO: Description of {@code SeleniumProcessor}.
  *
  * @author Dyson Parra
  * @since 11
