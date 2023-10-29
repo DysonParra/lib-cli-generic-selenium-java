@@ -48,7 +48,7 @@ import org.openqa.selenium.devtools.DevTools;
  * TODO: Definición de {@code ActionProcessor}.
  *
  * @author Dyson Parra
- * @since 1.8
+ * @since 11
  */
 public class ActionProcessor {
 

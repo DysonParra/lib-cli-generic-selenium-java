@@ -40,7 +40,7 @@ import org.openqa.selenium.WebElement;
  * TODO: Definición de {@code NodeScreenshot}.
  *
  * @author Dyson Parra
- * @since 1.8
+ * @since 11
  */
 @AllArgsConstructor
 @Builder

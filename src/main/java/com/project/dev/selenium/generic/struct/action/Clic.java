@@ -28,7 +28,7 @@ import org.openqa.selenium.WebElement;
  * TODO: Definición de {@code Clic}.
  *
  * @author Dyson Parra
- * @since 1.8
+ * @since 11
  */
 @AllArgsConstructor
 @Builder

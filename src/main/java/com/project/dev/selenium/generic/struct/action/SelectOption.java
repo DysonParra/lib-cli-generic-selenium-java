@@ -31,7 +31,7 @@ import org.openqa.selenium.support.ui.Select;
  * TODO: Definición de {@code SelectOption}.
  *
  * @author Dyson Parra
- * @since 1.8
+ * @since 11
  */
 @AllArgsConstructor
 @Builder

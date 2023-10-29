@@ -33,7 +33,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * TODO: Definición de {@code WaitPageLoad}.
  *
  * @author Dyson Parra
- * @since 1.8
+ * @since 11
  */
 @AllArgsConstructor
 @Builder
