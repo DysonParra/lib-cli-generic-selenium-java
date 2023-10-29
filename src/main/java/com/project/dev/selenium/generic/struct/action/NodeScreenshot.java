@@ -20,6 +20,7 @@ import com.project.dev.selenium.generic.struct.Action;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -60,9 +61,9 @@ public class NodeScreenshot extends Action {
      * @throws Exception si ocurre algún error ejecutando la acción indicada.
      */
     @Override
-    public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element) throws Exception {
+    public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
         //System.out.println("NodeScreenshot");
-        String outputPath = (String) properties.get("-outputPath");
+        String outputPath = flagsMap.get("-outputPath");
         NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath,
                 value + "-" + String.format("%03d", 1));
         return true;

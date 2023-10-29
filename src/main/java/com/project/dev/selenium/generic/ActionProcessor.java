@@ -53,7 +53,8 @@ import org.openqa.selenium.devtools.DevTools;
 public class ActionProcessor {
 
     private static int currentIndex = 0;
-    private static String outputPath;
+    private static Map<String, String> flagsMap;
+    private static Map<String, Config> configMap;
     private static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
@@ -122,7 +123,7 @@ public class ActionProcessor {
                         webElm = driver.findElement(By.name(element.getName()));
                     else
                         webElm = driver.findElement(By.xpath(element.getXpath()));
-                    action.executeAction(driver, webElm);
+                    action.executeAction(driver, webElm, flagsMap);
                 } catch (Exception e) {
                     System.out.println("Error executing action in element: " + element);
                     System.out.println("Date:    " + DATETIME_FORMAT.format(new Date()));
@@ -155,18 +156,17 @@ public class ActionProcessor {
      */
     public static boolean processFlags(Flag[] flags) {
         boolean result = true;
-
+        flagsMap = FlagMap.convertFlagsArrayToMap(flags);
         String actionsPackage = "com.project.dev.selenium.generic.struct.action.";
-        Map<String, String> flagsMap = FlagMap.convertFlagsArrayToMap(flags);
         String chromeDriverPath = flagsMap.get("-chromeDriverPath");
         String navigationFilePath = flagsMap.get("-navigationFilePath");
         String dataFilePath = flagsMap.get("-dataFilePath");
-        outputPath = flagsMap.get("-outputPath");
+        String outputPath = flagsMap.get("-outputPath");
         String chromeUserDataDir = System.getProperty("user.home") + "\\AppData\\Local\\Google\\Chrome\\User Data";
         String chromeProfileDir = flagsMap.get("-chromeProfileDir");
         chromeUserDataDir = FlagMap.validateFlagInMap(flagsMap, "-chromeUserDataDir", chromeUserDataDir, String.class);
 
-        Map<String, Config> configMap = new HashMap<>();
+        configMap = new HashMap<>();
         configMap.put("start-date", Config.builder().type(String.class).defaultValue(null).build());
         configMap.put("load-page-timeout", Config.builder().type(Long.class).defaultValue(10000l).build());
         configMap.put("max-load-page-tries", Config.builder().type(Long.class).defaultValue(3l).build());
@@ -282,13 +282,6 @@ public class ActionProcessor {
                                         if (value instanceof String)
                                             jsonCurrentAction.put(key, replaceData(jsonData, (String) value));
                                     }
-                                    JSONObject properties = (JSONObject) jsonCurrentAction.get("properties");
-                                    properties = properties != null ? properties : new JSONObject();
-                                    for (Iterator iterator = properties.keySet().iterator(); iterator.hasNext();) {
-                                        String key = (String) iterator.next();
-                                        properties.put(key, replaceData(jsonData, (String) properties.get(key)));
-                                    }
-                                    properties.put("-outputPath", outputPath);
                                     String className = actionsPackage;
                                     String[] classNameAux = type.split("-");
                                     for (String name : classNameAux)
@@ -296,7 +289,6 @@ public class ActionProcessor {
 
                                     Class actionClass = Class.forName(className);
                                     Action action = (Action) mapper.readValue(currentAction.toString(), actionClass);
-                                    action.setProperties(properties);
                                     actions.add(action);
                                 }
 
