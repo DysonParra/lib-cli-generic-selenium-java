@@ -14,12 +14,14 @@
  */
 package com.project.dev.selenium.generic.struct.action;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.dev.selenium.generic.SeleniumProcessor;
 import com.project.dev.selenium.generic.struct.Action;
 import java.io.File;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
 import org.openqa.selenium.WebDriver;
@@ -34,8 +36,12 @@ import org.openqa.selenium.WebElement;
 @AllArgsConstructor
 @Builder
 @Data
+@NoArgsConstructor
 @ToString(callSuper = true)
 public class SaveCurrentPage extends Action {
+
+    @JsonProperty(value = "value")
+    protected String value;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.

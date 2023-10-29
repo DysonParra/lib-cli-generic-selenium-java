@@ -14,6 +14,7 @@
  */
 package com.project.dev.selenium.generic;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.project.dev.file.generic.FileProcessor;
 import com.project.dev.flag.processor.Flag;
@@ -23,7 +24,6 @@ import com.project.dev.selenium.generic.struct.Config;
 import com.project.dev.selenium.generic.struct.Element;
 import com.project.dev.selenium.generic.struct.Page;
 import java.io.FileReader;
-import java.lang.reflect.Constructor;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -235,6 +235,7 @@ public class ActionProcessor {
             int delayTimeBeforeRetry = (int) (long) configMap.get("delay-time-before-retry").getCanonicalValue();
             int delayTimeBeforeEnd = (int) (long) configMap.get("delay-time-before-end").getCanonicalValue();
 
+            ObjectMapper mapper = new ObjectMapper();
             List<Page> pages = new ArrayList<>();
             List<String> urlPages = new ArrayList<>();
 
@@ -275,11 +276,14 @@ public class ActionProcessor {
                                 for (Object currentAction : (JSONArray) jsonCurrentElement.get("actions")) {
                                     JSONObject jsonCurrentAction = (JSONObject) currentAction;
                                     String type = replaceData(jsonData, (String) jsonCurrentAction.get("type"));
-                                    String value = replaceData(jsonData, (String) jsonCurrentAction.get("value"));
-                                    long delay_element = (long) jsonCurrentAction.get("delay-before-next");
+                                    for (Iterator iterator = jsonCurrentAction.keySet().iterator(); iterator.hasNext();) {
+                                        String key = (String) iterator.next();
+                                        Object value = jsonCurrentAction.get(key);
+                                        if (value instanceof String)
+                                            jsonCurrentAction.put(key, replaceData(jsonData, (String) value));
+                                    }
                                     JSONObject properties = (JSONObject) jsonCurrentAction.get("properties");
                                     properties = properties != null ? properties : new JSONObject();
-                                    setConfigValues(properties, configMap);
                                     for (Iterator iterator = properties.keySet().iterator(); iterator.hasNext();) {
                                         String key = (String) iterator.next();
                                         properties.put(key, replaceData(jsonData, (String) properties.get(key)));
@@ -290,12 +294,8 @@ public class ActionProcessor {
                                     for (String name : classNameAux)
                                         className += name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
 
-                                    Constructor cons = Class.forName(className).getConstructors()[0];
-
-                                    Action action = (Action) cons.newInstance();
-                                    action.setType(type);
-                                    action.setValue(value);
-                                    action.setDelay(delay_element);
+                                    Class actionClass = Class.forName(className);
+                                    Action action = (Action) mapper.readValue(currentAction.toString(), actionClass);
                                     action.setProperties(properties);
                                     actions.add(action);
                                 }

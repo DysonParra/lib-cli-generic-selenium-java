@@ -14,10 +14,12 @@
  */
 package com.project.dev.selenium.generic.struct.action;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.dev.selenium.generic.struct.Action;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
 import org.openqa.selenium.WebDriver;
@@ -33,8 +35,12 @@ import org.openqa.selenium.support.ui.Select;
 @AllArgsConstructor
 @Builder
 @Data
+@NoArgsConstructor
 @ToString(callSuper = true)
 public class SelectOption extends Action {
+
+    @JsonProperty(value = "value")
+    protected String value;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.

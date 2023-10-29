@@ -14,6 +14,7 @@
  */
 package com.project.dev.selenium.generic.struct;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +35,7 @@ import org.openqa.selenium.WebElement;
 public abstract class Action {
 
     protected String type;
-    protected String value;
+    @JsonProperty(value = "delay-before-next")
     protected long delay;
     protected JSONObject properties;
 

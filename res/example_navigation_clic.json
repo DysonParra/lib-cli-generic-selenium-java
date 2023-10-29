@@ -15,7 +15,6 @@
                     "actions": [
                         {
                             "type": "clic",
-                            "value": null,
                             "delay-before-next": 100
                         }
                     ]
