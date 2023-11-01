@@ -1,0 +1,63 @@
+{
+    "config": {
+        "delay-time-before-end" : 3000,
+        "max-action-page-tries": 10
+    },
+    "pages": [
+        {
+            "url": "https://www.google.com",
+            "delay-before-next": 100,
+            "elements": [
+                {
+                    "id": null,
+                    "name": null,
+                    "xpath": "//textarea",
+                    "actions": [
+                        {
+                            "type": "set-text",
+                            "text": "<TEXT_TO_SET>",
+                            "delay-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "url": "%urlsFilePath%",
+            "delay-before-next": 100,
+            "elements": [
+                {
+                    "id": null,
+                    "name": null,
+                    "xpath": "//body",
+                    "actions": [
+                        {
+                            "type": "save-current-url",
+                            "output-file-name": "<OUTPUT_URL_FILE>",
+                            "delay-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "url": "https://www.google.com.co/",
+            "delay-before-next": 100,
+            "elements": [
+                {
+                    "id": null,
+                    "name": null,
+                    "xpath": "//body",
+                    "actions": [
+                        {
+                            "type": "navigate",
+                            "url": "%urlsFilePath%",
+                            "timeout": 30000,
+                            "delay-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

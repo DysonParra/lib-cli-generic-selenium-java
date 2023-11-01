@@ -23,6 +23,7 @@ import com.project.dev.selenium.generic.struct.Action;
 import com.project.dev.selenium.generic.struct.Config;
 import com.project.dev.selenium.generic.struct.Element;
 import com.project.dev.selenium.generic.struct.Page;
+import com.project.dev.selenium.generic.struct.action.Navigate;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -102,6 +103,19 @@ public class ActionProcessor {
     }
 
     /**
+     * TODO: Description of {@code addUrlToList}.
+     *
+     * @param line
+     * @param list
+     * @return
+     */
+    private static boolean addUrlToList(String line, List<String> list) {
+        if (line.matches("(http://|https://).*?"))
+            list.add(line);
+        return true;
+    }
+
+    /**
      * TODO: Description of {@code runPageActions}.
      *
      * @param driver
@@ -162,8 +176,9 @@ public class ActionProcessor {
         String navigationFilePath = flagsMap.get("-navigationFilePath");
         String dataFilePath = flagsMap.get("-dataFilePath");
         String outputPath = flagsMap.get("-outputPath");
-        String chromeUserDataDir = System.getProperty("user.home") + "\\AppData\\Local\\Google\\Chrome\\User Data";
+        String urlsFilePath = flagsMap.get("-urlsFilePath");
         String chromeProfileDir = flagsMap.get("-chromeProfileDir");
+        String chromeUserDataDir = System.getProperty("user.home") + "\\AppData\\Local\\Google\\Chrome\\User Data";
         chromeUserDataDir = FlagMap.validateFlagInMap(flagsMap, "-chromeUserDataDir", chromeUserDataDir, String.class);
 
         configMap = new HashMap<>();
@@ -173,6 +188,8 @@ public class ActionProcessor {
         configMap.put("max-action-page-tries", Config.builder().type(Long.class).defaultValue(5l).build());
         configMap.put("delay-time-before-retry", Config.builder().type(Long.class).defaultValue(2000l).build());
         configMap.put("delay-time-before-end", Config.builder().type(Long.class).defaultValue(1000l).build());
+
+        String urlsFilePathEnv = "%urlsFilePath%";
 
         if (!FileProcessor.validateFile(chromeDriverPath)) {
             System.out.println("Invalid file in flag '-chromeDriverPath'");
@@ -189,8 +206,11 @@ public class ActionProcessor {
         } else if (!FileProcessor.validatePath(chromeUserDataDir)) {
             System.out.println("Invalid path in flag '-chromeUserDataDir'");
             result = false;
+        } else if (urlsFilePath != null && !FileProcessor.validateFile(urlsFilePath)) {
+            System.out.println("Invalid path in flag '-urlsFilePath'");
+            result = false;
         } else {
-            System.out.println("Reading config files...");
+            System.out.println("\nReading config files...");
             //System.out.println("");
 
             JSONObject jsonNavigation;
@@ -238,6 +258,17 @@ public class ActionProcessor {
             ObjectMapper mapper = new ObjectMapper();
             List<Page> pages = new ArrayList<>();
             List<String> urlPages = new ArrayList<>();
+            List<String> urlFileList = new ArrayList<>();
+
+            if (urlsFilePath != null)
+                result = FileProcessor.forEachLine(urlsFilePath, ActionProcessor::addUrlToList, urlFileList);
+            System.out.println("Url list:");
+            if (urlFileList.isEmpty())
+                System.out.println("Empty");
+            else
+                for (String url : urlFileList)
+                    System.out.println(url);
+            System.out.println("");
 
             if (result && jsonPages != null && jsonData != null) {
                 int index = 0;
@@ -289,7 +320,23 @@ public class ActionProcessor {
 
                                     Class actionClass = Class.forName(className);
                                     Action action = (Action) mapper.readValue(currentAction.toString(), actionClass);
-                                    actions.add(action);
+
+                                    if (action instanceof Navigate && ((Navigate) action).getUrl().equals(urlsFilePathEnv)) {
+                                        if (!urlFileList.isEmpty()) {
+                                            for (String url : urlFileList) {
+                                                Navigate navigate = new Navigate();
+                                                navigate.setType(action.getType());
+                                                navigate.setDelay(action.getDelay());
+                                                navigate.setTimeout(((Navigate) action).getTimeout());
+                                                navigate.setUrl(url);
+                                                actions.add(navigate);
+                                            }
+                                        } else {
+                                            System.out.println("'" + urlsFilePathEnv + "' specified for a page, but urlFileList is empty.");
+                                            result = false;
+                                        }
+                                    } else
+                                        actions.add(action);
                                 }
 
                                 element.setActions(actions);
@@ -304,8 +351,25 @@ public class ActionProcessor {
                             }
                         }
                         page.setElements(elementsArray);
-                        pages.add(page);
-                        urlPages.add(page.getUrl());
+                        if (!page.getUrl().equals("%urlsFilePath%")) {
+                            pages.add(page);
+                            urlPages.add(page.getUrl());
+                        } else if (!urlFileList.isEmpty()) {
+                            index--;
+                            for (String url : urlFileList) {
+                                Page auxPage = Page.builder()
+                                        .id(index++)
+                                        .url(url)
+                                        .delay(page.getDelay())
+                                        .elements(elementsArray)
+                                        .build();
+                                pages.add(auxPage);
+                                urlPages.add(url);
+                            }
+                        } else {
+                            System.out.println("'" + urlsFilePathEnv + "' specified for a page, but urlFileList is empty.");
+                            result = false;
+                        }
                         //System.out.println("");
                         if (!result)
                             break;

@@ -240,9 +240,11 @@ public class SeleniumProcessor {
         };
 
         String optionalFlags[][] = {
+            {"-urlsFilePath"},
             {"-chromeProfileDir"},
-            {"--notUseIncognito"},
-            {"-chromeUserDataDir"},};
+            {"-chromeUserDataDir"},
+            {"--notUseIncognito"}
+        };
 
         String defaultArgs[] = {
             "-chromeDriverPath",
@@ -251,6 +253,8 @@ public class SeleniumProcessor {
             "res\\navigation.json",
             "-dataFilePath",
             "res\\data.json",
+            "-urlsFilePath",
+            "res\\urls.xml",
             "-outputPath",
             "res\\output",
             "-chromeProfileDir",
