@@ -312,6 +312,16 @@ public class ActionProcessor {
                                         Object value = jsonCurrentAction.get(key);
                                         if (value instanceof String)
                                             jsonCurrentAction.put(key, replaceData(jsonData, (String) value));
+                                        else if (value instanceof List) {
+                                            List list = (List)value;
+                                            for (int i=0; i< list.size(); i++) {
+                                                Object elm = list.get(i);
+                                                if (elm instanceof String) {
+                                                   list.remove(i);
+                                                   list.add(i, replaceData(jsonData, (String) elm));
+                                                }
+                                            }
+                                        }
                                     }
                                     String className = actionsPackage;
                                     String[] classNameAux = type.split("-");

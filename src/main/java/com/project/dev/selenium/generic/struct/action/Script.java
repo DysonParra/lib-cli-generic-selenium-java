@@ -16,6 +16,7 @@ package com.project.dev.selenium.generic.struct.action;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.dev.selenium.generic.struct.Action;
+import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,7 +42,7 @@ import org.openqa.selenium.WebElement;
 public class Script extends Action {
 
     @JsonProperty(value = "script")
-    protected String script;
+    protected List<String> script;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
@@ -56,7 +57,10 @@ public class Script extends Action {
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
         //System.out.println("Script");
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript(script, element);
+        String fullScript = "";
+        for (String aux : script)
+            fullScript += aux + "\n";
+        js.executeScript(fullScript, element);
         return true;
     }
 
