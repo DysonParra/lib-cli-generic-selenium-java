@@ -15,7 +15,7 @@
                     "actions": [
                         {
                             "type": "set-text",
-                            "value": "<TEXT_TO_SET>",
+                            "text": "<TEXT_TO_SET>",
                             "delay-before-next": 100
                         }
                     ]

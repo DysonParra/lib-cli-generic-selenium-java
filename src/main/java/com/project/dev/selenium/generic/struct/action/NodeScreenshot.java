@@ -49,14 +49,15 @@ import org.openqa.selenium.WebElement;
 @ToString(callSuper = true)
 public class NodeScreenshot extends Action {
 
-    @JsonProperty(value = "value")
-    protected String value;
+    @JsonProperty(value = "output-base-file-name")
+    protected String outputBaseFileName;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
      *
      * @param driver  es el driver del navegador.
      * @param element es el {@code WebElement} que se le va a ejecutar dicha acción.
+     * @param flagsMap contiene las {@code Flag} pasadas por consola.
      * @return {@code true} si se ejecuta la acción correctamente.
      * @throws Exception si ocurre algún error ejecutando la acción indicada.
      */
@@ -65,7 +66,7 @@ public class NodeScreenshot extends Action {
         //System.out.println("NodeScreenshot");
         String outputPath = flagsMap.get("-outputPath");
         NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath,
-                value + "-" + String.format("%03d", 1));
+                outputBaseFileName + "-" + String.format("%03d", 1));
         return true;
     }
 

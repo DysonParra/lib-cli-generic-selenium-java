@@ -15,7 +15,7 @@
                     "actions": [
                         {
                             "type": "script",
-                            "value": "var tag = document.getElementsByTagName('h3')[0]; arguments[0].value = '<TEXT_TO_SET>: ' + tag.innerText",
+                            "script": "var tag = document.getElementsByTagName('h3')[0]; arguments[0].value = '<TEXT_TO_SET>: ' + tag.innerText",
                             "delay-before-next": 100
                         }
                     ]

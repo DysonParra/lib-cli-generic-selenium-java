@@ -42,8 +42,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 @ToString(callSuper = true)
 public class WaitPageLoad extends Action {
 
-    @JsonProperty(value = "value")
-    protected String value;
+    @JsonProperty(value = "timeout")
+    protected Integer timeout;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
@@ -57,7 +57,7 @@ public class WaitPageLoad extends Action {
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
         //System.out.println("WaitPageLoad");
-        new WebDriverWait(driver, Duration.ofMillis(Integer.parseInt(value)))
+        new WebDriverWait(driver, Duration.ofMillis(timeout))
                 .until((WebDriver webDriver) -> ((JavascriptExecutor) webDriver)
                 .executeScript("return document.readyState")
                 .equals("complete"));

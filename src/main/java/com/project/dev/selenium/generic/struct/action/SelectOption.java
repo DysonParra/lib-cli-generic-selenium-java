@@ -40,8 +40,8 @@ import org.openqa.selenium.support.ui.Select;
 @ToString(callSuper = true)
 public class SelectOption extends Action {
 
-    @JsonProperty(value = "value")
-    protected String value;
+    @JsonProperty(value = "index")
+    protected Integer index;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
@@ -56,7 +56,7 @@ public class SelectOption extends Action {
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
         //System.out.println("SelectOption");
         Select select = new Select(element);
-        select.selectByIndex((int) (long) (Long.valueOf(String.valueOf(value))));
+        select.selectByIndex(index);
         return true;
     }
 

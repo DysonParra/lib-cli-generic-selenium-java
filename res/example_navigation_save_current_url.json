@@ -15,7 +15,7 @@
                     "actions": [
                         {
                             "type": "save-current-url",
-                            "value": "<OUTPUT_URL_FILE>",
+                            "output-file-name": "<OUTPUT_URL_FILE>",
                             "delay-before-next": 100
                         }
                     ]

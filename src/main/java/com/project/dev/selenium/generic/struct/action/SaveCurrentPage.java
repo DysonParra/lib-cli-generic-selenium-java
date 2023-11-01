@@ -41,8 +41,8 @@ import org.openqa.selenium.WebElement;
 @ToString(callSuper = true)
 public class SaveCurrentPage extends Action {
 
-    @JsonProperty(value = "value")
-    protected String value;
+    @JsonProperty(value = "output-file-name")
+    protected String outputFileName;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
@@ -57,10 +57,10 @@ public class SaveCurrentPage extends Action {
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
         //System.out.println("SaveCurrentPage");
         String outputPath = flagsMap.get("-outputPath");
-        if (value == null)
+        if (outputFileName == null)
             SeleniumProcessor.getPageSource(driver, outputPath);
         else
-            SeleniumProcessor.getPageSource(driver, new File(outputPath, value));
+            SeleniumProcessor.getPageSource(driver, new File(outputPath, outputFileName));
         return true;
     }
 

@@ -15,7 +15,7 @@
                     "actions": [
                         {
                             "type": "node-screenshot",
-                            "value": "<SCREENSHOT_BASE_NAME>",
+                            "output-base-file-name": "<SCREENSHOT_BASE_NAME>",
                             "delay-before-next": 100
                         }
                     ]

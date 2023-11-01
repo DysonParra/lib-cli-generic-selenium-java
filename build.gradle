@@ -108,7 +108,7 @@ build.doLast {
 artifacts {
     archives jar
     archives fatJar
-    //archives jarLib
+    archives jarLib
     //archives fatJarLib
     //archives javadocJar
     //archives sourcesJar

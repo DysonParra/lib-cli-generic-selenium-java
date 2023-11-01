@@ -40,8 +40,8 @@ import org.openqa.selenium.WebElement;
 @ToString(callSuper = true)
 public class Script extends Action {
 
-    @JsonProperty(value = "value")
-    protected String value;
+    @JsonProperty(value = "script")
+    protected String script;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
@@ -56,7 +56,7 @@ public class Script extends Action {
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
         //System.out.println("Script");
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript(value, element);
+        js.executeScript(script, element);
         return true;
     }
 

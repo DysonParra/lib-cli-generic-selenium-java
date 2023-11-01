@@ -43,8 +43,8 @@ import org.openqa.selenium.WebElement;
 @ToString(callSuper = true)
 public class SaveCurrentUrl extends Action {
 
-    @JsonProperty(value = "value")
-    protected String value;
+    @JsonProperty(value = "output-file-name")
+    protected String outputFileName;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
@@ -59,7 +59,7 @@ public class SaveCurrentUrl extends Action {
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
         //System.out.println("SaveCurrentUrl");
         System.out.println("Current page: " + driver.getCurrentUrl());
-        try (FileOutputStream fos = new FileOutputStream(flagsMap.get("-outputPath") + "\\" + value, true);
+        try (FileOutputStream fos = new FileOutputStream(flagsMap.get("-outputPath") + "\\" + outputFileName, true);
                 OutputStreamWriter osr = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
                 BufferedWriter writer = new BufferedWriter(osr);) {
             writer.write(driver.getCurrentUrl() + "\n");
