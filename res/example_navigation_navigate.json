@@ -1,0 +1,27 @@
+{
+    "config": {
+        "delay-time-before-end": 3000,
+        "max-action-page-tries": 10
+    },
+    "pages": [
+        {
+            "url": "https://www.google.com.co/search?q=facebook",
+            "delay-before-next": 100,
+            "elements": [
+                {
+                    "id": null,
+                    "name": null,
+                    "xpath": "//body",
+                    "actions": [
+                        {
+                            "type": "navigate",
+                            "url": "https://www.gmail.com",
+                            "timeout": 30000,
+                            "delay-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
