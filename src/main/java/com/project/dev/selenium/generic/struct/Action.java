@@ -42,8 +42,8 @@ public abstract class Action {
     /**
      * Ejecuta una acción en el elemento de la página actual.
      *
-     * @param driver  es el driver del navegador.
-     * @param element es el {@code WebElement} que se le va a ejecutar dicha acción.
+     * @param driver   es el driver del navegador.
+     * @param element  es el {@code WebElement} que se le va a ejecutar dicha acción.
      * @param flagsMap contiene las {@code Flag} pasadas por consola.
      * @return {@code true} si se ejecuta la acción correctamente.
      * @throws Exception si ocurre algún error ejecutando la acción indicada.

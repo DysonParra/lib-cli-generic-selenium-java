@@ -239,6 +239,7 @@ public class ActionProcessor {
             try {
                 jsonData = (JSONObject) parser.parse(new FileReader(dataFilePath));
                 System.out.println("File: '" + dataFilePath + "' success readed.");
+                System.out.println("Data loaded");
             } catch (Exception e) {
                 //e.printStackTrace();
                 System.out.println("Error reading the file: '" + dataFilePath + "'");
@@ -246,8 +247,16 @@ public class ActionProcessor {
             }
 
             setConfigValues(jsonConfig, configMap);
-            System.out.println("Config:");
-            System.out.println(configMap + "\n");
+            System.out.println("\nConfig:");
+            for (String key : configMap.keySet())
+                System.out.println(configMap.get(key));
+
+            if (jsonData != null) {
+                System.out.println("\nData:");
+                for (Object key : jsonData.keySet())
+                    System.out.println(key + " = " + jsonData.get(key));
+            }
+
             String startDate = (String) configMap.get("start-date").getCanonicalValue();
             int loadPageTimeOut = (int) (long) configMap.get("load-page-timeout").getCanonicalValue();
             int maxLoadPageTries = (int) (long) configMap.get("max-load-page-tries").getCanonicalValue();
@@ -262,7 +271,7 @@ public class ActionProcessor {
 
             if (urlsFilePath != null)
                 result = FileProcessor.forEachLine(urlsFilePath, ActionProcessor::addUrlToList, urlFileList);
-            System.out.println("Url list:");
+            System.out.println("\nUrl list:");
             if (urlFileList.isEmpty())
                 System.out.println("Empty");
             else
@@ -313,12 +322,12 @@ public class ActionProcessor {
                                         if (value instanceof String)
                                             jsonCurrentAction.put(key, replaceData(jsonData, (String) value));
                                         else if (value instanceof List) {
-                                            List list = (List)value;
-                                            for (int i=0; i< list.size(); i++) {
+                                            List list = (List) value;
+                                            for (int i = 0; i < list.size(); i++) {
                                                 Object elm = list.get(i);
                                                 if (elm instanceof String) {
-                                                   list.remove(i);
-                                                   list.add(i, replaceData(jsonData, (String) elm));
+                                                    list.remove(i);
+                                                    list.add(i, replaceData(jsonData, (String) elm));
                                                 }
                                             }
                                         }
@@ -449,6 +458,7 @@ public class ActionProcessor {
                 devTools.createSession();
                 devTools.send(new Command<>("Network.enable", ImmutableMap.of()));
 
+                currentIndex = 0;
                 for (String url : urlPages) {
                     if (!result)
                         break;
