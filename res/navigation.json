@@ -16,6 +16,13 @@
                         {
                             "type": "set-text",
                             "text": "<TEXT_TO_SET>",
+                            "clear-before-set": false,
+                            "delay-before-next": 100
+                        },
+                        {
+                            "type": "set-text",
+                            "text": "<TEXT_TO_SET>_V2",
+                            "clear-before-set": true,
                             "delay-before-next": 100
                         }
                     ]
