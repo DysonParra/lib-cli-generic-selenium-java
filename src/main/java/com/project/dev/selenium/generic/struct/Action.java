@@ -20,7 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.json.simple.JSONObject;
+import lombok.ToString;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -33,11 +33,32 @@ import org.openqa.selenium.WebElement;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public abstract class Action {
+public abstract class Action implements Cloneable {
 
     protected String type;
     @JsonProperty(value = "delay-before-next")
     protected long delay;
+
+    /**
+     * Get the unique ID of the current {@code Object}
+     *
+     * @return The unique Id of the current {@code Object}
+     */
+    @ToString.Include
+    public int uniqueId() {
+        return System.identityHashCode(this);
+    }
+
+    /**
+     * Clone the current {@code Object}.
+     *
+     * @return a copy of the current {@code Object}
+     * @throws CloneNotSupportedException if some issue cloning the current {@code Object}
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
