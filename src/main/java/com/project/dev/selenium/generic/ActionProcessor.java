@@ -15,6 +15,7 @@
 package com.project.dev.selenium.generic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.common.collect.ImmutableMap;
 import com.project.dev.file.generic.FileProcessor;
 import com.project.dev.flag.processor.Flag;
@@ -23,7 +24,9 @@ import com.project.dev.selenium.generic.struct.Action;
 import com.project.dev.selenium.generic.struct.Config;
 import com.project.dev.selenium.generic.struct.Element;
 import com.project.dev.selenium.generic.struct.Page;
+import com.project.dev.selenium.generic.struct.Task;
 import com.project.dev.selenium.generic.struct.action.Navigate;
+import java.io.File;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,6 +56,7 @@ import org.openqa.selenium.devtools.DevTools;
  */
 public class ActionProcessor {
 
+    private static int taskId = 0;
     private static int currentIndex = 0;
     private static Map<String, String> flagsMap;
     private static Map<String, Config> configMap;
@@ -75,6 +79,41 @@ public class ActionProcessor {
             }
         }
         return field;
+    }
+
+    /**
+     * TODO: Description of {@code replaceFileEnvs}.
+     *
+     * @param file
+     * @param text
+     * @param inputPath
+     * @param outputPath
+     * @param doubleScape
+     * @return
+     */
+    public static String replaceFileEnvs(File file, String text, String inputPath, String outputPath, boolean doubleScape) {
+        String fileFullPathEnv = "%fileFullPath%";
+        String filePathEnv = "%filePath%";
+        String fileNameEnv = "%fileName%";
+        String fileInPathEnv = "%fileInPath%";
+        String fileOutPathEnv = "%fileOutPath%";
+        String patternIn = "/|\\\\";
+        String patternOut = "\\\\\\\\";
+        if (doubleScape)
+            patternOut += patternOut;
+        if (file != null && text != null) {
+            text = text.replaceAll(fileFullPathEnv, file.getAbsolutePath().replaceAll(patternIn, patternOut))
+                    .replaceAll(filePathEnv, file.getPath().replaceAll(patternIn, patternOut))
+                    .replaceAll(fileNameEnv, file.getName().replaceAll(patternIn, patternOut))
+                    .replaceAll(fileInPathEnv, file.getParent().replaceAll(patternIn, patternOut))
+                    .replaceAll(fileOutPathEnv, file.getParent().replaceAll(patternIn, patternOut).
+                            replaceAll(
+                                    inputPath.replaceAll(patternIn, patternOut + patternOut),
+                                    outputPath.replaceAll(patternIn, patternOut + patternOut)
+                            )
+                    );
+        }
+        return text;
     }
 
     /**
@@ -176,6 +215,7 @@ public class ActionProcessor {
         String navigationFilePath = flagsMap.get("-navigationFilePath");
         String dataFilePath = flagsMap.get("-dataFilePath");
         String outputPath = flagsMap.get("-outputPath");
+        String inputPath = flagsMap.get("-inputPath");
         String urlsFilePath = flagsMap.get("-urlsFilePath");
         String chromeProfileDir = flagsMap.get("-chromeProfileDir");
         String chromeUserDataDir = System.getProperty("user.home") + "\\AppData\\Local\\Google\\Chrome\\User Data";
@@ -188,6 +228,8 @@ public class ActionProcessor {
         configMap.put("max-action-page-tries", Config.builder().type(Long.class).defaultValue(5l).build());
         configMap.put("delay-time-before-retry", Config.builder().type(Long.class).defaultValue(2000l).build());
         configMap.put("delay-time-before-end", Config.builder().type(Long.class).defaultValue(1000l).build());
+        configMap.put("run-page-actions-for-each-file", Config.builder().type(Boolean.class).defaultValue(false).build());
+        configMap.put("allowed-file-extensions", Config.builder().type(List.class).defaultValue(Arrays.asList(new Object[]{".jpg"})).build());
 
         String urlsFilePathEnv = "%urlsFilePath%";
 
@@ -208,6 +250,9 @@ public class ActionProcessor {
             result = false;
         } else if (urlsFilePath != null && !FileProcessor.validateFile(urlsFilePath)) {
             System.out.println("Invalid path in flag '-urlsFilePath'");
+            result = false;
+        } else if (inputPath != null && !FileProcessor.validatePath(inputPath)) {
+            System.out.println("Invalid path in flag '-inputPath'");
             result = false;
         } else {
             System.out.println("\nReading config files...");
@@ -263,11 +308,15 @@ public class ActionProcessor {
             int maxActionPageTries = (int) (long) configMap.get("max-action-page-tries").getCanonicalValue();
             int delayTimeBeforeRetry = (int) (long) configMap.get("delay-time-before-retry").getCanonicalValue();
             int delayTimeBeforeEnd = (int) (long) configMap.get("delay-time-before-end").getCanonicalValue();
+            boolean runPageActionsForEachFile = (boolean) configMap.get("run-page-actions-for-each-file").getCanonicalValue();
+            List allowedFileExtensions = (List) configMap.get("allowed-file-extensions").getCanonicalValue();
 
             ObjectMapper mapper = new ObjectMapper();
             List<Page> pages = new ArrayList<>();
             List<String> urlPages = new ArrayList<>();
             List<String> urlFileList = new ArrayList<>();
+            List<Task> tasks = new ArrayList<>();
+            List<File> files = new ArrayList<>();
 
             if (urlsFilePath != null)
                 result = FileProcessor.forEachLine(urlsFilePath, ActionProcessor::addUrlToList, urlFileList);
@@ -279,6 +328,22 @@ public class ActionProcessor {
                     System.out.println(url);
             System.out.println("");
 
+            if (inputPath != null)
+                FileProcessor.getFiles(new File(inputPath), (String[]) allowedFileExtensions.toArray(String[]::new), files);
+            System.out.println("Files:");
+            if (files.isEmpty())
+                System.out.println("Empty");
+            else
+                files.forEach(file -> System.out.println(file));
+            System.out.println("");
+
+            if (runPageActionsForEachFile && !files.isEmpty())
+                System.out.println("All actions will be executed for each file (" + files.size() + " times)");
+            else {
+                System.out.println("All actions will be executed one time.");
+                files.clear();
+                files.add(null);
+            }
             if (result && jsonPages != null && jsonData != null) {
                 int index = 0;
                 for (Object currentPage : jsonPages) {
@@ -397,13 +462,58 @@ public class ActionProcessor {
             }
 
             if (result) {
-                System.out.println("Pages:");
-                for (Page page : pages) {
-                    System.out.println(page);
-                    for (Element element : page.getElements()) {
-                        System.out.println("    " + element);
-                        for (Action action : element.getActions())
-                            System.out.println("        " + action);
+                Task aux = Task.builder().pages(pages).build();
+                for (File file : files) {
+                    Task currentTask;
+                    try {
+                        currentTask = (Task) aux.clone();
+                        currentTask.setId(taskId++);
+                        currentTask.setFile(file);
+                        tasks.add(currentTask);
+                    } catch (CloneNotSupportedException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+
+                for (Task task : tasks) {
+                    for (Page page : task.getPages()) {
+                        String url = page.getUrl();
+                        page.setUrl(replaceFileEnvs(task.getFile(), page.getUrl(), inputPath, outputPath, false));
+                        for (Element element : page.getElements()) {
+                            element.setId(replaceFileEnvs(task.getFile(), element.getId(), inputPath, outputPath, false));
+                            element.setName(replaceFileEnvs(task.getFile(), element.getName(), inputPath, outputPath, false));
+                            element.setXpath(replaceFileEnvs(task.getFile(), element.getXpath(), inputPath, outputPath, false));
+                            for (int i = 0; i < element.getActions().size(); i++) {
+                                Action action = element.getActions().get(i);
+                                String className = actionsPackage;
+                                String[] classNameAux = action.getType().split("-");
+                                for (String name : classNameAux)
+                                    className += name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
+                                try {
+                                    String actionStr = mapper.writeValueAsString(action);
+                                    actionStr = replaceFileEnvs(task.getFile(), actionStr, inputPath, outputPath, true);
+                                    Class actionClass = Class.forName(className);
+                                    Action actionAux = (Action) mapper.readValue(actionStr, actionClass);
+                                    element.getActions().remove(i);
+                                    element.getActions().add(i, actionAux);
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+                        }
+                    }
+                }
+
+                System.out.println("\nTasks:");
+                for (Task task : tasks) {
+                    System.out.println(task);
+                    for (Page page : task.getPages()) {
+                        System.out.println("    " + page);
+                        for (Element element : page.getElements()) {
+                            System.out.println("        " + element);
+                            for (Action action : element.getActions())
+                                System.out.println("            " + action);
+                        }
                     }
                 }
                 System.out.println("");
@@ -443,8 +553,6 @@ public class ActionProcessor {
                 } else
                     System.out.println("Start time invalid or not specified\n");
 
-                //for (Page page : pages)
-                //    runPageActions(null, pages);
                 System.setProperty("webdriver.chrome.driver", chromeDriverPath);
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("user-data-dir=" + chromeUserDataDir);
@@ -458,28 +566,30 @@ public class ActionProcessor {
                 devTools.createSession();
                 devTools.send(new Command<>("Network.enable", ImmutableMap.of()));
 
-                currentIndex = 0;
-                for (String url : urlPages) {
-                    if (!result)
-                        break;
-                    for (int i = 1; i <= maxActionPageTries; i++) {
-                        if (SeleniumProcessor.forEachPage(driver, Arrays.asList(url), maxLoadPageTries,
-                                delayTimeBeforeRetry, loadPageTimeOut, ActionProcessor::runPageActions, pages)) {
+                for (Task task : tasks) {
+                    currentIndex = 0;
+                    for (String url : urlPages) {
+                        if (!result)
                             break;
-                        }
-                        currentIndex--;
-                        if (i == maxActionPageTries) {
-                            result = false;
-                            System.out.println("Error executing actions on page: " + url + "\n");
-                            break;
-                        }
+                        for (int i = 1; i <= maxActionPageTries; i++) {
+                            if (SeleniumProcessor.forEachPage(driver, Arrays.asList(url), maxLoadPageTries,
+                                    delayTimeBeforeRetry, loadPageTimeOut, ActionProcessor::runPageActions, task.getPages())) {
+                                break;
+                            }
+                            currentIndex--;
+                            if (i == maxActionPageTries) {
+                                result = false;
+                                System.out.println("Error executing actions on page: " + url + "\n");
+                                break;
+                            }
 
-                        try {
-                            Thread.sleep(delayTimeBeforeRetry);
-                        } catch (InterruptedException e) {
-                            System.out.println("Error executing sleep");
+                            try {
+                                Thread.sleep(delayTimeBeforeRetry);
+                            } catch (InterruptedException e) {
+                                System.out.println("Error executing sleep");
+                            }
+                            System.out.println("");
                         }
-                        System.out.println("");
                     }
                 }
                 System.out.println("Finish processing pages...");

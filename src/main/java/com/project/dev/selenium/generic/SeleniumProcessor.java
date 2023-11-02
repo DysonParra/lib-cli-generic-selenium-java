@@ -240,6 +240,7 @@ public class SeleniumProcessor {
         };
 
         String optionalFlags[][] = {
+            {"-inputPath"},
             {"-urlsFilePath"},
             {"-chromeProfileDir"},
             {"-chromeUserDataDir"},
@@ -255,6 +256,8 @@ public class SeleniumProcessor {
             "res\\data.json",
             "-urlsFilePath",
             "res\\urls.xml",
+            "-inputPath",
+            "res\\input",
             "-outputPath",
             "res\\output",
             "-chromeProfileDir",

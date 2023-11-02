@@ -1,0 +1,53 @@
+{
+    "config": {
+        "delay-time-before-end": 3000,
+        "max-action-page-tries": 10,
+        "run-page-actions-for-each-file": true,
+        "allowed-file-extensions": [
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".webp"
+        ]
+    },
+    "pages": [
+        {
+            "url": "https://www.google.com",
+            "delay-before-next": 100,
+            "elements": [
+                {
+                    "id": null,
+                    "name": null,
+                    "xpath": "//textarea",
+                    "actions": [
+                        {
+                            "type": "set-text",
+                            "text": "%fileFullPath%",
+                            "delay-before-next": 1000
+                        },
+                        {
+                            "type": "set-text",
+                            "text": "%filePath%",
+                            "delay-before-next": 1000
+                        },
+                        {
+                            "type": "set-text",
+                            "text": "%fileName%",
+                            "delay-before-next": 1000
+                        },
+                        {
+                            "type": "set-text",
+                            "text": "%fileInPath%",
+                            "delay-before-next": 1000
+                        },
+                        {
+                            "type": "set-text",
+                            "text": "%fileOutPath%",
+                            "delay-before-next": 1000
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
