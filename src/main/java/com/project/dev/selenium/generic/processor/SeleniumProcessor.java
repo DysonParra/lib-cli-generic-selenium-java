@@ -12,7 +12,7 @@
  * @version 1.0     Implementation done.
  * @version 2.0     Documentation added.
  */
-package com.project.dev.selenium.generic;
+package com.project.dev.selenium.generic.processor;
 
 import com.project.dev.flag.processor.Flag;
 import com.project.dev.flag.processor.FlagProcessor;

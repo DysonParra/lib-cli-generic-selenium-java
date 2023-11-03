@@ -15,7 +15,7 @@
 package com.project.dev.selenium.generic.struct.action;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.dev.selenium.generic.SeleniumProcessor;
+import com.project.dev.selenium.generic.processor.SeleniumProcessor;
 import com.project.dev.selenium.generic.struct.Action;
 import java.io.File;
 import java.util.Map;
