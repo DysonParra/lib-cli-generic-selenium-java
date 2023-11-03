@@ -15,7 +15,6 @@
 package com.project.dev.selenium.generic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.common.collect.ImmutableMap;
 import com.project.dev.file.generic.FileProcessor;
 import com.project.dev.flag.processor.Flag;
@@ -95,6 +94,7 @@ public class ActionProcessor {
         String fileFullPathEnv = "%fileFullPath%";
         String filePathEnv = "%filePath%";
         String fileNameEnv = "%fileName%";
+        String fileNameNoExtEnv = "%fileNameNoExt%";
         String fileInPathEnv = "%fileInPath%";
         String fileOutPathEnv = "%fileOutPath%";
         String patternIn = "/|\\\\";
@@ -105,6 +105,7 @@ public class ActionProcessor {
             text = text.replaceAll(fileFullPathEnv, file.getAbsolutePath().replaceAll(patternIn, patternOut))
                     .replaceAll(filePathEnv, file.getPath().replaceAll(patternIn, patternOut))
                     .replaceAll(fileNameEnv, file.getName().replaceAll(patternIn, patternOut))
+                    .replaceAll(fileNameNoExtEnv, file.getName().replaceFirst("[.][^.]+$", "").replaceAll(patternIn, patternOut))
                     .replaceAll(fileInPathEnv, file.getParent().replaceAll(patternIn, patternOut))
                     .replaceAll(fileOutPathEnv, file.getParent().replaceAll(patternIn, patternOut).
                             replaceAll(

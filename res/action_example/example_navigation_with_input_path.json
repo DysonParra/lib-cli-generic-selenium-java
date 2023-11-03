@@ -44,6 +44,11 @@
                             "type": "set-text",
                             "text": "%fileOutPath%",
                             "delay-before-next": 1000
+                        },
+                        {
+                            "type": "set-text",
+                            "text": "%fileNameNoExt%",
+                            "delay-before-next": 1000
                         }
                     ]
                 }

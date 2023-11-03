@@ -49,8 +49,11 @@ import org.openqa.selenium.WebElement;
 @ToString(callSuper = true)
 public class NodeScreenshot extends Action {
 
+    protected static int currentIndex;
     @JsonProperty(value = "output-base-file-name")
     protected String outputBaseFileName;
+    @JsonProperty(value = "output-path")
+    protected String outputPath;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
@@ -64,9 +67,14 @@ public class NodeScreenshot extends Action {
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
         //System.out.println("NodeScreenshot");
-        String outputPath = flagsMap.get("-outputPath");
-        NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath,
-                outputBaseFileName + "-" + String.format("%03d", 1));
+        if (outputPath == null) {
+            outputPath = flagsMap.get("-outputPath");
+            NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath,
+                    outputBaseFileName + "-" + String.format("%03d", ++currentIndex));
+        } else {
+            new File(outputPath).mkdirs();
+            NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath, outputBaseFileName);
+        }
         return true;
     }
 
