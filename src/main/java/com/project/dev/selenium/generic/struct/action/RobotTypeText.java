@@ -17,7 +17,6 @@ package com.project.dev.selenium.generic.struct.action;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.dev.selenium.generic.struct.Action;
 import com.project.dev.selenium.generic.struct.RobotEvent;
-import java.awt.Robot;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
