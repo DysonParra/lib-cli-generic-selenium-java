@@ -120,18 +120,23 @@ public class EnvironmentProcessor {
      */
     public static boolean replaceEnvsOnPages(List<String> urlFileList, List<Page> pageList, Page page) {
         boolean result = true;
+        ObjectMapper mapper = new ObjectMapper();
         if (!page.getUrl().equals(urlsFilePathEnv)) {
             pageList.add(page);
         } else if (!urlFileList.isEmpty()) {
             PageProcessor.PAGE_INDEX--;
+            List<Element> elements = page.getElements();
+            page.setElements(null);
             for (String url : urlFileList) {
-                Page auxPage = Page.builder()
-                        .id(PageProcessor.PAGE_INDEX++)
-                        .url(url)
-                        .delayTimeBeforeNext(page.getDelayTimeBeforeNext())
-                        .elements(page.getElements())
-                        .build();
-                pageList.add(auxPage);
+                try {
+                    Page auxPage = mapper.readValue(mapper.writeValueAsString(page), Page.class);
+                    auxPage.setId(PageProcessor.PAGE_INDEX++);
+                    auxPage.setUrl(url);
+                    auxPage.setElements(elements);
+                    pageList.add(auxPage);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
         } else {
             System.out.println("'" + urlsFilePathEnv + "' specified for a page, but urlFileList is empty.");
@@ -141,14 +146,14 @@ public class EnvironmentProcessor {
     }
 
     /**
-     * TODO: Description of {@code replaceEnvsOnActions}.
+     * TODO: Description of {@code replaceEnvsOnActionNavigate}.
      *
      * @param urlFileList
      * @param actionList
      * @param action
      * @return
      */
-    public static boolean replaceEnvsOnActions(List<String> urlFileList, List<Action> actionList, Action action) {
+    public static boolean replaceEnvsOnActionNavigate(List<String> urlFileList, List<Action> actionList, Action action) {
         boolean result = true;
         if (action instanceof Navigate && ((Navigate) action).getUrl().equals(urlsFilePathEnv)) {
             if (!urlFileList.isEmpty()) {

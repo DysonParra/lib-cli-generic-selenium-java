@@ -73,12 +73,10 @@ public class PageProcessor {
             JSONArray elements = null;
             try {
                 JSONObject jsonCurrentPage = (JSONObject) currentPage;
-                page = Page.builder()
-                        .id(PAGE_INDEX++)
-                        .url((String) jsonCurrentPage.get("url"))
-                        .delayTimeBeforeNext((Long) jsonCurrentPage.get("delay-time-before-next"))
-                        .build();
                 elements = (JSONArray) jsonCurrentPage.get("elements");
+                jsonCurrentPage.remove("elements");
+                page = mapper.readValue(jsonCurrentPage.toJSONString(), Page.class);
+                page.setId(PAGE_INDEX++);
                 if (page.getUrl() == null)
                     throw new Exception("Page can't be null");
             } catch (Exception e) {
@@ -122,7 +120,7 @@ public class PageProcessor {
 
                             Class actionClass = Class.forName(className);
                             Action action = (Action) mapper.readValue(currentAction.toString(), actionClass);
-                            result = EnvironmentProcessor.replaceEnvsOnActions(urlFileList, actionList, action);
+                            result = EnvironmentProcessor.replaceEnvsOnActionNavigate(urlFileList, actionList, action);
                             if (!result)
                                 break;
                         }
