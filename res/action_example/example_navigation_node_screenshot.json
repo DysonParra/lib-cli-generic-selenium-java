@@ -6,7 +6,7 @@
     "pages": [
         {
             "url": "https://www.google.com",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -16,7 +16,7 @@
                         {
                             "type": "node-screenshot",
                             "output-base-file-name": "<SCREENSHOT_BASE_NAME>",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }

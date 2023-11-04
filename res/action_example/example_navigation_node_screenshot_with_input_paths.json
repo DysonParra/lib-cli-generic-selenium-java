@@ -13,7 +13,7 @@
     "pages": [
         {
             "url": "https://www.google.com",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -24,7 +24,7 @@
                             "type": "node-screenshot",
                             "output-base-file-name": "%fileNameNoExt%",
                             "output-path": "%fileOutPath%",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }

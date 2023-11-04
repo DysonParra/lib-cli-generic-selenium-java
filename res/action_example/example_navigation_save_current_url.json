@@ -6,7 +6,7 @@
     "pages": [
         {
             "url": "https://www.google.com",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -16,7 +16,7 @@
                         {
                             "type": "save-current-url",
                             "output-file-name": "<OUTPUT_URL_FILE>",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }

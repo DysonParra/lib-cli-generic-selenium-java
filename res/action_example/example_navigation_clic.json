@@ -6,7 +6,7 @@
     "pages": [
         {
             "url": "https://www.google.com/gmail/about/",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -15,7 +15,7 @@
                     "actions": [
                         {
                             "type": "clic",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }

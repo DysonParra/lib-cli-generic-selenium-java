@@ -6,7 +6,7 @@
     "pages": [
         {
             "url": "https://www.google.com.co/search?q=facebook",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -15,7 +15,7 @@
                     "actions": [
                         {
                             "type": "clic",
-                            "delay-before-next": 0
+                            "delay-time-before-next": 0
                         }
                     ]
                 },
@@ -27,7 +27,7 @@
                         {
                             "type": "wait-page-load",
                             "timeout": 30000,
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 },
@@ -40,7 +40,7 @@
                             "type": "set-text",
                             "text": "<TEXT_TO_SET>",
                             "clear-before-set": false,
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }

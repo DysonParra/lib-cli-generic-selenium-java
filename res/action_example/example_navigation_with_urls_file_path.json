@@ -6,7 +6,7 @@
     "pages": [
         {
             "url": "https://www.google.com",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -17,7 +17,7 @@
                             "type": "set-text",
                             "text": "<TEXT_TO_SET>",
                             "clear-before-set": false,
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }
@@ -25,7 +25,7 @@
         },
         {
             "url": "%urlsFilePath%",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -35,7 +35,7 @@
                         {
                             "type": "save-current-url",
                             "output-file-name": "<OUTPUT_URL_FILE>",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }
@@ -43,7 +43,7 @@
         },
         {
             "url": "https://www.google.com.co/",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -54,7 +54,7 @@
                             "type": "navigate",
                             "url": "%urlsFilePath%",
                             "timeout": 30000,
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }

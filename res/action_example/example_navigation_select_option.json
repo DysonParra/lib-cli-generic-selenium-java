@@ -6,7 +6,7 @@
     "pages": [
         {
             "url": "https://www.facebook.com/?locale=es_LA",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -15,7 +15,7 @@
                     "actions": [
                         {
                             "type": "clic",
-                            "delay-before-next": 500
+                            "delay-time-before-next": 500
                         }
                     ]
                 },
@@ -27,7 +27,7 @@
                         {
                             "type": "select-option",
                             "index": 0,
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 },
@@ -39,7 +39,7 @@
                         {
                             "type": "select-option",
                             "index": 11,
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 },
@@ -51,7 +51,7 @@
                         {
                             "type": "select-option",
                             "index": 23,
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }

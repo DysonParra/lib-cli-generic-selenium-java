@@ -104,7 +104,7 @@ public class SettingsProcessor {
                     return false;
                 }
                 try {
-                    Thread.sleep(action.getDelay());
+                    Thread.sleep(action.getDelayTimeBeforeNext());
                 } catch (InterruptedException e) {
                     System.out.println("Error executing sleep");
                 }
@@ -112,7 +112,7 @@ public class SettingsProcessor {
         }
 
         try {
-            Thread.sleep(page.getDelay());
+            Thread.sleep(page.getDelayTimeBeforeNext());
         } catch (InterruptedException e) {
             System.out.println("Error executing sleep");
         }
@@ -189,18 +189,19 @@ public class SettingsProcessor {
                 LogProcessor.printJsonData(jsonData);
 
                 configMap = ConfigProcessor.initConfigMap();
-                ConfigProcessor.setConfigValues(jsonConfig, configMap);
+                ConfigProcessor.setConfigValuesToMap(jsonConfig, configMap);
                 LogProcessor.printConfigMap(configMap);
 
                 String startDate = (String) configMap.get("start-date").getCanonicalValue();
+                boolean runPageActionsForEachFile = (boolean) configMap.get("run-page-actions-for-each-file").getCanonicalValue();
+                List allowedFileExtensions = (List) configMap.get("allowed-file-extensions").getCanonicalValue();
+
                 int loadPageTimeOut = (int) (long) configMap.get("load-page-timeout").getCanonicalValue();
                 int maxLoadPageTries = (int) (long) configMap.get("max-load-page-tries").getCanonicalValue();
                 int maxActionPageTries = (int) (long) configMap.get("max-action-page-tries").getCanonicalValue();
                 int delayTimeBeforeRetry = (int) (long) configMap.get("delay-time-before-retry").getCanonicalValue();
                 int delayTimeBeforeEnd = (int) (long) configMap.get("delay-time-before-end").getCanonicalValue();
-                boolean runPageActionsForEachFile = (boolean) configMap.get("run-page-actions-for-each-file").getCanonicalValue();
-                List allowedFileExtensions = (List) configMap.get("allowed-file-extensions").getCanonicalValue();
-
+                
                 if (urlsFilePath != null)
                     result = FileProcessor.forEachLine(urlsFilePath, SettingsProcessor::addUrlToList, urlFileList);
                 LogProcessor.printUrlFileList(urlFileList);
@@ -217,7 +218,7 @@ public class SettingsProcessor {
                         inputFileList.clear();
                         inputFileList.add(null);
                     }
-                    result = PageProcessor.parsePages(pageList, jsonPages, jsonData, urlFileList);
+                    result = PageProcessor.parsePages(pageList, jsonPages, jsonData, urlFileList, configMap);
                 }
 
                 if (result) {

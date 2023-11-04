@@ -16,11 +16,13 @@ package com.project.dev.selenium.generic.processor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.dev.selenium.generic.struct.Action;
+import com.project.dev.selenium.generic.struct.Config;
 import com.project.dev.selenium.generic.struct.Element;
 import com.project.dev.selenium.generic.struct.Page;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import lombok.NonNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,7 +35,7 @@ import org.json.simple.JSONObject;
  */
 public class PageProcessor {
 
-    public static int PAGE_INDEX = 0;
+    public static Long PAGE_INDEX = 0l;
 
     /**
      * TODO: Description of {@code loadPagesFromJson}.
@@ -59,9 +61,10 @@ public class PageProcessor {
      * @param jsonPages
      * @param jsonData
      * @param urlFileList
+     * @param configMap
      * @return
      */
-    public static boolean parsePages(@NonNull List<Page> pageList, JSONArray jsonPages, JSONObject jsonData, List<String> urlFileList) {
+    public static boolean parsePages(@NonNull List<Page> pageList, JSONArray jsonPages, JSONObject jsonData, List<String> urlFileList, Map<String, Config> configMap) {
         boolean result = true;
         ObjectMapper mapper = new ObjectMapper();
         for (Object currentPage : jsonPages) {
@@ -73,11 +76,11 @@ public class PageProcessor {
                 page = Page.builder()
                         .id(PAGE_INDEX++)
                         .url((String) jsonCurrentPage.get("url"))
-                        .delay((long) jsonCurrentPage.get("delay-before-next"))
+                        .delayTimeBeforeNext((Long) jsonCurrentPage.get("delay-time-before-next"))
                         .build();
+                elements = (JSONArray) jsonCurrentPage.get("elements");
                 if (page.getUrl() == null)
                     throw new Exception("Page can't be null");
-                elements = (JSONArray) jsonCurrentPage.get("elements");
             } catch (Exception e) {
                 //e.printStackTrace();
                 System.out.println("Error getting info of current page");

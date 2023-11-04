@@ -6,7 +6,7 @@
     "pages": [
         {
             "url": "https://www.google.com.co/search?q=facebook",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -17,7 +17,7 @@
                             "type": "navigate",
                             "url": "https://www.gmail.com",
                             "timeout": 30000,
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }

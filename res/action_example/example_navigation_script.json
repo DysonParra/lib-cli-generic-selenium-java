@@ -6,7 +6,7 @@
     "pages": [
         {
             "url": "https://www.google.com.co/search?q=gmail",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -19,7 +19,7 @@
                                 "var tag = document.getElementsByTagName('h3')[0];",
                                 "arguments[0].value = '<TEXT_TO_SET>: ' + tag.innerText;"
                             ],
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         }
                     ]
                 }

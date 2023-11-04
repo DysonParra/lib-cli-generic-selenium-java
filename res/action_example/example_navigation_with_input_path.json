@@ -13,7 +13,7 @@
     "pages": [
         {
             "url": "https://www.google.com",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -24,37 +24,37 @@
                             "type": "set-text",
                             "text": "%fileFullPath%",
                             "clear-before-set": true,
-                            "delay-before-next": 1000
+                            "delay-time-before-next": 1000
                         },
                         {
                             "type": "set-text",
                             "text": "%filePath%",
                             "clear-before-set": true,
-                            "delay-before-next": 1000
+                            "delay-time-before-next": 1000
                         },
                         {
                             "type": "set-text",
                             "text": "%fileName%",
                             "clear-before-set": true,
-                            "delay-before-next": 1000
+                            "delay-time-before-next": 1000
                         },
                         {
                             "type": "set-text",
                             "text": "%fileInPath%",
                             "clear-before-set": true,
-                            "delay-before-next": 1000
+                            "delay-time-before-next": 1000
                         },
                         {
                             "type": "set-text",
                             "text": "%fileOutPath%",
                             "clear-before-set": true,
-                            "delay-before-next": 1000
+                            "delay-time-before-next": 1000
                         },
                         {
                             "type": "set-text",
                             "text": "%fileNameNoExt%",
                             "clear-before-set": true,
-                            "delay-before-next": 1000
+                            "delay-time-before-next": 1000
                         }
                     ]
                 }

@@ -14,6 +14,7 @@
  */
 package com.project.dev.selenium.generic.struct;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -34,11 +35,14 @@ import lombok.ToString;
 @NoArgsConstructor
 public class Page implements Cloneable {
 
-    private int id;
+    private Long id;
+    @JsonProperty(value = "url")
     private String url;
-    private long delay;
+    @JsonProperty(value = "delay-time-before-next")
+    private Long delayTimeBeforeNext;
     @Builder.Default
     @ToString.Exclude
+    @JsonProperty(value = "elements")
     private List<Element> elements = new ArrayList<>();
 
     /**

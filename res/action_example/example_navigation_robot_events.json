@@ -6,7 +6,7 @@
     "pages": [
         {
             "url": "https://www.google.com",
-            "delay-before-next": 100,
+            "delay-time-before-next": 100,
             "elements": [
                 {
                     "id": null,
@@ -17,84 +17,84 @@
                             "type": "set-text",
                             "text": "<TEXT_TO_SET>",
                             "clear-before-set": false,
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-mouse-move",
                             "x": 200,
                             "y": 200,
-                            "delay-before-next": 500
+                            "delay-time-before-next": 500
                         },
                         {
                             "type": "robot-mouse-clic",
                             "button": "middle",
                             "event-type": "press",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-mouse-clic",
                             "button": "middle",
                             "event-type": "release",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-mouse-clic",
                             "button": "right",
                             "event-type": "press",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-mouse-clic",
                             "button": "right",
                             "event-type": "release",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-mouse-move",
                             "x": 500,
                             "y": 320,
-                            "delay-before-next": 500
+                            "delay-time-before-next": 500
                         },
                         {
                             "type": "robot-mouse-clic",
                             "button": "left",
                             "event-type": "press",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-mouse-clic",
                             "button": "left",
                             "event-type": "release",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-mouse-clic",
                             "button": "left",
                             "event-type": "press",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-mouse-clic",
                             "button": "left",
                             "event-type": "release",
-                            "delay-before-next": 1000
+                            "delay-time-before-next": 1000
                         },
                         {
                             "type": "robot-type-text",
                             "text": "AWS <TEXT_TO_SET>",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-key",
                             "vk-key-name": "VK_ENTER",
                             "event-type": "press",
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-key",
                             "vk-key-name": "VK_ENTER",
                             "event-type": "release",
-                            "delay-before-next": 10
+                            "delay-time-before-next": 10
                         }
                     ]
                 },
@@ -106,22 +106,22 @@
                         {
                             "type": "wait-page-load",
                             "timeout": 30000,
-                            "delay-before-next": 100
+                            "delay-time-before-next": 100
                         },
                         {
                             "type": "robot-mouse-scroll",
                             "quantity": 1,
-                            "delay-before-next": 500
+                            "delay-time-before-next": 500
                         },
                         {
                             "type": "robot-mouse-scroll",
                             "quantity": 1,
-                            "delay-before-next": 500
+                            "delay-time-before-next": 500
                         },
                         {
                             "type": "robot-mouse-scroll",
                             "quantity": 1,
-                            "delay-before-next": 500
+                            "delay-time-before-next": 500
                         }
                     ]
                 }

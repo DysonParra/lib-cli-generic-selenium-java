@@ -128,7 +128,7 @@ public class EnvironmentProcessor {
                 Page auxPage = Page.builder()
                         .id(PageProcessor.PAGE_INDEX++)
                         .url(url)
-                        .delay(page.getDelay())
+                        .delayTimeBeforeNext(page.getDelayTimeBeforeNext())
                         .elements(page.getElements())
                         .build();
                 pageList.add(auxPage);
@@ -155,7 +155,7 @@ public class EnvironmentProcessor {
                 for (String url : urlFileList) {
                     Navigate navigate = new Navigate();
                     navigate.setType(action.getType());
-                    navigate.setDelay(action.getDelay());
+                    navigate.setDelayTimeBeforeNext(action.getDelayTimeBeforeNext());
                     navigate.setTimeout(((Navigate) action).getTimeout());
                     navigate.setUrl(url);
                     actionList.add(navigate);

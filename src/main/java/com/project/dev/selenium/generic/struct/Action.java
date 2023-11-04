@@ -35,9 +35,10 @@ import org.openqa.selenium.WebElement;
 @NoArgsConstructor
 public abstract class Action implements Cloneable {
 
+    @JsonProperty(value = "type")
     protected String type;
-    @JsonProperty(value = "delay-before-next")
-    protected long delay;
+    @JsonProperty(value = "delay-time-before-next")
+    protected long delayTimeBeforeNext;
 
     /**
      * Get the unique ID of the current {@code Object}
