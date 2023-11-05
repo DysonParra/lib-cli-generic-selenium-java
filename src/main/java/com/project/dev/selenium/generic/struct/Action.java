@@ -14,6 +14,7 @@
  */
 package com.project.dev.selenium.generic.struct;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ import org.openqa.selenium.WebElement;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class Action implements Cloneable {
 
     @JsonProperty(value = "type")

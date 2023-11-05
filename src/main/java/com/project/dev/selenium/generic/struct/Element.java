@@ -14,6 +14,7 @@
  */
 package com.project.dev.selenium.generic.struct;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ import lombok.ToString;
 @Builder
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Element implements Cloneable {
 
     private String id;

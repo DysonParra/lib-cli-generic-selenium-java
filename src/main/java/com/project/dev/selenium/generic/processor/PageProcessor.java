@@ -93,6 +93,7 @@ public class PageProcessor {
             } catch (Exception e) {
                 //e.printStackTrace();
                 System.out.println("Error getting info of current page");
+                System.out.println(e.getMessage());
                 result = false;
             }
             if (result && page != null && elements != null) {
