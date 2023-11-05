@@ -38,8 +38,16 @@ public class Page implements Cloneable {
     private Long id;
     @JsonProperty(value = "url")
     private String url;
+    @JsonProperty(value = "load-page-timeout")
+    private Long loadPageTimeOut;
+    @JsonProperty(value = "max-load-page-tries")
+    private Long maxLoadPageTries;
+    @JsonProperty(value = "max-action-page-tries")
+    private Long maxActionPageTries;
     @JsonProperty(value = "delay-time-before-next")
     private Long delayTimeBeforeNext;
+    @JsonProperty(value = "delay-time-before-retry")
+    private Long delayTimeBeforeRetry;
     @Builder.Default
     @ToString.Exclude
     @JsonProperty(value = "elements")

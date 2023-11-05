@@ -27,8 +27,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +38,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.Command;
 import org.openqa.selenium.devtools.DevTools;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * TODO: Description of {@code SettingsProcessor}.
@@ -56,6 +58,7 @@ public class SettingsProcessor {
     private static int taskId = 0;
     private static int currentIndex = 0;
     private static Map<String, String> flagsMap;
+    private static final int PAGE_ACTIONS_SUCCESS = -1;
     private static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final String DEFAULT_ACTIONS_PACKAGE = "com.project.dev.selenium.generic.struct.action";
 
@@ -80,43 +83,61 @@ public class SettingsProcessor {
      * @return
      */
     public static boolean runPageActions(@NonNull WebDriver driver, @NonNull List<Page> pages) {
+        boolean result = true;
         Page page = pages.get(currentIndex++);
         System.out.println(page);
-        for (Element element : page.getElements()) {
-            WebElement webElm = null;
-            System.out.println(element);
-            for (Action action : element.getActions()) {
-                System.out.println("    " + action);
-                try {
-                    if (element.getId() != null)
-                        webElm = driver.findElement(By.id(element.getId()));
-                    else if (element.getName() != null)
-                        webElm = driver.findElement(By.name(element.getName()));
-                    else
-                        webElm = driver.findElement(By.xpath(element.getXpath()));
-                    action.executeAction(driver, webElm, flagsMap);
-                } catch (Exception e) {
-                    System.out.println("Error executing action in element: " + element);
-                    System.out.println("Date:    " + DATETIME_FORMAT.format(new Date()));
-                    System.out.println("Element: " + webElm);
-                    System.out.println("Message: " + e.getMessage().split("\n")[0]);
-                    System.out.println("");
-                    return false;
-                }
-                try {
-                    Thread.sleep(action.getDelayTimeBeforeNext());
-                } catch (InterruptedException e) {
-                    System.out.println("Error executing sleep");
+        for (int i = 1; i <= page.getMaxActionPageTries(); i++) {
+            System.out.println("Executing actions (Trie " + i + ")");
+            for (Element element : page.getElements()) {
+                WebElement webElm = null;
+                System.out.println(element);
+                for (Action action : element.getActions()) {
+                    System.out.println("    " + action);
+                    try {
+                        if (element.getId() != null)
+                            webElm = driver.findElement(By.id(element.getId()));
+                        else if (element.getName() != null)
+                            webElm = driver.findElement(By.name(element.getName()));
+                        else
+                            webElm = driver.findElement(By.xpath(element.getXpath()));
+                        action.executeAction(driver, webElm, flagsMap);
+                        i = PAGE_ACTIONS_SUCCESS;
+                    } catch (Exception e) {
+                        System.out.println("Error executing action in element: " + element);
+                        System.out.println("Date:    " + DATETIME_FORMAT.format(new Date()));
+                        System.out.println("Element: " + webElm);
+                        System.out.println("Message: " + e.getMessage().split("\n")[0]);
+                        System.out.println("");
+                    }
+                    try {
+                        Thread.sleep(action.getDelayTimeBeforeNext());
+                    } catch (InterruptedException e) {
+                        System.out.println("Error executing sleep");
+                    }
                 }
             }
-        }
 
-        try {
-            Thread.sleep(page.getDelayTimeBeforeNext());
-        } catch (InterruptedException e) {
-            System.out.println("Error executing sleep");
+            if (i == page.getMaxActionPageTries()) {
+                result = false;
+                System.out.println("Error executing actions on page: " + page.getUrl());
+            } else if (i != PAGE_ACTIONS_SUCCESS) {
+                driver.get(page.getUrl());
+                new WebDriverWait(driver, Duration.ofMillis(page.getLoadPageTimeOut()))
+                        .until((WebDriver webDriver) -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState")
+                        .equals("complete"));
+            } else
+                break;
         }
-        return true;
+        if (result) {
+            try {
+                Thread.sleep(page.getDelayTimeBeforeNext());
+            } catch (InterruptedException e) {
+                System.out.println("Error executing sleep");
+            }
+        }
+        System.out.println("");
+        return result;
     }
 
     /**
@@ -166,7 +187,6 @@ public class SettingsProcessor {
             List<String> urlFileList = new ArrayList<>();
             List<File> inputFileList = new ArrayList<>();
             List<Task> taskList = new ArrayList<>();
-            List<String> iterableUrlList = new ArrayList<>();
 
             System.out.println("\nReading files...");
             JSONObject jsonNavigation = null;
@@ -193,15 +213,10 @@ public class SettingsProcessor {
                 LogProcessor.printConfigMap(configMap);
 
                 String startDate = (String) configMap.get("start-date").getCanonicalValue();
+                int delayTimeBeforeEnd = (int) (long) configMap.get("delay-time-before-end").getCanonicalValue();
                 boolean runPageActionsForEachFile = (boolean) configMap.get("run-page-actions-for-each-file").getCanonicalValue();
                 List allowedFileExtensions = (List) configMap.get("allowed-file-extensions").getCanonicalValue();
 
-                int loadPageTimeOut = (int) (long) configMap.get("load-page-timeout").getCanonicalValue();
-                int maxLoadPageTries = (int) (long) configMap.get("max-load-page-tries").getCanonicalValue();
-                int maxActionPageTries = (int) (long) configMap.get("max-action-page-tries").getCanonicalValue();
-                int delayTimeBeforeRetry = (int) (long) configMap.get("delay-time-before-retry").getCanonicalValue();
-                int delayTimeBeforeEnd = (int) (long) configMap.get("delay-time-before-end").getCanonicalValue();
-                
                 if (urlsFilePath != null)
                     result = FileProcessor.forEachLine(urlsFilePath, SettingsProcessor::addUrlToList, urlFileList);
                 LogProcessor.printUrlFileList(urlFileList);
@@ -222,9 +237,6 @@ public class SettingsProcessor {
                 }
 
                 if (result) {
-                    for (Page page : pageList)
-                        iterableUrlList.add(page.getUrl());
-
                     Task aux = Task.builder().pages(pageList).build();
                     for (File file : inputFileList) {
                         Task currentTask;
@@ -240,8 +252,6 @@ public class SettingsProcessor {
 
                     EnvironmentProcessor.replaceEnvsOnTasks(taskList, DEFAULT_ACTIONS_PACKAGE, inputPath, outputPath);
                     LogProcessor.printTaskList(taskList);
-
-                    LogProcessor.printIterableUrlList(iterableUrlList);
 
                     ScheduleProcessor.validateAndWait(startDate);
 
@@ -260,36 +270,20 @@ public class SettingsProcessor {
 
                     for (Task task : taskList) {
                         currentIndex = 0;
-                        for (String url : iterableUrlList) {
-                            if (!result)
-                                break;
-                            for (int i = 1; i <= maxActionPageTries; i++) {
-                                if (UrlProcessor.forEachPage(driver, Arrays.asList(url), maxLoadPageTries,
-                                        delayTimeBeforeRetry, loadPageTimeOut, SettingsProcessor::runPageActions, task.getPages())) {
-                                    break;
-                                }
-                                currentIndex--;
-                                if (i == maxActionPageTries) {
-                                    result = false;
-                                    System.out.println("Error executing actions on page: " + url + "\n");
-                                    break;
-                                }
-
-                                try {
-                                    Thread.sleep(delayTimeBeforeRetry);
-                                } catch (InterruptedException e) {
-                                    System.out.println("Error executing sleep");
-                                }
-                                System.out.println("");
-                            }
+                        result = PageProcessor.forEachPage(driver, task.getPages(),
+                                SettingsProcessor::runPageActions, task.getPages());
+                        if (!result) {
+                            System.out.println("Error executing actions\n");
+                            break;
                         }
                     }
-                    System.out.println("Finish processing pages...");
-
-                    try {
-                        Thread.sleep(delayTimeBeforeEnd);
-                    } catch (InterruptedException e) {
-                        System.out.println("Error executing sleep");
+                    if (result) {
+                        System.out.println("Finish processing pages...");
+                        try {
+                            Thread.sleep(delayTimeBeforeEnd);
+                        } catch (InterruptedException e) {
+                            System.out.println("Error executing sleep");
+                        }
                     }
                     driver.quit();
                 }

@@ -130,7 +130,7 @@ public class UrlProcessor {
      * @return {@code true} si {@code pageFunction} devuelve {@code true} en todas las ejecuciones,
      *         caso contario {@code false}.
      */
-    public static boolean forEachPage(@NonNull WebDriver driver,
+    public static boolean forEachUrl(@NonNull WebDriver driver,
             @NonNull List<String> urlList,
             int maxLoadPageTries,
             int delayTimeBeforeRetry,
@@ -161,7 +161,7 @@ public class UrlProcessor {
      * @return {@code true} si {@code pageBiFunction} devuelve {@code true} en todas las
      *         ejecuciones, caso contario {@code false}.
      */
-    public static <T> boolean forEachPage(@NonNull WebDriver driver,
+    public static <T> boolean forEachUrl(@NonNull WebDriver driver,
             @NonNull List<String> urlList,
             int maxLoadPageTries,
             int delayTimeBeforeRetry,
@@ -175,7 +175,7 @@ public class UrlProcessor {
 
     /**
      * Guarda el código fuente de la página actual donde está {@code driver} y es un ejemplo de
-     * {@code BiFunction} que puede ser usada como parámetro de {@code forEachPage} para almacenar
+     * {@code BiFunction} que puede ser usada como parámetro de {@code forEachUrl} para almacenar
      * guardar el código fuente de cada una de las páginas de la lista.
      *
      * @param driver     es el driver del navegador.

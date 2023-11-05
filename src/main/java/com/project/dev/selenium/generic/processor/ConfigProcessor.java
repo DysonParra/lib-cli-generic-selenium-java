@@ -14,7 +14,10 @@
  */
 package com.project.dev.selenium.generic.processor;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.dev.selenium.generic.struct.Config;
+import com.project.dev.selenium.generic.struct.Page;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -93,4 +96,29 @@ public class ConfigProcessor {
             entry.getValue().setName(entry.getKey());
     }
 
+    /**
+     * TODO: Description of {@code setConfigValuesToPage}.
+     *
+     * @param configMap
+     * @param page
+     */
+    public static void setConfigValuesToPage(@NonNull Map<String, Config> configMap, @NonNull Page page) {
+        for (Field field : Page.class.getDeclaredFields()) {
+            if (field.isAnnotationPresent(JsonProperty.class)) {
+                String annotationValue = field.getAnnotation(JsonProperty.class).value();
+                Config currentConfig = configMap.get(annotationValue);
+                if (currentConfig != null) {
+                    try {
+                        Field currentField = page.getClass().getDeclaredField(field.getName());
+                        currentField.setAccessible(true);
+                        if (currentField.get(page) == null)
+                            currentField.set(page, currentConfig.getCanonicalValue());
+                        currentField.setAccessible(false);
+                    } catch (Exception ex) {
+                        ex.printStackTrace(System.out);
+                    }
+                }
+            }
+        }
+    }
 }
