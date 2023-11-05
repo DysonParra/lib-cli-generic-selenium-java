@@ -84,11 +84,18 @@ public class SettingsProcessor {
      */
     public static boolean runPageActions(@NonNull WebDriver driver, @NonNull List<Page> pages) {
         boolean result = true;
+        boolean elementError = false;
         Page page = pages.get(currentIndex++);
         System.out.println(page);
-        for (int i = 1; i <= page.getMaxActionPageTries(); i++) {
+        for (int i = 1; i <= page.getMaxActionPageTries() + 1; i++) {
+            if (i == page.getMaxActionPageTries() + 1) {
+                result = false;
+                System.out.println("Error executing actions on page: " + page.getUrl());
+                break;
+            }
             System.out.println("Executing actions (Trie " + i + ")");
             for (Element element : page.getElements()) {
+                elementError = false;
                 WebElement webElm = null;
                 System.out.println(element);
                 for (Action action : element.getActions()) {
@@ -101,13 +108,13 @@ public class SettingsProcessor {
                         else
                             webElm = driver.findElement(By.xpath(element.getXpath()));
                         action.executeAction(driver, webElm, flagsMap);
-                        i = PAGE_ACTIONS_SUCCESS;
                     } catch (Exception e) {
-                        System.out.println("Error executing action in element: " + element);
-                        System.out.println("Date:    " + DATETIME_FORMAT.format(new Date()));
-                        System.out.println("Element: " + webElm);
-                        System.out.println("Message: " + e.getMessage().split("\n")[0]);
-                        System.out.println("");
+                        System.out.println("    Error executing action in element: " + element);
+                        System.out.println("    Date:    " + DATETIME_FORMAT.format(new Date()));
+                        System.out.println("    Element: " + webElm);
+                        System.out.println("    Message: " + e.getMessage().split("\n")[0]);
+                        elementError = true;
+                        break;
                     }
                     try {
                         Thread.sleep(action.getDelayTimeBeforeNext());
@@ -115,13 +122,16 @@ public class SettingsProcessor {
                         System.out.println("Error executing sleep");
                     }
                 }
+                if (elementError)
+                    break;
             }
 
-            if (i == page.getMaxActionPageTries()) {
-                result = false;
-                System.out.println("Error executing actions on page: " + page.getUrl());
-            } else if (i != PAGE_ACTIONS_SUCCESS) {
-                driver.get(page.getUrl());
+            if (!elementError)
+                i = PAGE_ACTIONS_SUCCESS;
+
+            if (i != PAGE_ACTIONS_SUCCESS && i != page.getMaxActionPageTries()) {
+                System.out.println("Reloading...");
+                driver.navigate().refresh();
                 new WebDriverWait(driver, Duration.ofMillis(page.getLoadPageTimeOut()))
                         .until((WebDriver webDriver) -> ((JavascriptExecutor) webDriver)
                         .executeScript("return document.readyState")
