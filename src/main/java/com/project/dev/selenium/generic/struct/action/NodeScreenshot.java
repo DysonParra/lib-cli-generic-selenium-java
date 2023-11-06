@@ -160,9 +160,9 @@ public class NodeScreenshot extends Action {
                     if (height * j >= size.getHeight())
                         break;
                     else if ((height * (j + 1)) >= size.getHeight())
-                        posY = (startY + (size.getHeight() - height));
+                        posY = (startY + (size.getHeight() - height) + 1);
                     else
-                        posY = (startY + (height * j));
+                        posY = (startY + (height * j) + 1);
 
                     js.executeScript("window.scrollTo(" + posX + "," + posY + ");");
                     //Thread.sleep(1);
