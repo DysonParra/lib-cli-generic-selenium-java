@@ -21,6 +21,8 @@ import com.project.dev.selenium.generic.struct.Page;
 import com.project.dev.selenium.generic.struct.Task;
 import com.project.dev.selenium.generic.struct.action.Navigate;
 import java.io.File;
+import java.nio.file.Files;
+import java.util.Base64;
 import java.util.List;
 import lombok.NonNull;
 
@@ -38,6 +40,7 @@ public class EnvironmentProcessor {
     public static String fileNameNoExtEnv = "%fileNameNoExt%";
     public static String fileInPathEnv = "%fileInPath%";
     public static String fileOutPathEnv = "%fileOutPath%";
+    public static String fileBase64 = "%fileBae64%";
     public static String urlsFilePathEnv = "%urlsFilePath%";
 
     /**
@@ -67,6 +70,11 @@ public class EnvironmentProcessor {
                                     outputPath.replaceAll(patternIn, patternOut + patternOut)
                             )
                     );
+            try {
+                text = text.replaceAll(fileBase64, Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath())));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
         return text;
     }
