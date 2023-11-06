@@ -40,7 +40,7 @@ public class EnvironmentProcessor {
     public static String fileNameNoExtEnv = "%fileNameNoExt%";
     public static String fileInPathEnv = "%fileInPath%";
     public static String fileOutPathEnv = "%fileOutPath%";
-    public static String fileBase64 = "%fileBae64%";
+    public static String fileBase64 = "%fileBase64%";
     public static String urlsFilePathEnv = "%urlsFilePath%";
 
     /**
