@@ -5,6 +5,7 @@
     },
     "pages": [
         {
+            "type": "page",
             "url": "https://www.google.com.co/search?q=facebook",
             "delay-time-before-next": 100,
             "elements": [

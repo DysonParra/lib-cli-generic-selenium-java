@@ -5,6 +5,7 @@
     },
     "pages": [
         {
+            "type": "page",
             "url": "https://www.facebook.com/?locale=es_LA",
             "delay-time-before-next": 100,
             "elements": [
