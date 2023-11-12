@@ -14,6 +14,7 @@
  */
 package com.project.dev.selenium.generic.struct.action;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.dev.selenium.generic.processor.PageProcessor;
 import com.project.dev.selenium.generic.struct.Action;
@@ -39,6 +40,7 @@ import org.openqa.selenium.WebElement;
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SaveCurrentPage extends Action {
 
     @JsonProperty(value = "output-file-name")

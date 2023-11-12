@@ -14,6 +14,7 @@
  */
 package com.project.dev.selenium.generic.struct.action;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.io.Files;
 import com.project.dev.selenium.generic.struct.Action;
@@ -47,6 +48,7 @@ import org.openqa.selenium.WebElement;
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NodeScreenshot extends Action {
 
     protected static int currentIndex;

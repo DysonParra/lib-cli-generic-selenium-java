@@ -14,6 +14,7 @@
  */
 package com.project.dev.selenium.generic.struct.action;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.dev.selenium.generic.struct.Action;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,7 @@ import org.openqa.selenium.WebElement;
 @Builder
 @Data
 @ToString(callSuper = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Clic extends Action {
 
     /**

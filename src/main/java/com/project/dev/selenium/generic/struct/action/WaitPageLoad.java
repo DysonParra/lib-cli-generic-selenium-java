@@ -14,6 +14,7 @@
  */
 package com.project.dev.selenium.generic.struct.action;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.dev.selenium.generic.struct.Action;
 import java.time.Duration;
@@ -40,6 +41,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WaitPageLoad extends Action {
 
     @JsonProperty(value = "timeout")

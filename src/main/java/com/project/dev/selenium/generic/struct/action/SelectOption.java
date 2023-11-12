@@ -14,6 +14,7 @@
  */
 package com.project.dev.selenium.generic.struct.action;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.dev.selenium.generic.struct.Action;
 import java.util.Map;
@@ -38,6 +39,7 @@ import org.openqa.selenium.support.ui.Select;
 @Data
 @NoArgsConstructor
 @ToString(callSuper = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SelectOption extends Action {
 
     @JsonProperty(value = "index")
