@@ -56,10 +56,10 @@ public class NavigationProcessor {
     public static JSONArray loadPagesFromJson(JSONObject jsonNavigation) {
         JSONArray jsonPages = null;
         try {
-            jsonPages = (JSONArray) jsonNavigation.get("pages");
-            System.out.println("Pages loaded");
+            jsonPages = (JSONArray) jsonNavigation.get("navigation");
+            System.out.println("Navigation loaded");
         } catch (Exception e) {
-            System.out.println("Error getting 'pages'");
+            System.out.println("Error getting 'navigation'");
         }
         return jsonPages;
     }

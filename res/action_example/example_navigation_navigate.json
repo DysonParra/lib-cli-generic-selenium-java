@@ -3,7 +3,7 @@
         "delay-time-before-end": 3000,
         "max-action-page-tries": 10
     },
-    "pages": [
+    "navigation": [
         {
             "type": "page",
             "url": "https://www.google.com.co/search?q=facebook",

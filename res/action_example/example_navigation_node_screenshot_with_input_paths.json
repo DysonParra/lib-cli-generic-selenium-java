@@ -10,7 +10,7 @@
             ".webp"
         ]
     },
-    "pages": [
+    "navigation": [
         {
             "type": "page",
             "url": "https://www.google.com",
