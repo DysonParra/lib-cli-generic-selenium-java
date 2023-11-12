@@ -16,7 +16,7 @@ package com.project.dev.selenium.generic.struct.action;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.dev.selenium.generic.processor.PageProcessor;
+import com.project.dev.selenium.generic.processor.NavigationProcessor;
 import com.project.dev.selenium.generic.struct.Action;
 import java.io.File;
 import java.util.Map;
@@ -60,9 +60,9 @@ public class SaveCurrentPage extends Action {
         //System.out.println("SaveCurrentPage");
         String outputPath = flagsMap.get("-outputPath");
         if (outputFileName == null)
-            PageProcessor.getPageSource(driver, outputPath);
+            NavigationProcessor.getPageSource(driver, outputPath);
         else
-            PageProcessor.getPageSource(driver, new File(outputPath, outputFileName));
+            NavigationProcessor.getPageSource(driver, new File(outputPath, outputFileName));
         return true;
     }
 

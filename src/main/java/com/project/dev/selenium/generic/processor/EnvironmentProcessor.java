@@ -132,13 +132,13 @@ public class EnvironmentProcessor {
         if (!page.getUrl().equals(urlsFilePathEnv)) {
             pageList.add(page);
         } else if (!urlFileList.isEmpty()) {
-            PageProcessor.PAGE_INDEX--;
+            NavigationProcessor.PAGE_INDEX--;
             List<Element> elements = page.getElements();
             page.setElements(null);
             for (String url : urlFileList) {
                 try {
                     Page auxPage = mapper.readValue(mapper.writeValueAsString(page), Page.class);
-                    auxPage.setId(PageProcessor.PAGE_INDEX++);
+                    auxPage.setId(NavigationProcessor.PAGE_INDEX++);
                     auxPage.setUrl(url);
                     auxPage.setElements(elements);
                     pageList.add(auxPage);

@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {PageProcessor}
+ * @fileoverview    {NavigationProcessor}
  *
  * @version         2.0
  *
@@ -38,12 +38,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
- * TODO: Description of {@code PageProcessor}.
+ * TODO: Description of {@code NavigationProcessor}.
  *
  * @author Dyson Parra
  * @since 11
  */
-public class PageProcessor {
+public class NavigationProcessor {
 
     public static Long PAGE_INDEX = 0l;
 

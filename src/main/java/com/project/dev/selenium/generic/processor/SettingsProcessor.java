@@ -211,7 +211,7 @@ public class SettingsProcessor {
 
             jsonData = DataProcessor.loadDataFromFile(dataFilePath);
             jsonConfig = ConfigProcessor.loadConfigFromJson(jsonNavigation);
-            jsonPages = PageProcessor.loadPagesFromJson(jsonNavigation);
+            jsonPages = NavigationProcessor.loadPagesFromJson(jsonNavigation);
 
             if (jsonConfig == null || jsonPages == null || jsonData == null)
                 result = false;
@@ -243,7 +243,7 @@ public class SettingsProcessor {
                         inputFileList.clear();
                         inputFileList.add(null);
                     }
-                    result = PageProcessor.parsePages(pageList, jsonPages, jsonData, urlFileList, configMap);
+                    result = NavigationProcessor.parsePages(pageList, jsonPages, jsonData, urlFileList, configMap);
                 }
 
                 if (result) {
@@ -280,7 +280,7 @@ public class SettingsProcessor {
 
                     for (Task task : taskList) {
                         currentIndex = 0;
-                        result = PageProcessor.forEachPage(driver, task.getPages(),
+                        result = NavigationProcessor.forEachPage(driver, task.getPages(),
                                 SettingsProcessor::runPageActions, task.getPages());
                         if (!result) {
                             System.out.println("Error executing actions\n");
