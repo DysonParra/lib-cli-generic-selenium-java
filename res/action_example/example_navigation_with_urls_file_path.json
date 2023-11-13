@@ -10,6 +10,7 @@
             "delay-time-before-next": 100,
             "elements": [
                 {
+                    "type": "page-element",
                     "id": null,
                     "name": null,
                     "xpath": "//textarea",
@@ -30,6 +31,7 @@
             "delay-time-before-next": 100,
             "elements": [
                 {
+                    "type": "page-element",
                     "id": null,
                     "name": null,
                     "xpath": "//body",
@@ -49,6 +51,7 @@
             "delay-time-before-next": 100,
             "elements": [
                 {
+                    "type": "page-element",
                     "id": null,
                     "name": null,
                     "xpath": "//body",

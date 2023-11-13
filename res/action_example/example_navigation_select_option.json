@@ -10,6 +10,7 @@
             "delay-time-before-next": 100,
             "elements": [
                 {
+                    "type": "page-element",
                     "id": null,
                     "name": null,
                     "xpath": "//a[@data-testid='open-registration-form-button']",
@@ -21,6 +22,7 @@
                     ]
                 },
                 {
+                    "type": "page-element",
                     "id": "day",
                     "name": null,
                     "xpath": null,
@@ -33,6 +35,7 @@
                     ]
                 },
                 {
+                    "type": "page-element",
                     "id": "month",
                     "name": null,
                     "xpath": null,
@@ -45,6 +48,7 @@
                     ]
                 },
                 {
+                    "type": "page-element",
                     "id": "year",
                     "name": null,
                     "xpath": null,
