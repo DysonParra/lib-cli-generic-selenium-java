@@ -10,7 +10,7 @@
             "delay-time-before-next": 100,
             "elements": [
                 {
-                    "type": "page-element",
+                    "type": "dom-element",
                     "id": null,
                     "name": null,
                     "xpath": "//h3",
@@ -22,7 +22,7 @@
                     ]
                 },
                 {
-                    "type": "page-element",
+                    "type": "dom-element",
                     "id": null,
                     "name": null,
                     "xpath": "//body",
@@ -35,7 +35,7 @@
                     ]
                 },
                 {
-                    "type": "page-element",
+                    "type": "dom-element",
                     "id": "email",
                     "name": null,
                     "xpath": null,
