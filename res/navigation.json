@@ -1,5 +1,6 @@
 {
     "config": {
+        "only-validate-config-files": true,
         "delay-time-before-end": 3000,
         "max-action-page-tries": 2
     },

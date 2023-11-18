@@ -1,5 +1,6 @@
 {
     "config": {
+        "only-validate-config-files": false,
         "delay-time-before-end": 3000,
         "max-action-page-tries": 2,
         "root-path": "res/input",
@@ -8,9 +9,7 @@
             ".jpeg",
             ".png",
             ".webp"
-        ],
-        "float": 3.59,
-        "long": 58
+        ]
     },
     "navigation": [
         {

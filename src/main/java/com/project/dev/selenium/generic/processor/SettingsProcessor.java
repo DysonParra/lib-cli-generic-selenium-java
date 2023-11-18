@@ -207,8 +207,14 @@ public class SettingsProcessor {
 
                     if (result) {
                         LogProcessor.printPageList(pageList);
-                        ScheduleProcessor.validateAndWait(startDate);
+                        
+                        if(configMap.get("only-validate-config-files").getCanonicalValue().equals(true)) {
+                            System.out.println("\nOnly validate specified.\n");
+                            return true;
+                        }
 
+                        ScheduleProcessor.validateAndWait(startDate);
+                        
                         System.setProperty("webdriver.chrome.driver", chromeDriverPath);
                         ChromeOptions options = new ChromeOptions();
                         options.addArguments("user-data-dir=" + chromeUserDataDir);

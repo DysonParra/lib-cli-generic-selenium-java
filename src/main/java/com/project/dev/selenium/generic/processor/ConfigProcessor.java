@@ -57,6 +57,7 @@ public class ConfigProcessor {
      */
     public static Map<String, Config> initConfigMap() {
         Map<String, Config> configMap = new HashMap<>();
+        configMap.put("only-validate-config-files", Config.builder().type(Boolean.class).defaultValue(false).build());
         configMap.put("start-date", Config.builder().type(String.class).defaultValue(null).build());
         configMap.put("delay-time-before-end", Config.builder().type(Long.class).defaultValue(1000l).build());
 
