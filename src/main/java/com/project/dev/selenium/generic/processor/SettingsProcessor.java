@@ -98,7 +98,7 @@ public class SettingsProcessor {
                         System.out.println("    Error executing action in element: " + element);
                         System.out.println("    Date:    " + DATETIME_FORMAT.format(new Date()));
                         System.out.println("    Element: " + webElm);
-                        System.out.println("    Message: " + e.getMessage().split("\n")[0]);
+                        System.out.println("    Message: " + (e.getMessage() == null ? e : e.getMessage().split("\n")[0]));
                         elementError = true;
                         break;
                     }
@@ -207,14 +207,14 @@ public class SettingsProcessor {
 
                     if (result) {
                         LogProcessor.printPageList(pageList);
-                        
-                        if(configMap.get("only-validate-config-files").getCanonicalValue().equals(true)) {
+
+                        if (configMap.get("only-validate-config-files").getCanonicalValue().equals(true)) {
                             System.out.println("\nOnly validate specified.\n");
                             return true;
                         }
 
                         ScheduleProcessor.validateAndWait(startDate);
-                        
+
                         System.setProperty("webdriver.chrome.driver", chromeDriverPath);
                         ChromeOptions options = new ChromeOptions();
                         options.addArguments("user-data-dir=" + chromeUserDataDir);
