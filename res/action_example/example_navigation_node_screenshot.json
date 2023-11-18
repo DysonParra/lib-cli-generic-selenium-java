@@ -17,6 +17,7 @@
                     "actions": [
                         {
                             "type": "node-screenshot",
+                            "include-image-number": true,
                             "output-path": "<OUTPUT_PATH>",
                             "output-file-name-no-ext": "<SCREENSHOT_NAME>",
                             "delay-time-before-next": 100

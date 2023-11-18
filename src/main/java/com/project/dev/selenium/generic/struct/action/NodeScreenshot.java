@@ -51,6 +51,9 @@ import org.openqa.selenium.WebElement;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NodeScreenshot extends Action {
 
+    protected static int currentIndex;
+    @JsonProperty(value = "include-image-number")
+    protected boolean includeImageNumber;
     @JsonProperty(value = "output-path")
     protected String outputPath;
     @JsonProperty(value = "output-file-name-no-ext")
@@ -68,6 +71,8 @@ public class NodeScreenshot extends Action {
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
         new File(outputPath).mkdirs();
+        if (includeImageNumber)
+            outputFileNameNoExt += "-" + String.format("%03d", ++currentIndex);
         if (NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath, outputFileNameNoExt))
             return true;
         else
