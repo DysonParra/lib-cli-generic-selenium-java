@@ -5,19 +5,19 @@
     },
     "navigation": [
         {
-            "type": "navigation-range-file-lines",
-            "input-file-path": "<INPUT_FILE>",
-            "line-pattern": "^(http://|https://).+",
+            "type": "navigation-range-date",
+            "start": "2023-01-23",
+            "end": "2023-01-23",
             "navigation": [
                 {
                     "type": "page",
-                    "url": "%navRangeValue%",
+                    "url": "https://www.google.com",
                     "delay-time-before-next": 100,
                     "elements": [
                         {
-                            "type": "element-range-file-lines",
-                            "input-file-path": "<INPUT_FILE>",
-                            "line-pattern": "^(?!(http://|https://)).+",
+                            "type": "element-range-date",
+                            "start": "2023-03-23",
+                            "end": "2023-03-24",
                             "elements": [
                                 {
                                     "type": "dom-element",
@@ -27,7 +27,13 @@
                                     "actions": [
                                         {
                                             "type": "set-text",
-                                            "text": "ELM: %elmRangeValue%",
+                                            "text": "NAV_%navRangeValue% (%navRangeDay%/%navRangeMonth%/%navRangeYear%)",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "ELM_%elmRangeValue% (%elmRangeDay%/%elmRangeMonth%/%elmRangeYear%)",
                                             "clear-before-set": true,
                                             "delay-time-before-next": 1000
                                         }

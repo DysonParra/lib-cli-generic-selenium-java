@@ -15,17 +15,17 @@
 package com.project.dev.selenium.generic.processor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.dev.selenium.generic.struct.Action;
 import com.project.dev.selenium.generic.struct.Config;
 import com.project.dev.selenium.generic.struct.Element;
-import com.project.dev.selenium.generic.struct.Page;
+import com.project.dev.selenium.generic.struct.Navigation;
+import com.project.dev.selenium.generic.struct.NavigationRange;
+import com.project.dev.selenium.generic.struct.navigation.Page;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -33,6 +33,7 @@ import java.util.function.Function;
 import lombok.NonNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -45,115 +46,185 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class NavigationProcessor {
 
+    public static final String DEFAULT_NAVIGATIONS_PACKAGE = "com.project.dev.selenium.generic.struct.navigation";
     public static Long PAGE_INDEX = 0l;
 
     /**
-     * TODO: Description of {@code loadPagesFromJson}.
+     * TODO: Description of {@code loadNavigationFromJson}.
      *
-     * @param jsonNavigation
+     * @param jsonInputFile
      * @return
      */
-    public static JSONArray loadPagesFromJson(JSONObject jsonNavigation) {
-        JSONArray jsonPages = null;
+    public static JSONArray loadNavigationFromJson(JSONObject jsonInputFile) {
+        JSONArray jsonInput = null;
         try {
-            jsonPages = (JSONArray) jsonNavigation.get("navigation");
+            jsonInput = (JSONArray) jsonInputFile.get("navigation");
             System.out.println("Navigation loaded");
         } catch (Exception e) {
             System.out.println("Error getting 'navigation'");
         }
-        return jsonPages;
+        return jsonInput;
+    }
+
+    /**
+     * TODO: Description of {@code parseNavigation}.
+     *
+     * @param jsonInput
+     * @param configMap
+     * @param mapper
+     * @return
+     */
+    public static List<Navigation> parseNavigation(JSONArray jsonInput, Map<String, Config> configMap, ObjectMapper mapper) {
+        List<Navigation> resultList = new ArrayList<>();
+        String recursiveNode = "navigation";
+        String childNode = "elements";
+        for (Object current : jsonInput) {
+            try {
+                JSONObject jsonCurrent = (JSONObject) current;
+                JSONArray arrayRecursive = (JSONArray) jsonCurrent.get(recursiveNode);
+                JSONArray arrayChild = (JSONArray) jsonCurrent.get(childNode);
+                String type = (String) jsonCurrent.get("type");
+                List<Navigation> listRecursiveAux = null;
+                List<Element> listChildAux = null;
+
+                if (arrayRecursive != null) {
+                    jsonCurrent.remove(recursiveNode);
+                    listRecursiveAux = NavigationProcessor.parseNavigation(arrayRecursive, configMap, mapper);
+                    if (listRecursiveAux == null) {
+                        resultList = null;
+                        break;
+                    }
+                } else if (arrayChild != null) {
+                    jsonCurrent.remove(childNode);
+                    listChildAux = ElementProcessor.parseElements(arrayChild, configMap, mapper);
+                    if (listChildAux == null) {
+                        resultList = null;
+                        break;
+                    }
+                }
+
+                String className = DEFAULT_NAVIGATIONS_PACKAGE + '.';
+                String[] classNameAux = type.split("-");
+                for (String name : classNameAux)
+                    className += name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
+
+                Class currentClass = Class.forName(className);
+                Navigation entity = (Navigation) mapper.readValue(current.toString(), currentClass);
+                if (configMap != null)
+                    ConfigProcessor.setConfigValuesToObject(configMap, entity);
+
+                if (entity instanceof Page)
+                    ((Page) entity).setElements(listChildAux);
+                else if (entity instanceof NavigationRange)
+                    ((NavigationRange) entity).setNavigation(listRecursiveAux);
+                resultList.add(entity);
+            } catch (Exception e) {
+                e.printStackTrace(System.out);
+                resultList = null;
+                break;
+            }
+        }
+        return resultList;
+    }
+
+    /**
+     * TODO: Description of {@code removeNavigationRanges}.
+     *
+     * @param navigationList
+     * @param currentRange
+     * @param currentValue
+     * @param mapper
+     * @return
+     *
+     */
+    private static List<Navigation> removeNavigationRanges(@NonNull List<Navigation> navigationList,
+            NavigationRange currentRange, Object currentValue, ObjectMapper mapper) {
+        List<Navigation> newList = new ArrayList<>();
+        for (Navigation current : navigationList) {
+            if (current != null) {
+                if (current instanceof NavigationRange) {
+                    NavigationRange range = (NavigationRange) current;
+                    List listRange = range.getRange();
+                    if (listRange == null || listRange.isEmpty()) {
+                        System.out.println("\nInvalid range for " + range);
+                        newList = null;
+                        break;
+                    } else
+                        for (Object c : listRange) {
+                            try {
+                                List<Navigation> recursive = removeNavigationRanges(range.getNavigation(), range, c, mapper);
+                                if (recursive == null) {
+                                    newList = null;
+                                    break;
+                                } else
+                                    newList.addAll(recursive);
+                            } catch (Exception e) {
+                                e.printStackTrace(System.out);
+                            }
+                        }
+                } else if (current instanceof Page) {
+                    try {
+                        Page aux = (Page) current;
+                        List<Element> auxList = ElementProcessor.removeElementRanges(
+                                aux.getElements(), null, null, mapper);
+                        if (auxList == null || auxList.isEmpty()) {
+                            newList = null;
+                            break;
+                        }
+                        aux.setElements(auxList);
+                        if (currentValue != null) {
+                            String currentStr = mapper.writeValueAsString(current);
+                            currentStr = currentRange.replaceEnvs(currentStr, currentValue);
+                            JSONObject inputJson = (JSONObject) new JSONParser().parse(currentStr);
+                            String node = "elements";
+                            List<Element> elements = ElementProcessor.parseElements(
+                                    (JSONArray) inputJson.get(node), null, mapper
+                            );
+                            inputJson.remove(node);
+                            aux = mapper.readValue(inputJson.toString(), Page.class);
+                            aux.setElements(elements);
+                            if (newList != null)
+                                newList.add(aux);
+                        } else if (newList != null) {
+                            newList.add((Page) aux.clone());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace(System.out);
+                    }
+                }
+            }
+        }
+        return newList;
     }
 
     /**
      * TODO: Description of {@code parsePages}.
      *
      * @param pageList
-     * @param jsonPages
-     * @param jsonData
-     * @param urlFileList
+     * @param jsonInput
      * @param configMap
      * @return
      */
-    public static boolean parsePages(@NonNull List<Page> pageList, JSONArray jsonPages, JSONObject jsonData, List<String> urlFileList, Map<String, Config> configMap) {
+    public static boolean parsePages(@NonNull List<Page> pageList, JSONArray jsonInput, Map<String, Config> configMap) {
         boolean result = true;
         ObjectMapper mapper = new ObjectMapper();
-        for (Object currentPage : jsonPages) {
-            Page page = null;
-            List<Element> elementsArray = new ArrayList<>();
-            JSONArray elements = null;
-            try {
-                JSONObject jsonCurrentPage = (JSONObject) currentPage;
-                elements = (JSONArray) jsonCurrentPage.get("elements");
-                jsonCurrentPage.remove("elements");
-                page = mapper.readValue(jsonCurrentPage.toJSONString(), Page.class);
-                page.setId(PAGE_INDEX++);
-                ConfigProcessor.setConfigValuesToPage(configMap, page);
-                if (page.getUrl() == null)
-                    throw new Exception("Page can't be null");
-            } catch (Exception e) {
-                //e.printStackTrace();
-                System.out.println("Error getting info of current page");
-                System.out.println(e.getMessage());
+        List<Navigation> list = parseNavigation(jsonInput, configMap, mapper);
+        if (list == null) {
+            System.out.println("Error parsing navigation json");
+            result = false;
+        } else {
+            //LogProcessor.printNavigationList(list);
+            //System.out.println("");
+            list = removeNavigationRanges(list, null, null, mapper);
+            if (list == null) {
+                System.out.println("Error processing ranges");
                 result = false;
-            }
-            if (result && page != null && elements != null) {
-                for (Object currentElement : elements) {
-                    if (!result)
-                        break;
-                    try {
-                        JSONObject jsonCurrentElement = (JSONObject) currentElement;
-                        Element element = Element.builder()
-                                .id(DataProcessor.replaceData(jsonData, (String) jsonCurrentElement.get("id")))
-                                .name(DataProcessor.replaceData(jsonData, (String) jsonCurrentElement.get("name")))
-                                .xpath(DataProcessor.replaceData(jsonData, (String) jsonCurrentElement.get("xpath")))
-                                .build();
-                        List<Action> actionList = new ArrayList<>();
-                        for (Object currentAction : (JSONArray) jsonCurrentElement.get("actions")) {
-                            JSONObject jsonCurrentAction = (JSONObject) currentAction;
-                            String type = DataProcessor.replaceData(jsonData, (String) jsonCurrentAction.get("type"));
-                            for (Iterator iterator = jsonCurrentAction.keySet().iterator(); iterator.hasNext();) {
-                                String key = (String) iterator.next();
-                                Object value = jsonCurrentAction.get(key);
-                                if (value instanceof String)
-                                    jsonCurrentAction.put(key, DataProcessor.replaceData(jsonData, (String) value));
-                                else if (value instanceof List) {
-                                    List list = (List) value;
-                                    for (int i = 0; i < list.size(); i++) {
-                                        Object elm = list.get(i);
-                                        if (elm instanceof String) {
-                                            list.remove(i);
-                                            list.add(i, DataProcessor.replaceData(jsonData, (String) elm));
-                                        }
-                                    }
-                                }
-                            }
-                            String className = SettingsProcessor.DEFAULT_ACTIONS_PACKAGE + '.';
-                            String[] classNameAux = type.split("-");
-                            for (String name : classNameAux)
-                                className += name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
-
-                            Class actionClass = Class.forName(className);
-                            Action action = (Action) mapper.readValue(currentAction.toString(), actionClass);
-                            result = EnvironmentProcessor.replaceEnvsOnActionNavigate(urlFileList, actionList, action);
-                            if (!result)
-                                break;
-                        }
-                        element.setActions(actionList);
-                        elementsArray.add(element);
-                    } catch (Exception e) {
-                        System.out.println("Error parsing element:");
-                        System.out.println(currentElement);
-                        //e.printStackTrace();
-                        result = false;
-                        break;
-                    }
-                }
-                page.setElements(elementsArray);
-                result = EnvironmentProcessor.replaceEnvsOnPages(urlFileList, pageList, page);
-                if (!result)
-                    break;
+            } else {
+                for (Object c : list)
+                    pageList.add((Page) c);
             }
         }
+
         return result;
     }
 

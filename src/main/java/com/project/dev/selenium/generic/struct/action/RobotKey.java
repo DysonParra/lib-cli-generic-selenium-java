@@ -58,7 +58,6 @@ public class RobotKey extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("RobotKey");
         RobotEvent event = new RobotEvent();
         if (eventType != null && vkKeyName != null)
             if (eventType.equals("press"))

@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {Task}
+ * @fileoverview    {Navigation}
  *
  * @version         2.0
  *
@@ -14,39 +14,34 @@
  */
 package com.project.dev.selenium.generic.struct;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+//import lombok.ToString;
 
 /**
- * TODO: Description of {@code Task}.
+ * TODO: Description of {@code Navigation}.
  *
  * @author Dyson Parra
  * @since 11
  */
 @AllArgsConstructor
-@Builder
 @Data
 @NoArgsConstructor
-public class Task implements Cloneable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class Navigation implements Cloneable {
 
-    private int id;
-    private File file;
-    @Builder.Default
-    @ToString.Exclude
-    private List<Page> pages = new ArrayList<>();
+    @JsonProperty(value = "type")
+    protected String type;
 
     /**
      * Get the unique ID of the current {@code Object}
      *
      * @return The unique Id of the current {@code Object}
      */
-    @ToString.Include
+    //@ToString.Include
     public int uniqueId() {
         return System.identityHashCode(this);
     }
@@ -59,19 +54,7 @@ public class Task implements Cloneable {
      */
     @Override
     public Object clone() throws CloneNotSupportedException {
-        Task copy = (Task) super.clone();
-        if (this.pages != null) {
-            List<Page> list = new ArrayList<>();
-            pages.forEach(current -> {
-                try {
-                    list.add((Page) current.clone());
-                } catch (CloneNotSupportedException ex) {
-                    System.out.println("Error cloning: " + current);
-                }
-            });
-            copy.setPages(list);
-        }
-        return copy;
+        return super.clone();
     }
 
 }

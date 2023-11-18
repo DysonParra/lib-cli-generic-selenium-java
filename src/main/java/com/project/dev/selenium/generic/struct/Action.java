@@ -21,9 +21,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.ToString;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+//import lombok.ToString;
 
 /**
  * TODO: Description of {@code Action}.
@@ -47,7 +47,7 @@ public abstract class Action implements Cloneable {
      *
      * @return The unique Id of the current {@code Object}
      */
-    @ToString.Include
+    //@ToString.Include
     public int uniqueId() {
         return System.identityHashCode(this);
     }

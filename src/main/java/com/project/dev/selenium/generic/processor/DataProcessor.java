@@ -42,7 +42,6 @@ public class DataProcessor {
             System.out.println("File: '" + dataFilePath + "' success readed.");
             System.out.println("Data loaded");
         } catch (Exception e) {
-            //e.printStackTrace();
             System.out.println("Error reading the file: '" + dataFilePath + "'");
         }
         return jsonData;

@@ -56,7 +56,6 @@ public class RobotMouseScroll extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("RobotMouseScroll");
         RobotEvent event = new RobotEvent();
         event.mouseWheel(quantity);
         return true;

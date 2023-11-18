@@ -35,39 +35,28 @@ public class SeleniumProcessor {
         System.out.println("\n...START...");
 
         String requiredFlags[][] = {
-            {"-chromeDriverPath"},
             {"-navigationFilePath"},
             {"-dataFilePath"},
-            {"-outputPath"}
+            {"-chromeDriverPath"}
         };
 
         String optionalFlags[][] = {
-            {"-inputPath"},
-            {"-urlsFilePath"},
             {"-chromeProfileDir"},
             {"-chromeUserDataDir"},
             {"--notUseIncognito"}
         };
 
         String defaultArgs[] = {
-            "-chromeDriverPath",
-            "res\\chromedriver.exe",
             "-navigationFilePath",
             "res\\navigation.json",
             "-dataFilePath",
             "res\\data.json",
-            "-urlsFilePath",
-            "res\\urls.xml",
-            "-inputPath",
-            "res\\input",
-            "-outputPath",
-            "res\\output",
+            "-chromeDriverPath",
+            "res\\chromedriver.exe",
             "-chromeProfileDir",
             "Profile 1",
             "--notUseIncognito",};
 
-        // for (String arg : args)
-        //     System.out.println(arg);
         Flag[] flags;
         flags = FlagProcessor.convertArgsToFlags(args, defaultArgs, requiredFlags, optionalFlags, true);
         if (flags == null) {

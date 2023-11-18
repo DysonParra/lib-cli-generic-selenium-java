@@ -54,7 +54,7 @@ public class Config {
     @Override
     public String toString() {
         return "Config{" + "name=" + name
-                // + ", type=" + type
+                + ", type=" + type
                 + ", defaultValue=" + (defaultValue instanceof Object[] ? Arrays.toString((Object[]) defaultValue) : defaultValue)
                 + ", value=" + (value instanceof Object[] ? Arrays.toString((Object[]) value) : value) + '}';
     }

@@ -56,7 +56,6 @@ public class SelectOption extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("SelectOption");
         Select select = new Select(element);
         select.selectByIndex(index);
         return true;

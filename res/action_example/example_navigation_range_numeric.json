@@ -5,19 +5,19 @@
     },
     "navigation": [
         {
-            "type": "navigation-range-file-lines",
-            "input-file-path": "<INPUT_FILE>",
-            "line-pattern": "^(http://|https://).+",
+            "type": "navigation-range-numeric",
+            "start": 5,
+            "end": 6,
             "navigation": [
                 {
                     "type": "page",
-                    "url": "%navRangeValue%",
+                    "url": "https://www.google.com",
                     "delay-time-before-next": 100,
                     "elements": [
                         {
-                            "type": "element-range-file-lines",
-                            "input-file-path": "<INPUT_FILE>",
-                            "line-pattern": "^(?!(http://|https://)).+",
+                            "type": "element-range-numeric",
+                            "start": 1,
+                            "end": 2,
                             "elements": [
                                 {
                                     "type": "dom-element",
@@ -27,7 +27,7 @@
                                     "actions": [
                                         {
                                             "type": "set-text",
-                                            "text": "ELM: %elmRangeValue%",
+                                            "text": "<TEXT_TO_SET>_NAV_%navRangeValue%_ELM_%elmRangeValue%",
                                             "clear-before-set": true,
                                             "delay-time-before-next": 1000
                                         }

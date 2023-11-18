@@ -1,0 +1,111 @@
+{
+    "config": {
+        "delay-time-before-end": 3000,
+        "max-action-page-tries": 2,
+        "root-path": "res/input",
+        "allowed-file-extensions": [
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".webp"
+        ],
+        "float": 3.59,
+        "long": 58
+    },
+    "navigation": [
+        {
+            "type": "navigation-range-file-list",
+            "allowed-file-extensions": [
+                ".jpg"
+            ],
+            "navigation": [
+                {
+                    "type": "page",
+                    "url": "https://www.google.com",
+                    "delay-time-before-next": 100,
+                    "elements": [
+                        {
+                            "type": "element-range-file-list",
+                            "elements": [
+                                {
+                                    "type": "dom-element",
+                                    "id": null,
+                                    "name": null,
+                                    "xpath": "//textarea",
+                                    "actions": [
+                                        {
+                                            "type": "set-text",
+                                            "text": "navRangeValue:             NAV '%navRangeValue%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "elmFileFullPath:           ELM '%elmFileFullPath%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "elmFilePath:               ELM '%elmFilePath%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "elmFileOnlyPath:           ELM '%elmFileOnlyPath%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "elmFileName:               ELM '%elmFileName%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "elmFileNameNoExt:          ELM '%elmFileNameNoExt%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "elmFileRootPath:           ELM '%elmFileRootPath%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "elmFilePathNoRootPath:     ELM '%elmFilePathNoRootPath%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "elmFileOnlyPathNoRootPath: ELM '%elmFileOnlyPathNoRootPath%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "custom:                    ELM '<OUTPUT_PATH>/%elmFilePathNoRootPath%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "custom:                    ELM '<OUTPUT_PATH>/%elmFileOnlyPathNoRootPath%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

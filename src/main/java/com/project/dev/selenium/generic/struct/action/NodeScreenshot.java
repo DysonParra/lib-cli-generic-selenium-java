@@ -51,11 +51,10 @@ import org.openqa.selenium.WebElement;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class NodeScreenshot extends Action {
 
-    protected static int currentIndex;
-    @JsonProperty(value = "output-base-file-name")
-    protected String outputBaseFileName;
     @JsonProperty(value = "output-path")
     protected String outputPath;
+    @JsonProperty(value = "output-file-name-no-ext")
+    protected String outputFileNameNoExt;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
@@ -68,16 +67,11 @@ public class NodeScreenshot extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("NodeScreenshot");
-        if (outputPath == null) {
-            outputPath = flagsMap.get("-outputPath");
-            NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath,
-                    outputBaseFileName + "-" + String.format("%03d", ++currentIndex));
-        } else {
-            new File(outputPath).mkdirs();
-            NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath, outputBaseFileName);
-        }
-        return true;
+        new File(outputPath).mkdirs();
+        if (NodeScreenshot.getFullNodeScreenshot(driver, element, outputPath, outputFileNameNoExt))
+            return true;
+        else
+            throw new Exception("Screenshot could not be saved");
     }
 
     /**
@@ -93,7 +87,6 @@ public class NodeScreenshot extends Action {
      */
     private static void mergeImages(Dimension size, String outputPath, String imageName, int rows, int columns) {
         try {
-            //System.out.println("Size" + size);
             BufferedImage outBuff = new BufferedImage(size.getWidth(), size.getHeight(), BufferedImage.TYPE_INT_ARGB);
             Graphics graphic = outBuff.getGraphics();
 
@@ -130,16 +123,18 @@ public class NodeScreenshot extends Action {
      * @param node        es el nodo al que se le va a tomar una captura.
      * @param outputPath  es la ruta donde se va a guardar la imagen.
      * @param imgBaseName es el prefijo que va a tener cada imagen en su nombre.
+     * @return Sise pudo ejecutar la tarea correctamente.
      */
-    public static void getFullNodeScreenshot(@NonNull WebDriver driver, @NonNull WebElement node, String outputPath, String imgBaseName) {
+    public static boolean getFullNodeScreenshot(@NonNull WebDriver driver, @NonNull WebElement node, String outputPath, String imgBaseName) {
+        boolean result;
         try {
             JavascriptExecutor js = (JavascriptExecutor) driver;
             File scrFile;
             File output;
             Point location = node.getLocation();
             Dimension size = node.getSize();
-            System.out.println("Pos" + location);
-            System.out.println("Size" + size);
+            System.out.println("    Pos" + location);
+            System.out.println("    Size" + size);
 
             int startX = location.getX();
             int startY = location.getY();
@@ -167,7 +162,6 @@ public class NodeScreenshot extends Action {
                         posY = (startY + (height * j) + 1);
 
                     js.executeScript("window.scrollTo(" + posX + "," + posY + ");");
-                    //Thread.sleep(1);
                     scrFile = ((TakesScreenshot) node).getScreenshotAs(OutputType.FILE);
                     output = new File(outputPath + "\\" + imgBaseName + "-" + (i + 1) + "-" + (j + 1) + ".png");
                     Files.copy(scrFile, output);
@@ -175,17 +169,16 @@ public class NodeScreenshot extends Action {
                         BufferedImage bimg = ImageIO.read(output);
                         width = bimg.getWidth();
                         height = bimg.getHeight();
-                        //System.out.println("Image(" + width + ", " + height + ")");
                     }
-
-                    //System.out.print(j + ": Start(" + posX + "," + posY + ")");
-                    //System.out.println("   End(" + (posX + width) + "," + (posY + height) + ")");
                 }
             }
             mergeImages(size, outputPath, imgBaseName, i, j);
+            result = true;
         } catch (Exception e) {
             e.printStackTrace(System.out);
+            result = false;
         }
+        return result;
     }
 
 }

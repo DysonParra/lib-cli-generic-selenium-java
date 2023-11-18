@@ -41,10 +41,10 @@ import org.openqa.selenium.WebElement;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SetText extends Action {
 
-    @JsonProperty(value = "text")
-    protected String text;
     @JsonProperty(value = "clear-before-set")
     protected boolean clearBeforeSet;
+    @JsonProperty(value = "text")
+    protected String text;
 
     /**
      * Ejecuta una acción en el elemento de la página actual.
@@ -57,7 +57,6 @@ public class SetText extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("SetText");
         if (clearBeforeSet)
             element.clear();
         element.sendKeys(text);

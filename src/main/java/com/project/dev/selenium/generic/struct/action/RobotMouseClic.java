@@ -58,7 +58,6 @@ public class RobotMouseClic extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("RobotMouseClic");
         RobotEvent event = new RobotEvent();
         if (eventType != null && button != null)
             if (button.equals("left") && eventType.equals("press"))

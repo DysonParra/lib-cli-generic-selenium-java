@@ -58,12 +58,10 @@ public class WaitPageLoad extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("WaitPageLoad");
         new WebDriverWait(driver, Duration.ofMillis(timeout))
                 .until((WebDriver webDriver) -> ((JavascriptExecutor) webDriver)
                 .executeScript("return document.readyState")
                 .equals("complete"));
-        //System.out.println("Page loaded.");
         return true;
     }
 

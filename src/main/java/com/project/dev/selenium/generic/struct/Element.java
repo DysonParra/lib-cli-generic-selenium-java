@@ -15,13 +15,11 @@
 package com.project.dev.selenium.generic.struct;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+//import lombok.ToString;
 
 /**
  * TODO: Description of {@code Element}.
@@ -30,25 +28,20 @@ import lombok.ToString;
  * @since 11
  */
 @AllArgsConstructor
-@Builder
 @Data
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Element implements Cloneable {
+public abstract class Element implements Cloneable {
 
-    private String id;
-    private String name;
-    private String xpath;
-    @Builder.Default
-    @ToString.Exclude
-    private List<Action> actions = new ArrayList<>();
+    @JsonProperty(value = "type")
+    protected String type;
 
     /**
      * Get the unique ID of the current {@code Object}
      *
      * @return The unique Id of the current {@code Object}
      */
-    @ToString.Include
+    //@ToString.Include
     public int uniqueId() {
         return System.identityHashCode(this);
     }
@@ -61,19 +54,7 @@ public class Element implements Cloneable {
      */
     @Override
     public Object clone() throws CloneNotSupportedException {
-        Element copy = (Element) super.clone();
-        if (this.actions != null) {
-            List<Action> list = new ArrayList<>();
-            actions.forEach(current -> {
-                try {
-                    list.add((Action) current.clone());
-                } catch (CloneNotSupportedException ex) {
-                    System.out.println("Error cloning: " + current);
-                }
-            });
-            copy.setActions(list);
-        }
-        return copy;
+        return super.clone();
     }
 
 }

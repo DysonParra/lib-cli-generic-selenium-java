@@ -1,7 +1,7 @@
 {
     "config": {
         "delay-time-before-end": 3000,
-        "max-action-page-tries": 10
+        "max-action-page-tries": 2
     },
     "navigation": [
         {
@@ -17,7 +17,8 @@
                     "actions": [
                         {
                             "type": "node-screenshot",
-                            "output-base-file-name": "<SCREENSHOT_BASE_NAME>",
+                            "output-path": "<OUTPUT_PATH>",
+                            "output-file-name-no-ext": "<SCREENSHOT_NAME>",
                             "delay-time-before-next": 100
                         }
                     ]

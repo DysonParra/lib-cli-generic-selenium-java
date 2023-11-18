@@ -57,7 +57,6 @@ public class Script extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("Script");
         JavascriptExecutor js = (JavascriptExecutor) driver;
         String fullScript = "";
         for (String aux : script)

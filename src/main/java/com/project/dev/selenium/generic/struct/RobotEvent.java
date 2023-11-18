@@ -1369,7 +1369,7 @@ public class RobotEvent {
     public void mouseRightRelease() {
         robot.mouseRelease(BUTTON3_DOWN_MASK);
     }
-    
+
     /**
      * Ejecuta un {@code KeyEvent} para dar clic medio con el mouse.
      */
@@ -1386,6 +1386,7 @@ public class RobotEvent {
 
     /**
      * Ejecuta un {@code KeyEvent} para hacer scroll con el mouse.
+     *
      * @param wheelAmt es la cantidad de scroll que se desea hacer.
      */
     public void mouseWheel(int wheelAmt) {

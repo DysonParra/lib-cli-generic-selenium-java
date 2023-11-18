@@ -56,7 +56,6 @@ public class RobotTypeText extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("RobotTypeText");
         RobotEvent event = new RobotEvent();
         event.typeText(text);
         return true;

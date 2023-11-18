@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.dev.selenium.generic.struct.Action;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
@@ -45,6 +46,8 @@ import org.openqa.selenium.WebElement;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SaveCurrentUrl extends Action {
 
+    @JsonProperty(value = "output-path")
+    protected String outputPath;
     @JsonProperty(value = "output-file-name")
     protected String outputFileName;
 
@@ -59,15 +62,14 @@ public class SaveCurrentUrl extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("SaveCurrentUrl");
         System.out.println("        Current page: " + driver.getCurrentUrl());
-        try (FileOutputStream fos = new FileOutputStream(flagsMap.get("-outputPath") + "\\" + outputFileName, true);
+        new File(outputPath).mkdirs();
+        try (FileOutputStream fos = new FileOutputStream(outputPath + "\\" + outputFileName, true);
                 OutputStreamWriter osr = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
                 BufferedWriter writer = new BufferedWriter(osr);) {
             writer.write(driver.getCurrentUrl() + "\n");
-
         } catch (Exception e) {
-            System.out.println("        Errow saving current url on a file");
+            throw e;
         }
         return true;
     }

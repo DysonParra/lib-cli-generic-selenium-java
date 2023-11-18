@@ -14,17 +14,9 @@
  */
 package com.project.dev.selenium.generic.processor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.dev.selenium.generic.struct.Action;
-import com.project.dev.selenium.generic.struct.Element;
-import com.project.dev.selenium.generic.struct.Page;
-import com.project.dev.selenium.generic.struct.Task;
-import com.project.dev.selenium.generic.struct.action.Navigate;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.Base64;
-import java.util.List;
-import lombok.NonNull;
 
 /**
  * TODO: Description of {@code EnvironmentProcessor}.
@@ -34,152 +26,132 @@ import lombok.NonNull;
  */
 public class EnvironmentProcessor {
 
-    public static String fileFullPathEnv = "%fileFullPath%";
-    public static String filePathEnv = "%filePath%";
-    public static String fileNameEnv = "%fileName%";
-    public static String fileNameNoExtEnv = "%fileNameNoExt%";
-    public static String fileInPathEnv = "%fileInPath%";
-    public static String fileOutPathEnv = "%fileOutPath%";
-    public static String fileBase64 = "%fileBase64%";
-    public static String urlsFilePathEnv = "%urlsFilePath%";
+    public static final String CURRENT_NAV_RANGE_ENV = "%navRangeValue%";
+    public static final String CURRENT_ELM_RANGE_ENV = "%elmRangeValue%";
+
+    public static final String CURRENT_NAV_DATE_YEAR_RANGE_ENV = "%navRangeYear%";
+    public static final String CURRENT_NAV_DATE_MONTH_RANGE_ENV = "%navRangeMonth%";
+    public static final String CURRENT_NAV_DATE_DAY_RANGE_ENV = "%navRangeDay%";
+
+    public static final String CURRENT_ELM_DATE_YEAR_RANGE_ENV = "%elmRangeYear%";
+    public static final String CURRENT_ELM_DATE_MONTH_RANGE_ENV = "%elmRangeMonth%";
+    public static final String CURRENT_ELM_DATE_DAY_RANGE_ENV = "%elmRangeDay%";
+
+    public static final String CURRENT_NAV_FILE_FULL_PATH_ENV = "%navFileFullPath%";
+    public static final String CURRENT_NAV_FILE_PATH_ENV = "%navFilePath%";
+    public static final String CURRENT_NAV_FILE_ONLY_PATH_ENV = "%navFileOnlyPath%";
+    public static final String CURRENT_NAV_FILE_NAME_ENV = "%navFileName%";
+    public static final String CURRENT_NAV_FILE_NAME_NO_EXT_ENV = "%navFileNameNoExt%";
+    public static final String CURRENT_NAV_FILE_ROOT_PATH_ENV = "%navFileRootPath%";
+    public static final String CURRENT_NAV_FILE_PATH_NO_ROOT_PATH_ENV = "%navFilePathNoRootPath%";
+    public static final String CURRENT_NAV_FILE_ONLY_PATH_NO_ROOT_PATH_ENV = "%navFileOnlyPathNoRootPath%";
+    public static final String CURRENT_NAV_FILE_BASE_64_ENV = "%navFileBase64%";
+
+    public static final String CURRENT_ELM_FILE_FULL_PATH_ENV = "%elmFileFullPath%";
+    public static final String CURRENT_ELM_FILE_PATH_ENV = "%elmFilePath%";
+    public static final String CURRENT_ELM_FILE_ONLY_PATH_ENV = "%elmFileOnlyPath%";
+    public static final String CURRENT_ELM_FILE_NAME_ENV = "%elmFileName%";
+    public static final String CURRENT_ELM_FILE_NAME_NO_EXT_ENV = "%elmFileNameNoExt%";
+    public static final String CURRENT_ELM_FILE_ROOT_PATH_ENV = "%elmFileRootPath%";
+    public static final String CURRENT_ELM_FILE_PATH_NO_ROOT_PATH_ENV = "%elmFilePathNoRootPath%";
+    public static final String CURRENT_ELM_FILE_ONLY_PATH_NO_ROOT_PATH_ENV = "%elmFileOnlyPathNoRootPath%";
+    public static final String CURRENT_ELM_FILE_BASE_64_ENV = "%elmFileBase64%";
+
+    /**
+     * TODO: Description of {@code replaceEnv}.
+     *
+     * @param currentEnv
+     * @param input
+     * @param currentValue
+     * @return {@code String} con los reemplazos aplicados.
+     */
+    public static String replaceEnv(String input, String currentEnv, Object currentValue) {
+        input = input.replaceAll(currentEnv, String.valueOf(currentValue));
+        return input;
+    }
+
+    /**
+     * TODO: Description of {@code replaceDateEnvs}.
+     *
+     * @param input
+     * @param currentEnv
+     * @param currentValue
+     * @return {@code String} con los reemplazos aplicados.
+     */
+    public static String replaceDateEnvs(String input, String currentEnv, String currentValue) {
+        String[] date = currentValue.split("-");
+        switch (currentEnv) {
+            case CURRENT_NAV_RANGE_ENV:
+                input = input
+                        .replaceAll(CURRENT_NAV_DATE_YEAR_RANGE_ENV, date[0])
+                        .replaceAll(CURRENT_NAV_DATE_MONTH_RANGE_ENV, date[1])
+                        .replaceAll(CURRENT_NAV_DATE_DAY_RANGE_ENV, date[2]);
+                break;
+            case CURRENT_ELM_RANGE_ENV:
+                input = input
+                        .replaceAll(CURRENT_ELM_DATE_YEAR_RANGE_ENV, date[0])
+                        .replaceAll(CURRENT_ELM_DATE_MONTH_RANGE_ENV, date[1])
+                        .replaceAll(CURRENT_ELM_DATE_DAY_RANGE_ENV, date[2]);
+                break;
+        }
+        return input;
+    }
 
     /**
      * TODO: Description of {@code replaceFileEnvs}.
      *
-     * @param file
-     * @param text
-     * @param inputPath
-     * @param outputPath
-     * @param doubleScape
-     * @return
+     * @param input
+     * @param currentEnv
+     * @param currentValue
+     * @param rootPath
+     * @return {@code String} con los reemplazos aplicados.
      */
-    public static String replaceFileEnvs(File file, String text, String inputPath, String outputPath, boolean doubleScape) {
+    public static String replaceFileEnvs(String input, String currentEnv, String currentValue, String rootPath) {
         String patternIn = "/|\\\\";
-        String patternOut = "\\\\\\\\";
-        if (doubleScape)
-            patternOut += patternOut;
-        if (file != null && text != null) {
-            text = text.replaceAll(fileFullPathEnv, file.getAbsolutePath().replaceAll(patternIn, patternOut))
-                    .replaceAll(filePathEnv, file.getPath().replaceAll(patternIn, patternOut))
-                    .replaceAll(fileNameEnv, file.getName().replaceAll(patternIn, patternOut))
-                    .replaceAll(fileNameNoExtEnv, file.getName().replaceFirst("[.][^.]+$", "").replaceAll(patternIn, patternOut))
-                    .replaceAll(fileInPathEnv, file.getParent().replaceAll(patternIn, patternOut))
-                    .replaceAll(fileOutPathEnv, file.getParent().replaceAll(patternIn, patternOut).
-                            replaceAll(
-                                    inputPath.replaceAll(patternIn, patternOut + patternOut),
-                                    outputPath.replaceAll(patternIn, patternOut + patternOut)
-                            )
-                    );
-            try {
-                text = text.replaceAll(fileBase64, Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath())));
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return text;
-    }
-
-    /**
-     * TODO: Description of {@code replaceEnvsOnTasks}.
-     *
-     * @param taskList
-     * @param actionsPackage
-     * @param inputPath
-     * @param outputPath
-     */
-    public static void replaceEnvsOnTasks(@NonNull List<Task> taskList, String actionsPackage, String inputPath, String outputPath) {
-        ObjectMapper mapper = new ObjectMapper();
-        for (Task task : taskList) {
-            for (Page page : task.getPages()) {
-                page.setUrl(replaceFileEnvs(task.getFile(), page.getUrl(), inputPath, outputPath, false));
-                for (Element element : page.getElements()) {
-                    element.setId(replaceFileEnvs(task.getFile(), element.getId(), inputPath, outputPath, false));
-                    element.setName(replaceFileEnvs(task.getFile(), element.getName(), inputPath, outputPath, false));
-                    element.setXpath(replaceFileEnvs(task.getFile(), element.getXpath(), inputPath, outputPath, false));
-                    for (int i = 0; i < element.getActions().size(); i++) {
-                        Action action = element.getActions().get(i);
-                        String className = actionsPackage + '.';
-                        String[] classNameAux = action.getType().split("-");
-                        for (String name : classNameAux)
-                            className += name.substring(0, 1).toUpperCase() + name.substring(1, name.length());
-                        try {
-                            String actionStr = mapper.writeValueAsString(action);
-                            actionStr = replaceFileEnvs(task.getFile(), actionStr, inputPath, outputPath, true);
-                            Class actionClass = Class.forName(className);
-                            Action actionAux = (Action) mapper.readValue(actionStr, actionClass);
-                            element.getActions().remove(i);
-                            element.getActions().add(i, actionAux);
-                        } catch (Exception e) {
-                            System.out.println(e.getMessage());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * TODO: Description of {@code replaceEnvsOnPages}.
-     *
-     * @param urlFileList
-     * @param pageList
-     * @param page
-     * @return
-     */
-    public static boolean replaceEnvsOnPages(List<String> urlFileList, List<Page> pageList, Page page) {
-        boolean result = true;
-        ObjectMapper mapper = new ObjectMapper();
-        if (!page.getUrl().equals(urlsFilePathEnv)) {
-            pageList.add(page);
-        } else if (!urlFileList.isEmpty()) {
-            NavigationProcessor.PAGE_INDEX--;
-            List<Element> elements = page.getElements();
-            page.setElements(null);
-            for (String url : urlFileList) {
+        String patternOut = "/";
+        File file = new File(currentValue);
+        File root = new File(rootPath);
+        switch (currentEnv) {
+            case CURRENT_NAV_RANGE_ENV:
+                input = input.replaceAll(CURRENT_NAV_FILE_FULL_PATH_ENV, file.getAbsolutePath().replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_NAV_FILE_PATH_ENV, file.getPath().replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_NAV_FILE_ONLY_PATH_ENV, file.getParent().replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_NAV_FILE_NAME_ENV, file.getName().replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_NAV_FILE_NAME_NO_EXT_ENV, file.getName().replaceFirst("[.][^.]+$", "").replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_NAV_FILE_ROOT_PATH_ENV, root.getPath().replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_NAV_FILE_PATH_NO_ROOT_PATH_ENV, file.getPath().replaceAll(patternIn, patternOut).
+                                replaceFirst(rootPath + patternOut, "")
+                        )
+                        .replaceAll(CURRENT_NAV_FILE_ONLY_PATH_NO_ROOT_PATH_ENV, file.getParent().replaceAll(patternIn, patternOut).
+                                replaceFirst(rootPath + patternOut, "")
+                        );
                 try {
-                    Page auxPage = mapper.readValue(mapper.writeValueAsString(page), Page.class);
-                    auxPage.setId(NavigationProcessor.PAGE_INDEX++);
-                    auxPage.setUrl(url);
-                    auxPage.setElements(elements);
-                    pageList.add(auxPage);
+                    input = input.replaceAll(CURRENT_NAV_FILE_BASE_64_ENV, Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath())));
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-            }
-        } else {
-            System.out.println("'" + urlsFilePathEnv + "' specified for a page, but urlFileList is empty.");
-            result = false;
-        }
-        return result;
-    }
-
-    /**
-     * TODO: Description of {@code replaceEnvsOnActionNavigate}.
-     *
-     * @param urlFileList
-     * @param actionList
-     * @param action
-     * @return
-     */
-    public static boolean replaceEnvsOnActionNavigate(List<String> urlFileList, List<Action> actionList, Action action) {
-        boolean result = true;
-        if (action instanceof Navigate && ((Navigate) action).getUrl().equals(urlsFilePathEnv)) {
-            if (!urlFileList.isEmpty()) {
-                for (String url : urlFileList) {
-                    Navigate navigate = new Navigate();
-                    navigate.setType(action.getType());
-                    navigate.setDelayTimeBeforeNext(action.getDelayTimeBeforeNext());
-                    navigate.setTimeout(((Navigate) action).getTimeout());
-                    navigate.setUrl(url);
-                    actionList.add(navigate);
+                break;
+            case CURRENT_ELM_RANGE_ENV:
+                input = input.replaceAll(CURRENT_ELM_FILE_FULL_PATH_ENV, file.getAbsolutePath().replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_ELM_FILE_PATH_ENV, file.getPath().replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_ELM_FILE_ONLY_PATH_ENV, file.getParent().replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_ELM_FILE_NAME_ENV, file.getName().replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_ELM_FILE_NAME_NO_EXT_ENV, file.getName().replaceFirst("[.][^.]+$", "").replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_ELM_FILE_ROOT_PATH_ENV, root.getPath().replaceAll(patternIn, patternOut))
+                        .replaceAll(CURRENT_ELM_FILE_PATH_NO_ROOT_PATH_ENV, file.getPath().replaceAll(patternIn, patternOut).
+                                replaceFirst(rootPath + patternOut, "")
+                        )
+                        .replaceAll(CURRENT_ELM_FILE_ONLY_PATH_NO_ROOT_PATH_ENV, file.getParent().replaceAll(patternIn, patternOut).
+                                replaceFirst(rootPath + patternOut, "")
+                        );
+                try {
+                    input = input.replaceAll(CURRENT_ELM_FILE_BASE_64_ENV, Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath())));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
-            } else {
-                System.out.println("'" + urlsFilePathEnv + "' specified for a page, but urlFileList is empty.");
-                result = false;
-            }
-        } else
-            actionList.add(action);
-        return result;
+                break;
+        }
+        return input;
     }
 
 }

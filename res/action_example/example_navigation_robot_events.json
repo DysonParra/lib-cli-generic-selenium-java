@@ -1,7 +1,7 @@
 {
     "config": {
         "delay-time-before-end": 3000,
-        "max-action-page-tries": 10
+        "max-action-page-tries": 2
     },
     "navigation": [
         {
@@ -23,7 +23,7 @@
                         },
                         {
                             "type": "robot-mouse-move",
-                            "x": 200,
+                            "x": 50,
                             "y": 200,
                             "delay-time-before-next": 500
                         },
@@ -54,7 +54,7 @@
                         {
                             "type": "robot-mouse-move",
                             "x": 500,
-                            "y": 320,
+                            "y": 340,
                             "delay-time-before-next": 500
                         },
                         {

@@ -1,7 +1,7 @@
 {
     "config": {
         "delay-time-before-end": 3000,
-        "max-action-page-tries": 10
+        "max-action-page-tries": 2
     },
     "navigation": [
         {
@@ -17,7 +17,8 @@
                     "actions": [
                         {
                             "type": "save-current-page",
-                            "output-file-name": "<OUTPUT_PAGE>",
+                            "output-path": "<OUTPUT_PATH>s",
+                            "output-file-name": "<OUTPUT_PAGE_FILE>",
                             "delay-time-before-next": 100
                         }
                     ]

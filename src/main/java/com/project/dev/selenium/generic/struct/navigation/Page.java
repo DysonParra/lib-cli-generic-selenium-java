@@ -12,10 +12,12 @@
  * @version 1.0     Implementation done.
  * @version 2.0     Documentation added.
  */
-package com.project.dev.selenium.generic.struct;
+package com.project.dev.selenium.generic.struct.navigation;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.dev.selenium.generic.struct.Element;
+import com.project.dev.selenium.generic.struct.Navigation;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -34,10 +36,10 @@ import lombok.ToString;
 @Builder
 @Data
 @NoArgsConstructor
+@ToString(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Page implements Cloneable {
+public class Page extends Navigation implements Cloneable {
 
-    private Long id;
     @JsonProperty(value = "url")
     private String url;
     @JsonProperty(value = "load-page-timeout")
@@ -54,16 +56,6 @@ public class Page implements Cloneable {
     @ToString.Exclude
     @JsonProperty(value = "elements")
     private List<Element> elements = new ArrayList<>();
-
-    /**
-     * Get the unique ID of the current {@code Object}
-     *
-     * @return The unique Id of the current {@code Object}
-     */
-    @ToString.Include
-    public int uniqueId() {
-        return System.identityHashCode(this);
-    }
 
     /**
      * Clone the current {@code Object}.

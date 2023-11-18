@@ -1,6 +1,8 @@
 {
-    "OUTPUT_URL_FILE": "test_url.log",
-    "OUTPUT_PAGE": "current_page.html",
-    "SCREENSHOT_BASE_NAME" : "Screenshot",
-    "TEXT_TO_SET" : "Testing"
+    "TEXT_TO_SET": "Testing",
+    "INPUT_FILE": "res/input_file.txt",
+    "OUTPUT_PATH": "res/output",
+    "OUTPUT_PAGE_FILE": "current_page.html",
+    "OUTPUT_URLS_FILE": "test_url.log",
+    "SCREENSHOT_NAME": "Screenshot"
 }

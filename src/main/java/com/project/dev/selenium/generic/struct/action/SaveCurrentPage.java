@@ -43,6 +43,8 @@ import org.openqa.selenium.WebElement;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SaveCurrentPage extends Action {
 
+    @JsonProperty(value = "output-path")
+    protected String outputPath;
     @JsonProperty(value = "output-file-name")
     protected String outputFileName;
 
@@ -57,13 +59,17 @@ public class SaveCurrentPage extends Action {
      */
     @Override
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
-        //System.out.println("SaveCurrentPage");
-        String outputPath = flagsMap.get("-outputPath");
+        new File(outputPath).mkdirs();
+        boolean result;
         if (outputFileName == null)
-            NavigationProcessor.getPageSource(driver, outputPath);
+            result = NavigationProcessor.getPageSource(driver, outputPath);
         else
-            NavigationProcessor.getPageSource(driver, new File(outputPath, outputFileName));
-        return true;
+            result = NavigationProcessor.getPageSource(driver, new File(outputPath, outputFileName));
+
+        if (result)
+            return result;
+        else
+            throw new Exception("Page source could not be saved");
     }
 
 }
