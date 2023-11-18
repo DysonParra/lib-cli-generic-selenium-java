@@ -51,7 +51,7 @@ public class ElementRangeFileLines extends ElementRange<String> implements Clone
      */
     @Override
     public List<String> getRange() {
-        return RangeProcessor.getRangeUrlFileList(urlListFilePath, linePattern);
+        return RangeProcessor.getRangeFileLines(urlListFilePath, linePattern);
     }
 
 }

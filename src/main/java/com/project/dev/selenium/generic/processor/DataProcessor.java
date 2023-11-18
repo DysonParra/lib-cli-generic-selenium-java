@@ -58,7 +58,8 @@ public class DataProcessor {
         if (field != null) {
             for (Iterator iterator = jsonData.keySet().iterator(); iterator.hasNext();) {
                 String key = (String) iterator.next();
-                field = field.replaceAll("<" + key + ">", (String) jsonData.get(key));
+                field = field.replaceAll(
+                        "<" + key + ">", ((String) jsonData.get(key)).replaceAll("\\\\", "\\\\\\\\"));
             }
         }
         return field;

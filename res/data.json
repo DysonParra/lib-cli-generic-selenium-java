@@ -1,7 +1,8 @@
 {
     "TEXT_TO_SET": "Testing",
-    "INPUT_FILE": "res/input_file.txt",
-    "OUTPUT_PATH": "res/output",
+    "INPUT_PATH": "res\\input",
+    "INPUT_FILE": "res\\input_file.txt",
+    "OUTPUT_PATH": "res\\output",
     "OUTPUT_PAGE_FILE": "current_page.html",
     "OUTPUT_URLS_FILE": "test_url.log",
     "SCREENSHOT_NAME": "Screenshot"

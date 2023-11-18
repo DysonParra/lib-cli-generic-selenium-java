@@ -1,9 +1,9 @@
 {
     "config": {
-        "only-validate-config-files": false,
+        "only-validate-config-files": true,
         "delay-time-before-end": 3000,
         "max-action-page-tries": 2,
-        "root-path": "res/input",
+        "root-path": "<INPUT_PATH>",
         "allowed-file-extensions": [
             ".jpg",
             ".jpeg",
@@ -35,6 +35,12 @@
                                         {
                                             "type": "set-text",
                                             "text": "navRangeValue:             NAV '%navRangeValue%'",
+                                            "clear-before-set": true,
+                                            "delay-time-before-next": 1000
+                                        },
+                                        {
+                                            "type": "set-text",
+                                            "text": "elmRangeValue:             ELM '%elmRangeValue%'",
                                             "clear-before-set": true,
                                             "delay-time-before-next": 1000
                                         },
@@ -88,13 +94,13 @@
                                         },
                                         {
                                             "type": "set-text",
-                                            "text": "custom:                    ELM '<OUTPUT_PATH>/%elmFilePathNoRootPath%'",
+                                            "text": "custom:                    ELM '<OUTPUT_PATH>\\%elmFilePathNoRootPath%'",
                                             "clear-before-set": true,
                                             "delay-time-before-next": 1000
                                         },
                                         {
                                             "type": "set-text",
-                                            "text": "custom:                    ELM '<OUTPUT_PATH>/%elmFileOnlyPathNoRootPath%'",
+                                            "text": "custom:                    ELM '<OUTPUT_PATH>\\%elmFileOnlyPathNoRootPath%'",
                                             "clear-before-set": true,
                                             "delay-time-before-next": 1000
                                         }

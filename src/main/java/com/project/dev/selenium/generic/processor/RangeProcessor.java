@@ -75,13 +75,13 @@ public class RangeProcessor {
     }
 
     /**
-     * TODO: Description of {@code getRangeUrlFileList}.
+     * TODO: Description of {@code getRangeFileLines}.
      *
      * @param urlListFilePath
      * @param linePattern
      * @return
      */
-    public static List<String> getRangeUrlFileList(String urlListFilePath, String linePattern) {
+    public static List<String> getRangeFileLines(String urlListFilePath, String linePattern) {
         List<String> list = new ArrayList<>();
         if (urlListFilePath != null && linePattern != null) {
             FileProcessor.forEachLine(urlListFilePath, (line) -> {
@@ -107,11 +107,14 @@ public class RangeProcessor {
             if (rootPath != null && allowedFileExtensions != null) {
                 File path = new File(rootPath);
                 String[] fileExtensions = new String[allowedFileExtensions.size()];
+                String separator = System.getProperty("file.separator");
+                if (separator.equals("\\"))
+                    separator = separator.repeat(8);
                 for (int i = 0; i < fileExtensions.length; i++)
                     fileExtensions[i] = allowedFileExtensions.get(i);
                 FileProcessor.getFiles(path, fileExtensions, files);
                 for (File file : files)
-                    list.add(file.toString().replaceAll("/|\\\\", "/"));
+                    list.add(file.toString().replaceAll("/|\\\\", separator));
             }
             return list;
         } catch (Exception e) {

@@ -108,7 +108,9 @@ public class EnvironmentProcessor {
      */
     public static String replaceFileEnvs(String input, String currentEnv, String currentValue, String rootPath) {
         String patternIn = "/|\\\\";
-        String patternOut = "/";
+        String patternOut = System.getProperty("file.separator");
+        if (patternOut.equals("\\"))
+            patternOut = patternOut.repeat(8);
         File file = new File(currentValue);
         File root = new File(rootPath);
         switch (currentEnv) {
@@ -118,13 +120,12 @@ public class EnvironmentProcessor {
                         .replaceAll(CURRENT_NAV_FILE_ONLY_PATH_ENV, file.getParent().replaceAll(patternIn, patternOut))
                         .replaceAll(CURRENT_NAV_FILE_NAME_ENV, file.getName().replaceAll(patternIn, patternOut))
                         .replaceAll(CURRENT_NAV_FILE_NAME_NO_EXT_ENV, file.getName().replaceFirst("[.][^.]+$", "").replaceAll(patternIn, patternOut))
-                        .replaceAll(CURRENT_NAV_FILE_ROOT_PATH_ENV, root.getPath().replaceAll(patternIn, patternOut))
-                        .replaceAll(CURRENT_NAV_FILE_PATH_NO_ROOT_PATH_ENV, file.getPath().replaceAll(patternIn, patternOut).
-                                replaceFirst(rootPath + patternOut, "")
-                        )
-                        .replaceAll(CURRENT_NAV_FILE_ONLY_PATH_NO_ROOT_PATH_ENV, file.getParent().replaceAll(patternIn, patternOut).
-                                replaceFirst(rootPath + patternOut, "")
-                        );
+                        .replaceAll(CURRENT_NAV_FILE_ROOT_PATH_ENV, file.getPath().replaceAll(patternIn.repeat(1), patternOut.repeat(1))
+                                .replaceFirst(String.format("%s(%s|)", root.getPath(), patternIn.repeat(1))
+                                        .replaceAll(patternIn.repeat(1), patternOut.repeat(2)), ""))
+                        .replaceAll(CURRENT_NAV_FILE_ONLY_PATH_NO_ROOT_PATH_ENV, file.getParent().replaceAll(patternIn.repeat(1), patternOut.repeat(1))
+                                .replaceFirst(String.format("%s(%s|)", root.getPath(), patternIn.repeat(1))
+                                        .replaceAll(patternIn.repeat(1), patternOut.repeat(2)), ""));
                 try {
                     input = input.replaceAll(CURRENT_NAV_FILE_BASE_64_ENV, Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath())));
                 } catch (Exception e) {
@@ -138,12 +139,12 @@ public class EnvironmentProcessor {
                         .replaceAll(CURRENT_ELM_FILE_NAME_ENV, file.getName().replaceAll(patternIn, patternOut))
                         .replaceAll(CURRENT_ELM_FILE_NAME_NO_EXT_ENV, file.getName().replaceFirst("[.][^.]+$", "").replaceAll(patternIn, patternOut))
                         .replaceAll(CURRENT_ELM_FILE_ROOT_PATH_ENV, root.getPath().replaceAll(patternIn, patternOut))
-                        .replaceAll(CURRENT_ELM_FILE_PATH_NO_ROOT_PATH_ENV, file.getPath().replaceAll(patternIn, patternOut).
-                                replaceFirst(rootPath + patternOut, "")
-                        )
-                        .replaceAll(CURRENT_ELM_FILE_ONLY_PATH_NO_ROOT_PATH_ENV, file.getParent().replaceAll(patternIn, patternOut).
-                                replaceFirst(rootPath + patternOut, "")
-                        );
+                        .replaceAll(CURRENT_ELM_FILE_PATH_NO_ROOT_PATH_ENV, file.getPath().replaceAll(patternIn.repeat(1), patternOut.repeat(1))
+                                .replaceFirst(String.format("%s(%s|)", root.getPath(), patternIn.repeat(1))
+                                        .replaceAll(patternIn.repeat(1), patternOut.repeat(2)), ""))
+                        .replaceAll(CURRENT_ELM_FILE_ONLY_PATH_NO_ROOT_PATH_ENV, file.getParent().replaceAll(patternIn.repeat(1), patternOut.repeat(1))
+                                .replaceFirst(String.format("%s(%s|)", root.getPath(), patternIn.repeat(1))
+                                        .replaceAll(patternIn.repeat(1), patternOut.repeat(2)), ""));
                 try {
                     input = input.replaceAll(CURRENT_ELM_FILE_BASE_64_ENV, Base64.getEncoder().encodeToString(Files.readAllBytes(file.toPath())));
                 } catch (Exception e) {

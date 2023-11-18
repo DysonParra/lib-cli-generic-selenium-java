@@ -51,7 +51,7 @@ public class NavigationRangeFileLines extends NavigationRange<String> implements
      */
     @Override
     public List<String> getRange() {
-        return RangeProcessor.getRangeUrlFileList(urlListFilePath, linePattern);
+        return RangeProcessor.getRangeFileLines(urlListFilePath, linePattern);
     }
 
 }
