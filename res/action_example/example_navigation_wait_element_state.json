@@ -1,0 +1,66 @@
+{
+    "config": {
+        "only-validate-config-files": false,
+        "delay-time-before-end": 3000,
+        "max-action-page-tries": 2
+    },
+    "navigation": [
+        {
+            "type": "page",
+            "url": "https://boletin.gana.com.co/",
+            "delay-time-before-next": 500,
+            "elements": [
+                {
+                    "type": "dom-element",
+                    "id": null,
+                    "name": null,
+                    "xpath": "//app-filter",
+                    "actions": [
+                        {
+                            "type": "wait-attribute-change",
+                            "timeout": 5000,
+                            "attribute": "ng-reflect-loading",
+                            "expected-value": "false",
+                            "delay-time-before-next": 100
+                        }
+                    ]
+                },
+                {
+                    "type": "dom-element",
+                    "id": null,
+                    "name": "date",
+                    "xpath": null,
+                    "actions": [
+                        {
+                            "type": "clic",
+                            "delay-time-before-next": 100
+                        },
+                        {
+                            "type": "set-text",
+                            "text": "2023-12-25",
+                            "delay-time-before-next": 100
+                        }
+                    ]
+                },
+                {
+                    "type": "dom-element",
+                    "id": null,
+                    "name": null,
+                    "xpath": "//button[@class='filter-button']",
+                    "actions": [
+                        {
+                            "type": "wait-element-state",
+                            "timeout": 5000,
+                            "state": "enabled",
+                            "delay-time-before-next": 100
+                        },
+                        {
+                            "type": "clic",
+                            "delay-time-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
