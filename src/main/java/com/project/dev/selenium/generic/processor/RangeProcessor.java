@@ -53,9 +53,10 @@ public class RangeProcessor {
      *
      * @param start
      * @param end
+     * @param daysLoop
      * @return
      */
-    public static List<String> getRangeDate(String start, String end) {
+    public static List<String> getRangeDate(String start, String end, Integer daysLoop) {
         List<String> list = new ArrayList<>();
         if (start != null && end != null) {
             Date startDate;
@@ -65,7 +66,7 @@ public class RangeProcessor {
                 endDate = DATE_FORMAT.parse(end);
                 while (!startDate.after(endDate)) {
                     list.add(DATE_FORMAT.format(startDate));
-                    startDate.setTime(startDate.getTime() + 86400000);
+                    startDate.setTime(startDate.getTime() + 86400000 * daysLoop);
                 }
             } catch (ParseException e) {
                 System.out.println(e.getMessage());

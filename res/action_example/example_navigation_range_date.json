@@ -1,6 +1,6 @@
 {
     "config": {
-        "only-validate-config-files": false,
+        "only-validate-config-files": true,
         "delay-time-before-end": 3000,
         "max-action-page-tries": 2
     },
@@ -9,6 +9,7 @@
             "type": "navigation-range-date",
             "start": "2023-01-23",
             "end": "2023-01-23",
+            "days-loop": 1,
             "navigation": [
                 {
                     "type": "page",
@@ -18,7 +19,8 @@
                         {
                             "type": "element-range-date",
                             "start": "2023-03-23",
-                            "end": "2023-03-24",
+                            "end": "2023-03-30",
+                            "days-loop": 7,
                             "elements": [
                                 {
                                     "type": "dom-element",

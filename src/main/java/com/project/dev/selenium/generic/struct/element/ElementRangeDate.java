@@ -44,6 +44,9 @@ public class ElementRangeDate extends ElementRange<String> implements Cloneable 
     protected String start;
     @JsonProperty(value = "end")
     protected String end;
+    @JsonProperty(value = "days-loop")
+    @Builder.Default
+    protected Integer daysLoop = 1;
 
     /**
      * Obtiene las lista correspondiente al rango de navegación indicado.
@@ -52,7 +55,7 @@ public class ElementRangeDate extends ElementRange<String> implements Cloneable 
      */
     @Override
     public List<String> getRange() {
-        return RangeProcessor.getRangeDate(start, end);
+        return RangeProcessor.getRangeDate(start, end, daysLoop);
     }
 
     /**
