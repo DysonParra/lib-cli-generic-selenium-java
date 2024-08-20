@@ -1,0 +1,56 @@
+{
+    "config": {
+        "only-validate-config-files": false,
+        "delay-time-before-end": 3000,
+        "max-action-page-tries": 2
+    },
+    "navigation": [
+        {
+            "type": "page",
+            "url": "https://www.facebook.com/",
+            "delay-time-before-next": 500,
+            "elements": [
+                {
+                    "type": "dom-element",
+                    "id": null,
+                    "name": null,
+                    "xpath": "//a[contains(text(),'Create new account')]",
+                    "actions": [
+                        {
+                            "type": "clic",
+                            "delay-time-before-next": 1
+                        }
+                    ]
+                },
+                {
+                    "type": "dom-element",
+                    "id": null,
+                    "name": null,
+                    "xpath": "//body",
+                    "actions": [
+                        {
+                            "type": "wait-element-exist",
+                            "timeout": 5000,
+                            "element-xpath": "//input[@name='firstname']",
+                            "delay-time-before-next": 1
+                        }
+                    ]
+                },
+                {
+                    "type": "dom-element",
+                    "id": null,
+                    "name": null,
+                    "xpath": "//input[@name='firstname']",
+                    "actions": [
+                        {
+                            "type": "set-text",
+                            "text": "<TEXT_TO_SET>",
+                            "clear-before-set": true,
+                            "delay-time-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
