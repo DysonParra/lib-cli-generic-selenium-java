@@ -27,7 +27,6 @@ import lombok.NonNull;
 import lombok.ToString;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
@@ -64,7 +63,7 @@ public class WaitAttributeChange extends Action {
     public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
 
         new WebDriverWait(driver, Duration.ofMillis(timeout))
-                .until((ExpectedCondition<Boolean>) (WebDriver driver1) -> {
+                .until((WebDriver driver1) -> {
                     String expected = element.getAttribute(attribute);
                     return expected.equals(expectedValue);
                 });
