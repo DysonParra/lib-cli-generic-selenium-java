@@ -35,7 +35,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * TODO: Description of {@code WaitElementState}.
  *
  * @author Dyson Parra
- * @since 11
+ * @since Java 17 (LTS), Gradle 7.3
  */
 @AllArgsConstructor
 @Builder

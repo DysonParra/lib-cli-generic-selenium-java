@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author Dyson Parra
  * @param <T> the type of range.
- * @since 11
+ * @since Java 17 (LTS), Gradle 7.3
  */
 public interface Range<T> extends Cloneable {
 

@@ -29,7 +29,7 @@ import lombok.ToString;
  *
  * @author Dyson Parra
  * @param <T> the type of range.
- * @since 11
+ * @since Java 17 (LTS), Gradle 7.3
  */
 @AllArgsConstructor
 @Data

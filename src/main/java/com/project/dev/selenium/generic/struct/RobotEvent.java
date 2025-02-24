@@ -27,7 +27,7 @@ import static java.awt.event.KeyEvent.*;
  * TODO: Description of {@code RobotEvent}.
  *
  * @author Dyson Parra
- * @since 11
+ * @since Java 17 (LTS), Gradle 7.3
  */
 @AllArgsConstructor
 @Builder

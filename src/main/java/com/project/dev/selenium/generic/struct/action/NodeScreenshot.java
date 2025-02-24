@@ -41,7 +41,7 @@ import org.openqa.selenium.WebElement;
  * TODO: Description of {@code NodeScreenshot}.
  *
  * @author Dyson Parra
- * @since 11
+ * @since Java 17 (LTS), Gradle 7.3
  */
 @AllArgsConstructor
 @Builder

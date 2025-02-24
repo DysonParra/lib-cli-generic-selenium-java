@@ -30,7 +30,7 @@ import lombok.ToString;
  * TODO: Description of {@code ElementRangeDate}.
  *
  * @author Dyson Parra
- * @since 11
+ * @since Java 17 (LTS), Gradle 7.3
  */
 @AllArgsConstructor
 @Builder
