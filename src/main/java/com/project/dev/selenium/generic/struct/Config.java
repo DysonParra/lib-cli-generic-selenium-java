@@ -49,7 +49,7 @@ public class Config {
     /**
      * Get the current {@code Object} as {@code String}.
      *
-     * @return {@code String}representating this {@code Object}.
+     * @return {@code String} representing this {@code Object}.
      */
     @Override
     public String toString() {
