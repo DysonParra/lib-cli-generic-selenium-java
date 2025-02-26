@@ -30,7 +30,7 @@ public class ScheduleProcessor {
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm:ss");
 
     /**
-     * TODO: Description of {@code validateAndWait}.
+     * TODO: Description of method {@code validateAndWait}.
      *
      * @param startDate
      */

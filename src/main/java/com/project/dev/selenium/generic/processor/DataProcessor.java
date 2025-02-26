@@ -29,7 +29,7 @@ import org.json.simple.parser.JSONParser;
 public class DataProcessor {
 
     /**
-     * TODO: Description of {@code loadDataFromFile}.
+     * TODO: Description of method {@code loadDataFromFile}.
      *
      * @param dataFilePath
      * @return
@@ -48,7 +48,7 @@ public class DataProcessor {
     }
 
     /**
-     * TODO: Description of {@code replaceData}.
+     * TODO: Description of method {@code replaceData}.
      *
      * @param jsonData
      * @param field

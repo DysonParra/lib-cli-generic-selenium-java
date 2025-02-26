@@ -34,7 +34,7 @@ import org.json.simple.JSONObject;
 public class ConfigProcessor {
 
     /**
-     * TODO: Description of {@code loadConfigFromJson}.
+     * TODO: Description of method {@code loadConfigFromJson}.
      *
      * @param jsonNavigation
      * @return
@@ -51,7 +51,7 @@ public class ConfigProcessor {
     }
 
     /**
-     * TODO: Description of {@code initConfigMap}.
+     * TODO: Description of method {@code initConfigMap}.
      *
      * @return
      */
@@ -73,7 +73,7 @@ public class ConfigProcessor {
     }
 
     /**
-     * TODO: Description of {@code setConfigValuesToMap}.
+     * TODO: Description of method {@code setConfigValuesToMap}.
      *
      * @param jsonConfig
      * @param configMap
@@ -117,7 +117,7 @@ public class ConfigProcessor {
     }
 
     /**
-     * TODO: Description of {@code setConfigValuesToObject}.
+     * TODO: Description of method {@code setConfigValuesToObject}.
      *
      * @param configMap
      * @param obj

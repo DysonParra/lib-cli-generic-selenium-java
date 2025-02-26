@@ -37,7 +37,7 @@ import org.json.simple.JSONObject;
 public class LogProcessor {
 
     /**
-     * TODO: Description of {@code printConfigMap}.
+     * TODO: Description of method {@code printConfigMap}.
      *
      * @param configMap
      *
@@ -49,7 +49,7 @@ public class LogProcessor {
     }
 
     /**
-     * TODO: Description of {@code printJsonData}.
+     * TODO: Description of method {@code printJsonData}.
      *
      * @param jsonData
      *
@@ -61,7 +61,7 @@ public class LogProcessor {
     }
 
     /**
-     * TODO: Description of {@code printUrlFileList}.
+     * TODO: Description of method {@code printUrlFileList}.
      *
      * @param urlFileList
      *
@@ -76,7 +76,7 @@ public class LogProcessor {
     }
 
     /**
-     * TODO: Description of {@code printInputFileList}.
+     * TODO: Description of method {@code printInputFileList}.
      *
      * @param inputFileList
      *
@@ -90,7 +90,7 @@ public class LogProcessor {
     }
 
     /**
-     * TODO: Description of {@code printElementListRecursive}.
+     * TODO: Description of method {@code printElementListRecursive}.
      *
      * @param elementList
      * @param tab
@@ -105,7 +105,7 @@ public class LogProcessor {
     }
 
     /**
-     * TODO: Description of {@code printElementListRecursive}.
+     * TODO: Description of method {@code printElementListRecursive}.
      *
      * @param elementList
      * @param tab
@@ -128,7 +128,7 @@ public class LogProcessor {
     }
 
     /**
-     * TODO: Description of {@code printNavigationListRecursive}.
+     * TODO: Description of method {@code printNavigationListRecursive}.
      *
      * @param navigationList
      * @param tab
@@ -151,7 +151,7 @@ public class LogProcessor {
     }
 
     /**
-     * TODO: Description of {@code printNavigationList}.
+     * TODO: Description of method {@code printNavigationList}.
      *
      * @param navigationList
      *
@@ -162,7 +162,7 @@ public class LogProcessor {
     }
 
     /**
-     * TODO: Description of {@code printPageListRecursive}.
+     * TODO: Description of method {@code printPageListRecursive}.
      *
      * @param pageList
      * @param tab
@@ -180,7 +180,7 @@ public class LogProcessor {
     }
 
     /**
-     * TODO: Description of {@code printPageList}.
+     * TODO: Description of method {@code printPageList}.
      *
      * @param pageList
      *

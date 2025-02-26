@@ -39,7 +39,7 @@ public class ElementProcessor {
     public static final String DEFAULT_ELEMENTS_PACKAGE = "com.project.dev.selenium.generic.struct.element";
 
     /**
-     * TODO: Description of {@code parseElements}.
+     * TODO: Description of method {@code parseElements}.
      *
      * @param jsonInput
      * @param configMap
@@ -100,7 +100,7 @@ public class ElementProcessor {
     }
 
     /**
-     * TODO: Description of {@code removeElementRanges}.
+     * TODO: Description of method {@code removeElementRanges}.
      *
      * @param elementList
      * @param currentRange

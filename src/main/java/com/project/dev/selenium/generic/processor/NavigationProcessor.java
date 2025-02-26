@@ -50,7 +50,7 @@ public class NavigationProcessor {
     public static Long PAGE_INDEX = 0l;
 
     /**
-     * TODO: Description of {@code loadNavigationFromJson}.
+     * TODO: Description of method {@code loadNavigationFromJson}.
      *
      * @param jsonInputFile
      * @return
@@ -67,7 +67,7 @@ public class NavigationProcessor {
     }
 
     /**
-     * TODO: Description of {@code parseNavigation}.
+     * TODO: Description of method {@code parseNavigation}.
      *
      * @param jsonInput
      * @param configMap
@@ -128,7 +128,7 @@ public class NavigationProcessor {
     }
 
     /**
-     * TODO: Description of {@code removeNavigationRanges}.
+     * TODO: Description of method {@code removeNavigationRanges}.
      *
      * @param navigationList
      * @param currentRange
@@ -198,7 +198,7 @@ public class NavigationProcessor {
     }
 
     /**
-     * TODO: Description of {@code parsePages}.
+     * TODO: Description of method {@code parsePages}.
      *
      * @param pageList
      * @param jsonInput

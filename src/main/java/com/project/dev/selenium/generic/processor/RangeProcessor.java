@@ -33,7 +33,7 @@ public class RangeProcessor {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
-     * TODO: Description of {@code getRangeNumeric}.
+     * TODO: Description of method {@code getRangeNumeric}.
      *
      * @param start
      * @param end
@@ -49,7 +49,7 @@ public class RangeProcessor {
     }
 
     /**
-     * TODO: Description of {@code getRangeNumeric}.
+     * TODO: Description of method {@code getRangeNumeric}.
      *
      * @param start
      * @param end
@@ -76,7 +76,7 @@ public class RangeProcessor {
     }
 
     /**
-     * TODO: Description of {@code getRangeFileLines}.
+     * TODO: Description of method {@code getRangeFileLines}.
      *
      * @param urlListFilePath
      * @param linePattern
@@ -95,7 +95,7 @@ public class RangeProcessor {
     }
 
     /**
-     * TODO: Description of {@code getRangeFileList}.
+     * TODO: Description of method {@code getRangeFileList}.
      *
      * @param rootPath
      * @param allowedFileExtensions

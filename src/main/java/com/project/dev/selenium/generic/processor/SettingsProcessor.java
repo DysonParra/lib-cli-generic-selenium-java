@@ -61,7 +61,7 @@ public class SettingsProcessor {
     private static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
-     * TODO: Description of {@code runPageActions}.
+     * TODO: Description of method {@code runPageActions}.
      *
      * @param driver
      * @param pages
@@ -137,7 +137,7 @@ public class SettingsProcessor {
     }
 
     /**
-     * TODO: Description of {@code processFlags}.
+     * TODO: Description of method {@code processFlags}.
      *
      * @param flags
      * @return

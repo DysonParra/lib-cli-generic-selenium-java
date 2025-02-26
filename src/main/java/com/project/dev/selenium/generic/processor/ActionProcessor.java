@@ -34,7 +34,7 @@ public class ActionProcessor {
     public static final String DEFAULT_ACTIONS_PACKAGE = "com.project.dev.selenium.generic.struct.action";
 
     /**
-     * TODO: Description of {@code parseActions}.
+     * TODO: Description of method {@code parseActions}.
      *
      * @param jsonInput
      * @param configMap

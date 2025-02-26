@@ -58,7 +58,7 @@ public class EnvironmentProcessor {
     public static final String CURRENT_ELM_FILE_BASE_64_ENV = "%elmFileBase64%";
 
     /**
-     * TODO: Description of {@code replaceEnv}.
+     * TODO: Description of method {@code replaceEnv}.
      *
      * @param currentEnv
      * @param input
@@ -71,7 +71,7 @@ public class EnvironmentProcessor {
     }
 
     /**
-     * TODO: Description of {@code replaceDateEnvs}.
+     * TODO: Description of method {@code replaceDateEnvs}.
      *
      * @param input
      * @param currentEnv
@@ -98,7 +98,7 @@ public class EnvironmentProcessor {
     }
 
     /**
-     * TODO: Description of {@code replaceFileEnvs}.
+     * TODO: Description of method {@code replaceFileEnvs}.
      *
      * @param input
      * @param currentEnv
