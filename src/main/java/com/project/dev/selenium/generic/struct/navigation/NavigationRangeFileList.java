@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {NavigationRangeFileList}
+ * @overview        {NavigationRangeFileList}
  *
  * @version         2.0
  *

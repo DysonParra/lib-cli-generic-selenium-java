@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {ScheduleProcessor}
+ * @overview        {ScheduleProcessor}
  *
  * @version         2.0
  *

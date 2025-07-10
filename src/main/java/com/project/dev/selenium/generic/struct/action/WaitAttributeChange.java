@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {WaitAttributeChange}
+ * @overview        {WaitAttributeChange}
  *
  * @version         2.0
  *

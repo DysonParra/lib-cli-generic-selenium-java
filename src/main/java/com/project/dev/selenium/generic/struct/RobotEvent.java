@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {RobotEvent}
+ * @overview        {RobotEvent}
  *
  * @version         2.0
  *

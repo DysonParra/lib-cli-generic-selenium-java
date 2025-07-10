@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {RangeProcessor}
+ * @overview        {RangeProcessor}
  *
  * @version         2.0
  *

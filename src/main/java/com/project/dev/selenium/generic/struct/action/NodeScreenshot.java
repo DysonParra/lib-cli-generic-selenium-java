@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {NodeScreenshot}
+ * @overview        {NodeScreenshot}
  *
  * @version         2.0
  *

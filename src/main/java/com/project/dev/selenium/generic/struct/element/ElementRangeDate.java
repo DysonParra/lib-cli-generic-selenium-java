@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {ElementRangeDate}
+ * @overview        {ElementRangeDate}
  *
  * @version         2.0
  *

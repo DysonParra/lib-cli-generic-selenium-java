@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {WaitElementState}
+ * @overview        {WaitElementState}
  *
  * @version         2.0
  *

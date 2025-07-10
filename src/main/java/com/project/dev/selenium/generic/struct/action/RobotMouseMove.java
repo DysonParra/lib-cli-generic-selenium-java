@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {RobotMouseMove}
+ * @overview        {RobotMouseMove}
  *
  * @version         2.0
  *

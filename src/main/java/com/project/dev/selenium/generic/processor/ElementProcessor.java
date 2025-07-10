@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {ElementProcessor}
+ * @overview        {ElementProcessor}
  *
  * @version         2.0
  *

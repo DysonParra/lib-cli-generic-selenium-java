@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {ConfigProcessor}
+ * @overview        {ConfigProcessor}
  *
  * @version         2.0
  *

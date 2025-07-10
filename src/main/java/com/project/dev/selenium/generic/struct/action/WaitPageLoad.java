@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {WaitPageLoad}
+ * @overview        {WaitPageLoad}
  *
  * @version         2.0
  *

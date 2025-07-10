@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {ElementRangeFileList}
+ * @overview        {ElementRangeFileList}
  *
  * @version         2.0
  *

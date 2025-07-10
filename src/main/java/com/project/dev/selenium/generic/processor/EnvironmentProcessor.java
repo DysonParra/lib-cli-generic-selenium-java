@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {EnvironmentProcessor}
+ * @overview        {EnvironmentProcessor}
  *
  * @version         2.0
  *

@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {ElementRangeFileLines}
+ * @overview        {ElementRangeFileLines}
  *
  * @version         2.0
  *

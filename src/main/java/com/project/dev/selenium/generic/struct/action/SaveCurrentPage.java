@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {SaveCurrentPage}
+ * @overview        {SaveCurrentPage}
  *
  * @version         2.0
  *

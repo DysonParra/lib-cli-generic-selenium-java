@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {NavigationRange}
+ * @overview        {NavigationRange}
  *
  * @version         2.0
  *

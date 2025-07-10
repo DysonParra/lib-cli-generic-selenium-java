@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {RobotTypeText}
+ * @overview        {RobotTypeText}
  *
  * @version         2.0
  *

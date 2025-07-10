@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {Clic}
+ * @overview        {Clic}
  *
  * @version         2.0
  *

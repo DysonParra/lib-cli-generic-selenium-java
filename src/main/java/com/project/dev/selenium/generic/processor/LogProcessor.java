@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {LogProcessor}
+ * @overview        {LogProcessor}
  *
  * @version         2.0
  *

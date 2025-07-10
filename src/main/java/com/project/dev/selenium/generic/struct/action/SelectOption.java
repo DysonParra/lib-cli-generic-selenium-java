@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {SelectOption}
+ * @overview        {SelectOption}
  *
  * @version         2.0
  *

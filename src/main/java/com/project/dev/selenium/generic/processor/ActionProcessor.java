@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {ActionProcessor}
+ * @overview        {ActionProcessor}
  *
  * @version         2.0
  *

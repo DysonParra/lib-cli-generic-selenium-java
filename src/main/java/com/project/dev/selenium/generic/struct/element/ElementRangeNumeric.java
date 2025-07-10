@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {ElementRangeNumeric}
+ * @overview        {ElementRangeNumeric}
  *
  * @version         2.0
  *

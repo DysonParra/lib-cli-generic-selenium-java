@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {SeleniumProcessor}
+ * @overview        {SeleniumProcessor}
  *
  * @version         2.0
  *
@@ -29,7 +29,7 @@ public class SeleniumProcessor {
      * Procesa las flags pasadas por consola y ejecuta la navegación indicada en los archivos de
      * configuración.
      *
-     * @param args argumentos de la linea de comandos.
+     * @param args argumentos pasados por consola.
      */
     public static void run(String[] args) {
         System.out.println("\n...START...");

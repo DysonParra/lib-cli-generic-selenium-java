@@ -1,5 +1,5 @@
 /*
- * @fileoverview    {SetText}
+ * @overview        {SetText}
  *
  * @version         2.0
  *
