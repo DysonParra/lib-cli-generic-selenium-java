@@ -166,7 +166,7 @@ public class SettingsProcessor {
                     if ("incognito".equals(key)) {
                         try {
                             Boolean incognito = (Boolean) jsonConfigFile.get(key);
-                            if (incognito)
+                            if (!incognito)
                                 flagsMap.put("--notUseIncognito", "");
                             else
                                 flagsMap.remove("--notUseIncognito");
