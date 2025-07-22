@@ -145,103 +145,152 @@ public class SettingsProcessor {
     public static boolean processFlags(Flag[] flags) {
         boolean result = true;
         flagsMap = FlagMap.convertFlagsArrayToMap(flags);
-        String navigationFilePath = flagsMap.get("-navigationFilePath");
-        String dataFilePath = flagsMap.get("-dataFilePath");
-        String chromeDriverPath = flagsMap.get("-chromeDriverPath");
-        String chromeProfileDir = flagsMap.get("-chromeProfileDir");
-        String chromeUserDataDir = System.getProperty("user.home") + "\\AppData\\Local\\Google\\Chrome\\User Data";
-        chromeUserDataDir = FlagMap.validateFlagInMap(flagsMap, "-chromeUserDataDir", chromeUserDataDir, String.class);
+        String configFilePath = flagsMap.get("-configFilePath");
+        String navigationFilePath;
+        String dataFilePath;
+        String chromeDriverPath;
+        String chromeProfileDir;
+        String chromeUserDataDir;
 
-        if (!FileProcessor.validateFile(navigationFilePath)) {
-            System.out.println("Invalid file in flag '-navigationFilePath'");
-            result = false;
-        } else if (!FileProcessor.validateFile(dataFilePath)) {
-            System.out.println("Invalid file in flag '-dataFilePath'");
-            result = false;
-        } else if (!FileProcessor.validateFile(chromeDriverPath)) {
-            System.out.println("Invalid file in flag '-chromeDriverPath'");
-            result = false;
-        } else if (!FileProcessor.validatePath(chromeUserDataDir)) {
-            System.out.println("Invalid path in flag '-chromeUserDataDir'");
+        if (!FileProcessor.validateFile(configFilePath)) {
+            System.out.println("Invalid file in flag '-configFilePath'");
             result = false;
         } else {
-            JSONObject jsonDataFile;
-            Map<String, Config> configMap;
-            List<Page> pageList = new ArrayList<>();
-
-            System.out.println("\nReading files...");
-            JSONObject jsonNavigationFile = null;
-            JSONObject jsonConfig;
-            JSONArray jsonNavigation;
-
-            jsonDataFile = DataProcessor.loadDataFromFile(dataFilePath);
-
+            JSONObject jsonConfigFile;
+            System.out.println("\nReading config file...");
             try {
-                String navigationStr = Files.readString(Paths.get((navigationFilePath)));
-                navigationStr = DataProcessor.replaceData(jsonDataFile, navigationStr);
-                jsonNavigationFile = (JSONObject) new JSONParser().parse(navigationStr);
-                System.out.println("File: '" + navigationFilePath + "' success readed.");
+                String configStr = Files.readString(Paths.get((configFilePath)));
+                jsonConfigFile = (JSONObject) new JSONParser().parse(configStr);
+                System.out.println("File: '" + configFilePath + "' success readed.\n");
+                for (Object key : jsonConfigFile.keySet()) {
+                    if ("incognito".equals(key)) {
+                        try {
+                            Boolean incognito = (Boolean) jsonConfigFile.get(key);
+                            if (incognito)
+                                flagsMap.put("--notUseIncognito", "");
+                            else
+                                flagsMap.remove("--notUseIncognito");
+                        } catch (Exception e) {
+                        }
+                    } else {
+                        try {
+                            flagsMap.put("-" + (String) key, (String) jsonConfigFile.get(key));
+                        } catch (Exception e) {
+                        }
+                    }
+                }
             } catch (IOException | ParseException e) {
-                System.out.println("Error reading the file: '" + navigationFilePath + "'");
+                System.out.println("Error reading the file: '" + configFilePath + "'");
                 System.out.println(e.getCause());
             }
 
-            jsonConfig = ConfigProcessor.loadConfigFromJson(jsonNavigationFile);
-            jsonNavigation = NavigationProcessor.loadNavigationFromJson(jsonNavigationFile);
+            navigationFilePath = flagsMap.get("-navigationFilePath");
+            dataFilePath = flagsMap.get("-dataFilePath");
+            chromeDriverPath = flagsMap.get("-chromeDriverPath");
+            chromeProfileDir = flagsMap.get("-chromeProfileDir");
+            chromeUserDataDir = System.getProperty("user.home") + "\\AppData\\Local\\Google\\Chrome\\User Data";
+            chromeUserDataDir = FlagMap.validateFlagInMap(flagsMap, "-chromeUserDataDir", chromeUserDataDir, String.class);
+            System.out.println("");
+            
+            System.out.println(" -navigationFilePath = " + navigationFilePath);
+            System.out.println(" -dataFilePath = " + dataFilePath);
+            System.out.println(" -chromeDriverPath = " + chromeDriverPath);
+            System.out.println(" -chromeProfileDir = " + chromeProfileDir);
+            System.out.println(" -chromeUserDataDir = " + chromeUserDataDir);
+            System.out.println(" -incognito = " + (flagsMap.get("--notUseIncognito") == null));
+            System.out.println("\n");
 
-            if (jsonConfig == null || jsonNavigation == null)
+            if (!FileProcessor.validateFile(navigationFilePath)) {
+                System.out.println("Invalid file in flag '-navigationFilePath'");
                 result = false;
-            else {
-                LogProcessor.printJsonData(jsonDataFile);
+            } else if (!FileProcessor.validateFile(dataFilePath)) {
+                System.out.println("Invalid file in flag '-dataFilePath'");
+                result = false;
+            } else if (!FileProcessor.validateFile(chromeDriverPath)) {
+                System.out.println("Invalid file in flag '-chromeDriverPath'");
+                result = false;
+            } else if (!FileProcessor.validatePath(chromeUserDataDir)) {
+                System.out.println("Invalid path in flag '-chromeUserDataDir'");
+                result = false;
+            } else {
+                JSONObject jsonDataFile;
+                Map<String, Config> configMap;
+                List<Page> pageList = new ArrayList<>();
 
-                configMap = ConfigProcessor.initConfigMap();
-                ConfigProcessor.setConfigValuesToMap(jsonConfig, configMap);
-                LogProcessor.printConfigMap(configMap);
+                System.out.println("\nReading files...");
+                JSONObject jsonNavigationFile = null;
+                JSONObject jsonConfig;
+                JSONArray jsonNavigation;
 
-                String startDate = (String) configMap.get("start-date").getCanonicalValue();
-                int delayTimeBeforeEnd = (int) (long) configMap.get("delay-time-before-end").getCanonicalValue();
+                jsonDataFile = DataProcessor.loadDataFromFile(dataFilePath);
 
-                if (result)
-                    result = NavigationProcessor.parsePages(pageList, jsonNavigation, configMap);
-                if (result)
+                try {
+                    String navigationStr = Files.readString(Paths.get((navigationFilePath)));
+                    navigationStr = DataProcessor.replaceData(jsonDataFile, navigationStr);
+                    jsonNavigationFile = (JSONObject) new JSONParser().parse(navigationStr);
+                    System.out.println("File: '" + navigationFilePath + "' success readed.");
+                } catch (IOException | ParseException e) {
+                    System.out.println("Error reading the file: '" + navigationFilePath + "'");
+                    System.out.println(e.getCause());
+                }
 
-                    if (result) {
-                        LogProcessor.printPageList(pageList);
+                jsonConfig = ConfigProcessor.loadConfigFromJson(jsonNavigationFile);
+                jsonNavigation = NavigationProcessor.loadNavigationFromJson(jsonNavigationFile);
 
-                        if (configMap.get("only-validate-config-files").getCanonicalValue().equals(true)) {
-                            System.out.println("\nOnly validate specified.\n");
-                            return true;
-                        }
+                if (jsonConfig == null || jsonNavigation == null)
+                    result = false;
+                else {
+                    LogProcessor.printJsonData(jsonDataFile);
 
-                        ScheduleProcessor.validateAndWait(startDate);
+                    configMap = ConfigProcessor.initConfigMap();
+                    ConfigProcessor.setConfigValuesToMap(jsonConfig, configMap);
+                    LogProcessor.printConfigMap(configMap);
 
-                        System.setProperty("webdriver.chrome.driver", chromeDriverPath);
-                        ChromeOptions options = new ChromeOptions();
-                        options.addArguments("user-data-dir=" + chromeUserDataDir);
-                        options.addArguments("--remote-allow-origins=*");
-                        if (flagsMap.get("--notUseIncognito") == null)
-                            options.addArguments("--incognito");
-                        if (chromeProfileDir != null)
-                            options.addArguments("--profile-directory=" + chromeProfileDir);
-                        ChromeDriver driver = new ChromeDriver(options);
-                        DevTools devTools = driver.getDevTools();
-                        devTools.createSession();
-                        devTools.send(new Command<>("Network.enable", ImmutableMap.of()));
+                    String startDate = (String) configMap.get("start-date").getCanonicalValue();
+                    int delayTimeBeforeEnd = (int) (long) configMap.get("delay-time-before-end").getCanonicalValue();
 
-                        result = NavigationProcessor.forEachPage(driver, pageList,
-                                SettingsProcessor::runPageActions, pageList);
-                        if (!result)
-                            System.out.println("Error executing actions\n");
-                        else {
-                            System.out.println("Finish processing navigation...");
-                            try {
-                                Thread.sleep(delayTimeBeforeEnd);
-                            } catch (InterruptedException e) {
-                                System.out.println("Error executing sleep");
+                    if (result)
+                        result = NavigationProcessor.parsePages(pageList, jsonNavigation, configMap);
+                    if (result)
+
+                        if (result) {
+                            LogProcessor.printPageList(pageList);
+
+                            if (configMap.get("only-validate-config-files").getCanonicalValue().equals(true)) {
+                                System.out.println("\nOnly validate specified.\n");
+                                return true;
                             }
+
+                            ScheduleProcessor.validateAndWait(startDate);
+
+                            System.setProperty("webdriver.chrome.driver", chromeDriverPath);
+                            ChromeOptions options = new ChromeOptions();
+                            options.addArguments("user-data-dir=" + chromeUserDataDir);
+                            options.addArguments("--remote-allow-origins=*");
+                            if (flagsMap.get("--notUseIncognito") == null)
+                                options.addArguments("--incognito");
+                            if (chromeProfileDir != null)
+                                options.addArguments("--profile-directory=" + chromeProfileDir);
+                            ChromeDriver driver = new ChromeDriver(options);
+                            DevTools devTools = driver.getDevTools();
+                            devTools.createSession();
+                            devTools.send(new Command<>("Network.enable", ImmutableMap.of()));
+
+                            result = NavigationProcessor.forEachPage(driver, pageList,
+                                    SettingsProcessor::runPageActions, pageList);
+                            if (!result)
+                                System.out.println("Error executing actions\n");
+                            else {
+                                System.out.println("Finish processing navigation...");
+                                try {
+                                    Thread.sleep(delayTimeBeforeEnd);
+                                } catch (InterruptedException e) {
+                                    System.out.println("Error executing sleep");
+                                }
+                            }
+                            driver.quit();
                         }
-                        driver.quit();
-                    }
+                }
             }
         }
         return result;

@@ -35,27 +35,36 @@ public class SeleniumProcessor {
         System.out.println("\n...START...");
 
         String requiredFlags[][] = {
-            {"-navigationFilePath"},
-            {"-dataFilePath"},
-            {"-chromeDriverPath"}
+            {"-configFilePath"},
         };
 
         String optionalFlags[][] = {
+            {"-navigationFilePath"},
+            {"-dataFilePath"},
+            {"-chromeDriverPath"},
             {"-chromeProfileDir"},
             {"-chromeUserDataDir"},
             {"--notUseIncognito"}
         };
 
         String defaultArgs[] = {
+            "-configFilePath",
+            "res\\config.json",
+
             "-navigationFilePath",
             "res\\navigation.json",
+
             "-dataFilePath",
             "res\\data.json",
+
             "-chromeDriverPath",
             "res\\chromedriver.exe",
+
             "-chromeProfileDir",
             "Profile 1",
-            "--notUseIncognito",};
+
+            "--notUseIncognito",
+        };
 
         Flag[] flags;
         flags = FlagProcessor.convertArgsToFlags(args, defaultArgs, requiredFlags, optionalFlags, true);
@@ -63,8 +72,6 @@ public class SeleniumProcessor {
             System.out.println("...ERROR IN FLAGS...");
             return;
         }
-
-        FlagProcessor.printFlagsArray(flags, true);
 
         boolean result;
         result = SettingsProcessor.processFlags(flags);
