@@ -18,7 +18,7 @@
                     "actions": [
                         {
                             "type": "save-current-page",
-                            "output-path": "<OUTPUT_PATH>s",
+                            "output-path": "<OUTPUT_PATH>",
                             "output-file-name": "<OUTPUT_PAGE_FILE>",
                             "delay-time-before-next": 100
                         }
