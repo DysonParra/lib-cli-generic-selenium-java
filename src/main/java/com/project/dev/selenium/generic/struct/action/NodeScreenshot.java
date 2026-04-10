@@ -21,6 +21,7 @@ import com.project.dev.selenium.generic.struct.Action;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import lombok.AllArgsConstructor;
@@ -62,14 +63,18 @@ public class NodeScreenshot extends Action {
     /**
      * Ejecuta una acción en el elemento de la página actual.
      *
-     * @param driver   es el driver del navegador.
-     * @param element  es el {@code WebElement} que se le va a ejecutar dicha acción.
-     * @param flagsMap contiene las {@code Flag} pasadas por consola.
+     * @param driver        es el driver del navegador.
+     * @param element       es el {@code WebElement} que se le va a ejecutar dicha acción.
+     * @param flagsMap      contiene las {@code Flag} pasadas por consola.
+     * @param scriptResults contiene los {@code Object} obtenidos de cada script ejecutado.
      * @return {@code true} si se ejecuta la acción correctamente.
      * @throws Exception si ocurre algún error ejecutando la acción indicada.
      */
     @Override
-    public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
+    public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap, List<Object> scriptResults) throws Exception {
+        includeImageNumber = Boolean.parseBoolean(Action.assignScriptResult(includeImageNumber, scriptResults));
+        outputPath = Action.assignScriptResult(outputPath, scriptResults);
+        outputFileNameNoExt = Action.assignScriptResult(outputFileNameNoExt, scriptResults);
         new File(outputPath).mkdirs();
         if (includeImageNumber)
             outputFileNameNoExt += "-" + String.format("%03d", ++currentIndex);

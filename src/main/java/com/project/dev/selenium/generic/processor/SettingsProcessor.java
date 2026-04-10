@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.NonNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -60,6 +62,8 @@ public class SettingsProcessor {
     private static final int PAGE_ACTIONS_SUCCESS = -1;
     private static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+
+
     /**
      * TODO: Description of method {@code runPageActions}.
      *
@@ -70,6 +74,7 @@ public class SettingsProcessor {
     public static boolean runPageActions(@NonNull WebDriver driver, @NonNull List<Page> pages) {
         boolean result = true;
         boolean elementError = false;
+        List<Object> scriptResults = new ArrayList<>();
         Page page = pages.get(currentIndex++);
         System.out.println(page);
         for (int i = 1; i <= page.getMaxActionPageTries() + 1; i++) {
@@ -88,12 +93,18 @@ public class SettingsProcessor {
                     System.out.println("    " + action);
                     try {
                         if (element.getId() != null)
-                            webElm = driver.findElement(By.id(element.getId()));
+                            webElm = driver.findElement(By.id(Action.assignScriptResult(
+                                    element.getId(), scriptResults
+                            )));
                         else if (element.getName() != null)
-                            webElm = driver.findElement(By.name(element.getName()));
+                            webElm = driver.findElement(By.name(Action.assignScriptResult(
+                                    element.getName(), scriptResults
+                            )));
                         else
-                            webElm = driver.findElement(By.xpath(element.getXpath()));
-                        action.executeAction(driver, webElm, flagsMap);
+                            webElm = driver.findElement(By.xpath(Action.assignScriptResult(
+                                    element.getXpath(), scriptResults
+                            )));
+                        action.executeAction(driver, webElm, flagsMap, scriptResults);
                     } catch (Exception e) {
                         System.out.println("    Error executing action in element: " + element);
                         System.out.println("    Date:    " + DATETIME_FORMAT.format(new Date()));
@@ -191,7 +202,7 @@ public class SettingsProcessor {
             chromeUserDataDir = System.getProperty("user.home") + "\\AppData\\Local\\Google\\Chrome\\User Data";
             chromeUserDataDir = FlagMap.validateFlagInMap(flagsMap, "-chromeUserDataDir", chromeUserDataDir, String.class);
             System.out.println("");
-            
+
             System.out.println(" -navigationFilePath = " + navigationFilePath);
             System.out.println(" -dataFilePath = " + dataFilePath);
             System.out.println(" -chromeDriverPath = " + chromeDriverPath);

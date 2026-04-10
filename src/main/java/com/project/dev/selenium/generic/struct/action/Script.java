@@ -49,19 +49,23 @@ public class Script extends Action {
     /**
      * Ejecuta una acción en el elemento de la página actual.
      *
-     * @param driver   es el driver del navegador.
-     * @param element  es el {@code WebElement} que se le va a ejecutar dicha acción.
-     * @param flagsMap contiene las {@code Flag} pasadas por consola.
+     * @param driver        es el driver del navegador.
+     * @param element       es el {@code WebElement} que se le va a ejecutar dicha acción.
+     * @param flagsMap      contiene las {@code Flag} pasadas por consola.
+     * @param scriptResults contiene los {@code Object} obtenidos de cada script ejecutado.
      * @return {@code true} si se ejecuta la acción correctamente.
      * @throws Exception si ocurre algún error ejecutando la acción indicada.
      */
     @Override
-    public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
+    public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap, List<Object> scriptResults) throws Exception {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         String fullScript = "";
         for (String aux : script)
             fullScript += aux + "\n";
-        js.executeScript(fullScript, element);
+        fullScript = Action.assignScriptResult(fullScript, scriptResults);
+        Object scriptResult = js.executeScript(fullScript, element);
+        if (scriptResult != null)
+            scriptResults.add(scriptResult);
         return true;
     }
 

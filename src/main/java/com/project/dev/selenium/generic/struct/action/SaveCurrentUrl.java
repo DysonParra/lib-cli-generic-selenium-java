@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,14 +55,17 @@ public class SaveCurrentUrl extends Action {
     /**
      * Ejecuta una acción en el elemento de la página actual.
      *
-     * @param driver   es el driver del navegador.
-     * @param element  es el {@code WebElement} que se le va a ejecutar dicha acción.
-     * @param flagsMap contiene las {@code Flag} pasadas por consola.
+     * @param driver        es el driver del navegador.
+     * @param element       es el {@code WebElement} que se le va a ejecutar dicha acción.
+     * @param flagsMap      contiene las {@code Flag} pasadas por consola.
+     * @param scriptResults contiene los {@code Object} obtenidos de cada script ejecutado.
      * @return {@code true} si se ejecuta la acción correctamente.
      * @throws Exception si ocurre algún error ejecutando la acción indicada.
      */
     @Override
-    public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception {
+    public boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap, List<Object> scriptResults) throws Exception {
+        outputPath = Action.assignScriptResult(outputPath, scriptResults);
+        outputFileName = Action.assignScriptResult(outputFileName, scriptResults);
         System.out.println("        Current page: " + driver.getCurrentUrl());
         new File(outputPath).mkdirs();
         try (FileOutputStream fos = new FileOutputStream(outputPath + "\\" + outputFileName, true);

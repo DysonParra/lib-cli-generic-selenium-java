@@ -27,8 +27,15 @@
                                     "xpath": "//textarea",
                                     "actions": [
                                         {
+                                            "type": "script",
+                                            "script": [
+                                                "return document.title;"
+                                            ],
+                                            "delay-time-before-next": 100
+                                        },
+                                        {
                                             "type": "set-text",
-                                            "text": "ELM: %elmRangeValue%",
+                                            "text": "ELM: %elmRangeValue% %lastScriptResult%",
                                             "clear-before-set": true,
                                             "delay-time-before-next": 1000
                                         }

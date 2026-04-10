@@ -16,7 +16,10 @@ package com.project.dev.selenium.generic.struct;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -64,14 +67,51 @@ public abstract class Action implements Cloneable {
     }
 
     /**
+     * TODO: Description of method {@code assignScriptResult}.
+     *
+     * @param info
+     * @param scriptResults
+     * @return
+     */
+    public static String assignScriptResult(Object info, List<Object> scriptResults) {
+        String pattern = "%(lastScriptResult|scriptResult\\[(\\d+)\\])%";
+        Matcher matcher = Pattern.compile(pattern).matcher(String.valueOf(info));
+
+        StringBuffer result = new StringBuffer();
+
+        while (matcher.find()) {
+            String replacement = "";
+
+            // Case 1: %lastScriptResult%
+            if ("lastScriptResult".equals(matcher.group(1))) {
+                if (!scriptResults.isEmpty()) {
+                    replacement = String.valueOf(scriptResults.get(scriptResults.size() - 1));
+                }
+            } // Case 2: %scriptResult[n]%
+            else if (matcher.group(2) != null) {
+                int index = Integer.parseInt(matcher.group(2));
+                if (index >= 0 && index < scriptResults.size()) {
+                    replacement = String.valueOf(scriptResults.get(index));
+                }
+            }
+
+            matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
+        }
+
+        matcher.appendTail(result);
+        return result.toString();
+    }
+
+    /**
      * Ejecuta una acción en el elemento de la página actual.
      *
-     * @param driver   es el driver del navegador.
-     * @param element  es el {@code WebElement} que se le va a ejecutar dicha acción.
-     * @param flagsMap contiene las {@code Flag} pasadas por consola.
+     * @param driver        es el driver del navegador.
+     * @param element       es el {@code WebElement} que se le va a ejecutar dicha acción.
+     * @param flagsMap      contiene las {@code Flag} pasadas por consola.
+     * @param scriptResults contiene los {@code Object} obtenidos de cada script ejecutado.
      * @return {@code true} si se ejecuta la acción correctamente.
      * @throws Exception si ocurre algún error ejecutando la acción indicada.
      */
-    public abstract boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap) throws Exception;
+    public abstract boolean executeAction(@NonNull WebDriver driver, @NonNull WebElement element, Map<String, String> flagsMap, List<Object> scriptResults) throws Exception;
 
 }
