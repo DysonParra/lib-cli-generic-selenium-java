@@ -1,0 +1,35 @@
+{
+    "config": {
+        "only-validate-config-files": false,
+        "delay-time-before-end": 3000,
+        "max-action-page-tries": 2
+    },
+    "navigation": [
+        {
+            "type": "page",
+            "url": "https://www.google.com/gmail/about/",
+            "delay-time-before-next": 100,
+            "elements": [
+                {
+                    "type": "dom-element",
+                    "id": null,
+                    "name": null,
+                    "xpath": "//a[@data-g-action='sign in']//span[normalize-space(text()) ='Acceder']",
+                    "actions": [
+                        {
+                            "type": "wait-file-exist",
+                            "filepath": "C:/Users/Developer/Downloads/file.txt",
+                            "validation-gap": 500,
+                            "timeout": 10000,
+                            "delay-time-before-next": 1
+                        },
+                        {
+                            "type": "clic",
+                            "delay-time-before-next": 100
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
