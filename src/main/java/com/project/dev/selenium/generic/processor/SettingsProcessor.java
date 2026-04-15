@@ -62,8 +62,6 @@ public class SettingsProcessor {
     private static final int PAGE_ACTIONS_SUCCESS = -1;
     private static final SimpleDateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-
-
     /**
      * TODO: Description of method {@code runPageActions}.
      *
@@ -87,36 +85,46 @@ public class SettingsProcessor {
             for (Element elm : page.getElements()) {
                 DomElement element = (DomElement) elm;
                 elementError = false;
-                WebElement webElm = null;
+                List<WebElement> webElms = null;
                 System.out.println(element);
-                for (Action action : element.getActions()) {
-                    System.out.println("    " + action);
-                    try {
-                        if (element.getId() != null)
-                            webElm = driver.findElement(By.id(Action.assignScriptResult(
-                                    element.getId(), scriptResults
-                            )));
-                        else if (element.getName() != null)
-                            webElm = driver.findElement(By.name(Action.assignScriptResult(
-                                    element.getName(), scriptResults
-                            )));
-                        else
-                            webElm = driver.findElement(By.xpath(Action.assignScriptResult(
-                                    element.getXpath(), scriptResults
-                            )));
-                        action.executeAction(driver, webElm, flagsMap, scriptResults);
-                    } catch (Exception e) {
-                        System.out.println("    Error executing action in element: " + element);
-                        System.out.println("    Date:    " + DATETIME_FORMAT.format(new Date()));
-                        System.out.println("    Element: " + webElm);
-                        System.out.println("    Message: " + (e.getMessage() == null ? e : e.getMessage().split("\n")[0]));
-                        elementError = true;
-                        break;
-                    }
-                    try {
-                        Thread.sleep(action.getDelayTimeBeforeNext());
-                    } catch (InterruptedException e) {
-                        System.out.println("Error executing sleep");
+
+                if (element.getId() != null)
+                    webElms = driver.findElements(By.id(Action.assignScriptResult(
+                            element.getId(), scriptResults
+                    )));
+                else if (element.getName() != null)
+                    webElms = driver.findElements(By.name(Action.assignScriptResult(
+                            element.getName(), scriptResults
+                    )));
+                else
+                    webElms = driver.findElements(By.xpath(Action.assignScriptResult(
+                            element.getXpath(), scriptResults
+                    )));
+
+                if (!element.getProcessAsList())
+                    webElms = webElms.subList(0, 1);
+
+                for (WebElement webElm : webElms) {
+                    for (Action action : element.getActions()) {
+                        System.out.println("    " + action);
+                        try {
+                            if (element.getProcessAsList())
+                                ((Action) action.clone()).executeAction(driver, webElm, flagsMap, scriptResults);
+                            else
+                                action.executeAction(driver, webElm, flagsMap, scriptResults);
+                        } catch (Exception e) {
+                            System.out.println("    Error executing action in element: " + element);
+                            System.out.println("    Date:    " + DATETIME_FORMAT.format(new Date()));
+                            System.out.println("    Element: " + webElm);
+                            System.out.println("    Message: " + (e.getMessage() == null ? e : e.getMessage().split("\n")[0]));
+                            elementError = true;
+                            break;
+                        }
+                        try {
+                            Thread.sleep(action.getDelayTimeBeforeNext());
+                        } catch (InterruptedException e) {
+                            System.out.println("Error executing sleep");
+                        }
                     }
                 }
                 if (elementError)

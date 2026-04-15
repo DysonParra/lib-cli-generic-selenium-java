@@ -22,6 +22,7 @@
                             "elements": [
                                 {
                                     "type": "dom-element",
+                                    "process-as-list": false,
                                     "id": null,
                                     "name": null,
                                     "xpath": "//textarea",

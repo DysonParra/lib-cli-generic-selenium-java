@@ -12,6 +12,7 @@
             "elements": [
                 {
                     "type": "dom-element",
+                    "process-as-list": false,
                     "id": null,
                     "name": null,
                     "xpath": "//a[@data-testid='open-registration-form-button']",
@@ -24,6 +25,7 @@
                 },
                 {
                     "type": "dom-element",
+                    "process-as-list": false,
                     "id": "day",
                     "name": null,
                     "xpath": null,
@@ -37,6 +39,7 @@
                 },
                 {
                     "type": "dom-element",
+                    "process-as-list": false,
                     "id": "month",
                     "name": null,
                     "xpath": null,
@@ -50,6 +53,7 @@
                 },
                 {
                     "type": "dom-element",
+                    "process-as-list": false,
                     "id": "year",
                     "name": null,
                     "xpath": null,

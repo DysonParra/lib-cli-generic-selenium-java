@@ -39,6 +39,8 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DomElement extends Element implements Cloneable {
 
+    @JsonProperty(value = "process-as-list")
+    private Boolean processAsList;
     @JsonProperty(value = "id")
     private String id;
     @JsonProperty(value = "name")
