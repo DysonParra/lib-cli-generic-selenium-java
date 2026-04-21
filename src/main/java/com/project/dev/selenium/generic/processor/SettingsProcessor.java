@@ -286,6 +286,8 @@ public class SettingsProcessor {
                             ChromeOptions options = new ChromeOptions();
                             options.addArguments("user-data-dir=" + chromeUserDataDir);
                             options.addArguments("--remote-allow-origins=*");
+                            options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+                            options.setExperimentalOption("useAutomationExtension", false);
                             if (flagsMap.get("--notUseIncognito") == null)
                                 options.addArguments("--incognito");
                             if (chromeProfileDir != null)
