@@ -136,7 +136,8 @@ public class SettingsProcessor {
 
             if (i != PAGE_ACTIONS_SUCCESS && i != page.getMaxActionPageTries()) {
                 System.out.println("Reloading...");
-                driver.navigate().refresh();
+                //driver.navigate().refresh();
+                driver.get(page.getUrl());
                 new WebDriverWait(driver, Duration.ofMillis(page.getLoadPageTimeOut()))
                         .until((WebDriver webDriver) -> ((JavascriptExecutor) webDriver)
                         .executeScript("return document.readyState")
