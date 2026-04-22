@@ -88,18 +88,14 @@ public class SettingsProcessor {
                 List<WebElement> webElms = null;
                 System.out.println(element);
 
+                By locator;
                 if (element.getId() != null)
-                    webElms = driver.findElements(By.id(Action.assignScriptResult(
-                            element.getId(), scriptResults
-                    )));
+                    locator = By.id(Action.assignScriptResult(element.getId(), scriptResults));
                 else if (element.getName() != null)
-                    webElms = driver.findElements(By.name(Action.assignScriptResult(
-                            element.getName(), scriptResults
-                    )));
+                    locator = By.name(Action.assignScriptResult(element.getName(), scriptResults));
                 else
-                    webElms = driver.findElements(By.xpath(Action.assignScriptResult(
-                            element.getXpath(), scriptResults
-                    )));
+                    locator = By.xpath(Action.assignScriptResult(element.getXpath(), scriptResults));
+                webElms = driver.findElements(locator);
 
                 if (!element.getProcessAsList())
                     webElms = webElms.subList(0, 1);
@@ -109,9 +105,9 @@ public class SettingsProcessor {
                         System.out.println("    " + action);
                         try {
                             if (element.getProcessAsList())
-                                ((Action) action.clone()).executeAction(driver, webElm, flagsMap, scriptResults);
+                                ((Action) action.clone()).executeAction(driver, webElm, locator,flagsMap, scriptResults);
                             else
-                                action.executeAction(driver, webElm, flagsMap, scriptResults);
+                                action.executeAction(driver, webElm, locator, flagsMap, scriptResults);
                         } catch (Exception e) {
                             System.out.println("    Error executing action in element: " + element);
                             System.out.println("    Date:    " + DATETIME_FORMAT.format(new Date()));
@@ -121,6 +117,7 @@ public class SettingsProcessor {
                             break;
                         }
                         try {
+                            System.out.println("    Waiting " + action.getDelayTimeBeforeNext() + " milliseconds...");
                             Thread.sleep(action.getDelayTimeBeforeNext());
                         } catch (InterruptedException e) {
                             System.out.println("Error executing sleep");
