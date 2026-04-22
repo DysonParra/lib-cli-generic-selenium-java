@@ -289,6 +289,11 @@ public class SettingsProcessor {
                             options.addArguments("--remote-allow-origins=*");
                             options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
                             options.setExperimentalOption("useAutomationExtension", false);
+                            options.addArguments("--disable-blink-features=AutomationControlled");
+                            options.addArguments("--no-sandbox");
+                            options.addArguments("--disable-dev-shm-usage");
+                            options.addArguments("--disable-infobars");
+                            options.addArguments("--start-maximized");
                             if (flagsMap.get("--notUseIncognito") == null)
                                 options.addArguments("--incognito");
                             if (chromeProfileDir != null)
